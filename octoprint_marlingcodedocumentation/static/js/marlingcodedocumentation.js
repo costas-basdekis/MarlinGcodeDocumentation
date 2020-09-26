@@ -140,16 +140,25 @@ $(function() {
         self.$documentation = $("#terminal-documentation");
 
         self.showForValue = value => {
+            if (!value.trim() || value.trim() === "?") {
+                self.$documentation.text(
+                    "Enter a command to get documentation (eg 'G28'), " +
+                    "or search by prepending with '?' (eg '?endstop')");
+                return;
+            }
             let docItemsList;
             const parsedParameters = {};
             const isSearch = value.trim().startsWith('?');
             if (isSearch) {
                 const commands = self.findDocs(value.slice(1));
-                docItemsList = commands.map(command => [command, AllMarlinGcodes[command]]);
+                docItemsList = commands.map(
+                    command => [command, AllMarlinGcodes[command]]);
             } else {
                 const line = self.parseLine(value);
-                const command = line.words.length ? line.words[0].join('') : null;
-                docItemsList = AllMarlinGcodes[command] ? [[command, AllMarlinGcodes[command]]]  : [];
+                const command = line.words.length
+                    ? line.words[0].join('') : null;
+                docItemsList = AllMarlinGcodes[command]
+                    ? [[command, AllMarlinGcodes[command]]]  : [];
                 for (const [tag, value] of line.words.slice(1)) {
                     parsedParameters[tag] = parsedParameters[tag] || [];
                     parsedParameters[tag].push(value);
@@ -175,7 +184,7 @@ $(function() {
                 `);
             } else {
                 if (isSearch) {
-                    self.$documentation.text("Unable to find anything")
+                    self.$documentation.text("Unable to find anything");
                 } else {
                     self.$documentation.text("Unknown command. Start with '?' to search");
                 }
@@ -183,7 +192,7 @@ $(function() {
         };
 
         $("#terminal-command").on(
-            'input', ({target: {value}}) => self.showForValue);
+            'input', ({target: {value}}) => self.showForValue(value));
 
         self.showForValue('G29 A0 X110 Y110');
     }
