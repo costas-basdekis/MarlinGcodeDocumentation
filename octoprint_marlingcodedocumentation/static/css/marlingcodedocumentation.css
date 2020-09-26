@@ -1,0 +1,34 @@
+.terminal-documentation-command {
+    color: #ACF;
+    background-color: #226;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-family: "Oxygen Mono", monospace;
+    display: inline-block;
+}
+
+.terminal-documentation-parameter-tag {
+    color: #ADF;
+    background: #246;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-family: "Oxygen Mono", monospace;
+    display: inline-block;
+}
+
+.terminal-documentation-parameter-value {
+    color: #ADF;
+    background: #264;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-family: "Oxygen Mono", monospace;
+    display: inline-block;
+}
+
+.terminal-documentation-result-parameter.missing .terminal-documentation-parameter-value {
+    background: #666;
+}
+
+.terminal-documentation-result-parameter.required.missing .terminal-documentation-parameter-value {
+    background: #b42;
+}
