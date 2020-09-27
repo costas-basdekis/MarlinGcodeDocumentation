@@ -1,3 +1,9 @@
+.terminal-documentation-results {
+    overflow-y: auto;
+    resize: vertical;
+    height: 353px;
+}
+
 .terminal-documentation-command {
     color: #ACF;
     background-color: #226;
