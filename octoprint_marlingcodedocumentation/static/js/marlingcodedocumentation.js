@@ -20,7 +20,9 @@ $(function() {
                         command.toLowerCase().includes(part))
                     || doc.some(docItem =>
                         parts.some(part =>
-                            docItem.brief.toLowerCase().includes(part))));
+                            docItem.brief.toLowerCase().includes(part)
+                            || docItem.title.toLowerCase().includes(part)
+                        )));
             return commandsAndDocs.map(([command]) => command).sort();
         };
 
