@@ -5,12 +5,23 @@
  * License: AGPLv3
  */
 $(function() {
-    function MarlingcodedocumentationViewModel(parameters) {
+    function MarlingcodedocumentationViewModel() {
         const self = this;
 
-        self.terminalViewModel = parameters[0];
-
         self.AllMarlinGcodes = window.AllMarlinGcodes;
+
+        self.onBeforeBinding = () => {
+			$("#terminal-marlin-gcode-documentation")
+                .insertAfter("#terminal-sendpanel");
+		};
+
+        // Since the terminal VM is bound on `value`, we would only get an
+        // update on blur, not after the user types. With this, we get it when
+        // the user types, with a 0.5s delay.
+        self.commandValue = ko.observable("").extend({ rateLimit: 500 });
+        $("#terminal-command").on('input', ({target: {value}}) => {
+            self.commandValue(value);
+        });
 
         self.findDocs = searchString => {
             const parts = searchString.toLowerCase().trim().split(/\s+/g);
@@ -138,15 +149,15 @@ $(function() {
             };
         })();
 
-        $("#terminal-sendpanel").after("<div id=terminal-documentation />");
-        self.$documentation = $("#terminal-documentation");
-
-        self.showForValue = value => {
+        self.searchResults = ko.computed(() => {
+           const value = self.commandValue();
             if (!value.trim() || value.trim() === "?") {
-                self.$documentation.text(
-                    "Enter a command to get documentation (eg 'G28'), " +
-                    "or search by prepending with '?' (eg '?endstop')");
-                return;
+                return {
+                    isEmpty: true,
+                    isSearch: false,
+                    docItems: [],
+                    extraResultsCount: 0,
+                };
             }
             let docItemsList;
             const parsedParameters = {};
@@ -169,39 +180,30 @@ $(function() {
             const docItems = [].concat(...docItemsList.map(
                 ([command, docItems]) => docItems.map(
                     docItem => [command, docItem])));
-            if (docItems.length) {
-                self.$documentation.html(`
-                    <ul class="terminal-documentation-results">${docItems.map(([command, docItem]) => `
-                        <li class="terminal-documentation-result">
-                            <span class="terminal-documentation-command">${command}</span>: ${docItem.title}: ${docItem.brief}
-                            <ul class="terminal-documentation-result-parameters">${docItem.parameters.map(parameter => `
-                                <li class="terminal-documentation-result-parameter ${parameter.optional ? "" : "required"} ${parsedParameters[parameter.tag] === undefined ? "missing" : ""}">
-                                    <pre class="terminal-documentation-parameter-tag">${parameter.label}</pre>
-                                    <pre class="terminal-documentation-parameter-value">${parsedParameters[parameter.tag] !== undefined ? parsedParameters[parameter.tag] : ' '}</pre>
-                                    [<span class="terminal-documentation-parameter-description">${parameter.description}</span>]:
-                                </li>
-                            `).join('\n')}</ul>
-                        </li>
-                    `).join('\n')}</ul>
-                `);
-            } else {
-                if (isSearch) {
-                    self.$documentation.text("Unable to find anything");
-                } else {
-                    self.$documentation.text("Unknown command. Start with '?' to search");
-                }
-            }
-        };
-
-        $("#terminal-command").on(
-            'input', ({target: {value}}) => self.showForValue(value));
-
-        self.showForValue('G29 A0 X110 Y110');
+            return {
+                isEmpty: false,
+                isSearch,
+                docItems: docItems.slice(0, 20).map(([command, docItem]) => ({
+                    command,
+                    docItem: {
+                        ...docItem,
+                        parameters: docItem.parameters.map(parameter => ({
+                            ...parameter,
+                            optional: !!parameter.optional,
+                            hasValues: !!parsedParameters[parameter.tag],
+                            values: parsedParameters[parameter.tag] || [' '],
+                            description: parameter.description !== undefined ? parameter.description : '',
+                        })),
+                    },
+                })),
+                extraResultsCount: docItems.length > 20 ? docItems.length - 20 : 0,
+            };
+        });
     }
 
     OCTOPRINT_VIEWMODELS.push({
         construct: MarlingcodedocumentationViewModel,
         dependencies: [ "terminalViewModel" ],
-        elements: [],
+        elements: [ "#terminal-marlin-gcode-documentation" ],
     });
 });

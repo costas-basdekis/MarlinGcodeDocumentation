@@ -2,6 +2,7 @@
     overflow-y: auto;
     resize: vertical;
     height: 353px;
+    padding-left: 20px;
 }
 
 .terminal-documentation-command {

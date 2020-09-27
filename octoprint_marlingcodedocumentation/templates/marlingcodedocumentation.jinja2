@@ -1,0 +1,39 @@
+<div id="terminal-marlin-gcode-documentation">
+    <!-- ko if: searchResults().docItems.length -->
+        <ul class="terminal-documentation-results">
+            <!-- ko foreach: searchResults().docItems -->
+                <li class="terminal-documentation-result">
+                    <span class="terminal-documentation-command" data-bind="text: command"></span>:
+                    <span data-bind="text: docItem.title"></span>:
+                    <span data-bind="text: docItem.brief"></span>
+                    <ul class="terminal-documentation-result-parameters" data-bind="foreach: docItem.parameters">
+                        <li
+                                class="terminal-documentation-result-parameter"
+                                data-bind="css: {required: !optional, missing: !hasValues}"
+                        >
+                            <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
+                            <pre class="terminal-documentation-parameter-value" data-bind="text: values.join(', ')"></pre>
+                            [<span class="terminal-documentation-parameter-description" data-bind="text: description"></span>]:
+                        </li>
+                    </ul>
+                </li>
+            <!-- /ko -->
+            <!-- ko if: searchResults().extraResultsCount -->
+                <li><span data-bind="text: searchResults().extraResultsCount"></span> more items</li>
+            <!-- /ko -->
+        </ul>
+    <!-- /ko --><!-- /ko --><!-- ki ifnot: searchResults().docItems.length -->
+        <!-- ko if: searchResults().isEmpty -->
+            <span>
+                Enter a command to get documentation (eg 'G28'), or search by
+                prepending with '?' (eg '?endstop')
+            </span>
+        <!-- /ko --><!-- ko ifnot: searchResults().isEmpty -->
+            <!-- ko if: searchResults().isSearch -->
+                <span>Unable to find anything</span>
+            <!-- /ko --><!-- ko ifnot: searchResults().isSearch -->
+                <span>Unknown command. Start with '?' to search</span>
+            <!-- /ko -->
+        <!-- /ko -->
+    <!-- /ko -->
+</div>
