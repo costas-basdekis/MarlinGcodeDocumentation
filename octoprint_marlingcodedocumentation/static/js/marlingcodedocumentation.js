@@ -149,6 +149,26 @@ $(function() {
             };
         })();
 
+        self.collapsedCommands = ko.observable([]);
+
+        self.onToggleResultCollapsed = ({id}) => {
+            const collapsedCommands = self.collapsedCommands();
+            const newCollapsedCommands = collapsedCommands.includes(id)
+                ? collapsedCommands.filter(_id => _id !== id)
+                : collapsedCommands.concat(id);
+            self.collapsedCommands(newCollapsedCommands);
+        };
+
+        self.onToggleResultCollapsedAll = () => {
+            self.collapsedCommands([].concat(...Object.entries(window.AllMarlinGcodes).map(
+                ([command, docItems]) => docItems.map(
+                    (_, index) => `${command}[${index}]`))));
+        };
+
+        self.onToggleResultCollapsedNone = ({id}) => {
+            self.collapsedCommands([]);
+        };
+
         self.searchResults = ko.computed(() => {
            const value = self.commandValue();
             if (!value.trim() || value.trim() === "?") {
@@ -179,12 +199,15 @@ $(function() {
             }
             const docItems = [].concat(...docItemsList.map(
                 ([command, docItems]) => docItems.map(
-                    docItem => [command, docItem])));
+                    (docItem, index) => [command, index, docItem])));
+            const collapsedCommands = self.collapsedCommands();
             return {
                 isEmpty: false,
                 isSearch,
-                docItems: docItems.slice(0, 20).map(([command, docItem]) => ({
+                docItems: docItems.slice(0, 20).map(([command, index, docItem]) => ({
+                    id: `${command}[${index}]`,
                     command,
+                    collapsed: collapsedCommands.includes(`${command}[${index}]`),
                     docItem: {
                         ...docItem,
                         parameters: docItem.parameters.map(parameter => ({

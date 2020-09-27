@@ -1,21 +1,26 @@
 <div id="terminal-marlin-gcode-documentation">
     <!-- ko if: searchResults().docItems.length -->
+        <a class="pointer fa fa-plus" data-bind="click: $root.onToggleResultCollapsedNone">Expand all</a>
+        <a class="pointer fa fa-minus" data-bind="click: $root.onToggleResultCollapsedAll">Collapse all</a>
         <ul class="terminal-documentation-results">
             <!-- ko foreach: searchResults().docItems -->
                 <li class="terminal-documentation-result">
+                    <a class="pointer fa" data-bind="css: {'fa-plus': collapsed, 'fa-minus': !collapsed}, click: $root.onToggleResultCollapsed"></a>
                     <span class="terminal-documentation-command" data-bind="text: command"></span>:
                     <span data-bind="text: docItem.title"></span>:
                     <span data-bind="text: docItem.brief"></span>
-                    <ul class="terminal-documentation-result-parameters" data-bind="foreach: docItem.parameters">
-                        <li
-                                class="terminal-documentation-result-parameter"
-                                data-bind="css: {required: !optional, missing: !hasValues}"
-                        >
-                            <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
-                            <pre class="terminal-documentation-parameter-value" data-bind="text: values.join(', ')"></pre>
-                            [<span class="terminal-documentation-parameter-description" data-bind="text: description"></span>]:
-                        </li>
-                    </ul>
+                    <!-- ko if: !collapsed -->
+                        <ul class="terminal-documentation-result-parameters" data-bind="foreach: docItem.parameters">
+                            <li
+                                    class="terminal-documentation-result-parameter"
+                                    data-bind="css: {required: !optional, missing: !hasValues}"
+                            >
+                                <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
+                                <pre class="terminal-documentation-parameter-value" data-bind="text: values.join(', ')"></pre>
+                                [<span class="terminal-documentation-parameter-description" data-bind="text: description"></span>]:
+                            </li>
+                        </ul>
+                    <!-- /ko -->
                 </li>
             <!-- /ko -->
             <!-- ko if: searchResults().extraResultsCount -->

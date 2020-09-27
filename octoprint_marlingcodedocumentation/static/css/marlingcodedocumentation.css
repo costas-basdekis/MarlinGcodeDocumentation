@@ -39,3 +39,7 @@
 .terminal-documentation-result-parameter.required.missing .terminal-documentation-parameter-value {
     background: #b42;
 }
+
+.pointer {
+    cursor: pointer;
+}
