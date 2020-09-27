@@ -5,8 +5,8 @@ import octoprint.plugin
 
 
 class MarlingcodedocumentationPlugin(
-    octoprint.plugin.StartupPlugin, octoprint.plugin.SettingsPlugin,
-    octoprint.plugin.AssetPlugin, octoprint.plugin.TemplatePlugin):
+        octoprint.plugin.StartupPlugin, octoprint.plugin.SettingsPlugin,
+        octoprint.plugin.AssetPlugin, octoprint.plugin.TemplatePlugin):
 
     def on_after_startup(self):
         self._logger.info("Hello MarlingcodedocumentationPlugin!")
