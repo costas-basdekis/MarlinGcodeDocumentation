@@ -1,7 +1,13 @@
 <div id="terminal-marlin-gcode-documentation">
+    <div class="alert alert-info">
+        Enter a command to get documentation (eg 'G28'), or search by
+        prepending with '?' (eg '?endstop')
+    </div>
     <!-- ko if: searchResults().docItems.length -->
-        <a class="pointer fa fa-plus" data-bind="click: $root.onToggleResultCollapsedNone">Expand all</a>
-        <a class="pointer fa fa-minus" data-bind="click: $root.onToggleResultCollapsedAll">Collapse all</a>
+        <div class="btn-group">
+            <button class="btn" data-bind="click: $root.onToggleResultCollapsedNone"><span class=" fa fa-plus"></span>Expand all</button>
+            <button class="btn" data-bind="click: $root.onToggleResultCollapsedAll"><span class=" fa fa-minus"></span>Collapse all</button>
+        </div>
         <ul class="terminal-documentation-results">
             <!-- ko foreach: searchResults().docItems -->
                 <li class="terminal-documentation-result">
@@ -28,17 +34,12 @@
                 <li><span data-bind="text: searchResults().extraResultsCount"></span> more items</li>
             <!-- /ko -->
         </ul>
-    <!-- /ko --><!-- /ko --><!-- ki ifnot: searchResults().docItems.length -->
-        <!-- ko if: searchResults().isEmpty -->
-            <span>
-                Enter a command to get documentation (eg 'G28'), or search by
-                prepending with '?' (eg '?endstop')
-            </span>
-        <!-- /ko --><!-- ko ifnot: searchResults().isEmpty -->
+    <!-- /ko --><!-- ko ifnot: searchResults().docItems.length -->
+        <!-- ko ifnot: searchResults().isEmpty -->
             <!-- ko if: searchResults().isSearch -->
-                <span>Unable to find anything</span>
+                <div class="alert alert-block">Unable to find anything</div>
             <!-- /ko --><!-- ko ifnot: searchResults().isSearch -->
-                <span>Unknown command. Start with '?' to search</span>
+                <div class="alert alert-error">Unknown command</div>
             <!-- /ko -->
         <!-- /ko -->
     <!-- /ko -->
