@@ -19,17 +19,17 @@ tags:
 - marlin
 
 screenshots:
-- url: /extras/screenshot-example-command.png
+- url: /screenshot-example-command.png
   alt: Example of a command
   caption: Example of a command
-- url: /extras/screenshot-example-multiple-commands.png
+- url: /screenshot-example-multiple-commands.png
   alt: Example of multiple commands
   caption: Example of multiple commands
-- url: /extras/screenshot-example-search.png
+- url: /screenshot-example-search.png
   alt: Example of search
   caption: Example of search
 
-featuredimage: /extras/screenshot-example-command.png
+featuredimage: /screenshot-example-command.png
 
 ---
 
