@@ -8,6 +8,8 @@ $(function() {
     function MarlingcodedocumentationViewModel() {
         const self = this;
 
+        const DOCUMENTATION_URL = 'https://marlinfw.org/docs/gcode';
+
         self.AllMarlinGcodes = window.AllMarlinGcodes;
 
         self.onBeforeBinding = () => {
@@ -208,6 +210,7 @@ $(function() {
                     id: `${command}[${index}]`,
                     command,
                     collapsed: collapsedCommands.includes(`${command}[${index}]`),
+                    documentationUrl: `${DOCUMENTATION_URL}/${docItem.filename}.html`,
                     docItem: {
                         ...docItem,
                         parameters: docItem.parameters.map(parameter => ({

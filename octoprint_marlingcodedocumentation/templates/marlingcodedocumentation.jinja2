@@ -7,6 +7,7 @@
                 <li class="terminal-documentation-result">
                     <a class="pointer fa" data-bind="css: {'fa-plus': collapsed, 'fa-minus': !collapsed}, click: $root.onToggleResultCollapsed"></a>
                     <span class="terminal-documentation-command" data-bind="text: command"></span>:
+                    <a class="fa fa-external-link-alt" target="_blank" data-bind="attr: {href: documentationUrl}"></a>
                     <span data-bind="text: docItem.title"></span>:
                     <span data-bind="text: docItem.brief"></span>
                     <!-- ko if: !collapsed -->

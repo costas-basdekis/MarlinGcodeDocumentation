@@ -1,11 +1,16 @@
 import glob
 import itertools
+import json
+import os
 
 import yaml
 
 
 class MarlinGcodeDocumentationParser:
-    def update_documenation(self, directory, js_path):
+    def update_documentation(self, directory, js_path=None):
+        if js_path is None:
+            js_path = os.path.join(
+                os.path.dirname(__file__), "static", "js", "all_codes.js")
         all_codes = self.load_and_parse_all_codes(directory)
         self.save_codes_to_js(all_codes, js_path)
 
@@ -19,14 +24,22 @@ class MarlinGcodeDocumentationParser:
         return self.get_all_codes(docs)
 
     def load_all_docs(self, directory):
-        paths = glob.glob(f"{directory}/*.md")
+        paths_glob = os.path.join(directory, "*.md")
+        paths = glob.glob(paths_glob)
+        print(paths_glob, len(paths))
         return [self.load_doc(path) for path in paths]
 
     def load_doc(self, path):
         with open(path) as f:
             all_text = f.read()
         first_doc_yaml, *_ = filter(None, all_text.split('---'))
-        return yaml.load(first_doc_yaml)
+        doc = yaml.load(first_doc_yaml)
+
+        _, full_filename = os.path.split(path)
+        filename, _ = os.path.splitext(full_filename)
+        doc["filename"] = filename
+
+        return doc
 
     def get_all_codes(self, docs):
         return {
@@ -58,6 +71,7 @@ class MarlinGcodeDocumentationParser:
                     doc.get("parameters") or [],
                     key=self._order_by_required_first)
             ],
+            "filename": doc["filename"],
         }
         return {
             code: data
