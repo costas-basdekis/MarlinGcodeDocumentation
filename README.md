@@ -6,6 +6,7 @@ Type a command and you will get explanation for the command and the parameters.
 
 ![](/screenshot-example-command.png)
 ![](/screenshot-example-multiple-commands.png)
+![](/screenshot-example-multiline-commands.png)
 ![](/screenshot-example-search.png)
 
 ## Setup

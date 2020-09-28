@@ -3,44 +3,57 @@
         Enter a command to get documentation (eg 'G28'), or search by
         prepending with '?' (eg '?endstop')
     </div>
-    <!-- ko if: searchResults().docItems.length -->
-        <div class="btn-group">
-            <button class="btn" data-bind="click: $root.onToggleResultCollapsedNone"><span class=" fa fa-plus"></span>Expand all</button>
-            <button class="btn" data-bind="click: $root.onToggleResultCollapsedAll"><span class=" fa fa-minus"></span>Collapse all</button>
-        </div>
-        <ul class="terminal-documentation-results">
-            <!-- ko foreach: searchResults().docItems -->
-                <li class="terminal-documentation-result">
-                    <a class="pointer fa" data-bind="css: {'fa-plus': collapsed, 'fa-minus': !collapsed}, click: $root.onToggleResultCollapsed"></a>
-                    <span class="terminal-documentation-command" data-bind="text: command"></span>:
-                    <a class="fa fa-external-link-alt" target="_blank" data-bind="attr: {href: documentationUrl}"></a>
-                    <span data-bind="text: docItem.title"></span>:
-                    <span data-bind="text: docItem.brief"></span>
-                    <!-- ko if: !collapsed -->
-                        <ul class="terminal-documentation-result-parameters" data-bind="foreach: docItem.parameters">
-                            <li
-                                    class="terminal-documentation-result-parameter"
-                                    data-bind="css: {required: !optional, missing: !hasValues}"
-                            >
-                                <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
-                                <pre class="terminal-documentation-parameter-value" data-bind="text: values.join(', ')"></pre>
-                                [<span class="terminal-documentation-parameter-description" data-bind="text: description"></span>]:
-                            </li>
-                        </ul>
-                    <!-- /ko -->
-                </li>
-            <!-- /ko -->
-            <!-- ko if: searchResults().extraResultsCount -->
-                <li><span data-bind="text: searchResults().extraResultsCount"></span> more items</li>
-            <!-- /ko -->
-        </ul>
-    <!-- /ko --><!-- ko ifnot: searchResults().docItems.length -->
-        <!-- ko ifnot: searchResults().isEmpty -->
-            <!-- ko if: searchResults().isSearch -->
-                <div class="alert alert-block">Unable to find anything</div>
-            <!-- /ko --><!-- ko ifnot: searchResults().isSearch -->
-                <div class="alert alert-error">Unknown command</div>
-            <!-- /ko -->
+    <ul class="nav nav-tabs">
+        <!-- ko foreach: searchResults() -->
+            <li data-bind="css: {active: isActiveInitially}">
+                <a data-toggle="tab" data-bind="text: line, attr: {href: tabLink}"></a>
+            </li>
         <!-- /ko -->
-    <!-- /ko -->
+    </ul>
+    <div class="tab-content">
+        <!-- ko foreach: searchResults() -->
+            <div class="tab-pane" data-bind="attr: {id: tabId}, css: {active: isActiveInitially}">
+                <!-- ko if: docItems.length -->
+                    <div class="btn-group">
+                        <button class="btn" data-bind="click: $root.onToggleResultCollapsedNone"><span class=" fa fa-plus"></span>Expand all</button>
+                        <button class="btn" data-bind="click: $root.onToggleResultCollapsedAll"><span class=" fa fa-minus"></span>Collapse all</button>
+                    </div>
+                    <ul class="terminal-documentation-results">
+                        <!-- ko foreach: docItems -->
+                            <li class="terminal-documentation-result">
+                                <a class="pointer fa" data-bind="css: {'fa-plus': collapsed, 'fa-minus': !collapsed}, click: $root.onToggleResultCollapsed"></a>
+                                <span class="terminal-documentation-command" data-bind="text: command"></span>:
+                                <a class="fa fa-external-link-alt" target="_blank" data-bind="attr: {href: documentationUrl}"></a>
+                                <span data-bind="text: docItem.title"></span>:
+                                <span data-bind="text: docItem.brief"></span>
+                                <!-- ko if: !collapsed -->
+                                    <ul class="terminal-documentation-result-parameters" data-bind="foreach: docItem.parameters">
+                                        <li
+                                                class="terminal-documentation-result-parameter"
+                                                data-bind="css: {required: !optional, missing: !hasValues}"
+                                        >
+                                            <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
+                                            <pre class="terminal-documentation-parameter-value" data-bind="text: values.join(', ')"></pre>
+                                            [<span class="terminal-documentation-parameter-description" data-bind="text: description"></span>]:
+                                        </li>
+                                    </ul>
+                                <!-- /ko -->
+                            </li>
+                        <!-- /ko -->
+                        <!-- ko if: extraResultsCount -->
+                            <li><span data-bind="text: extraResultsCount"></span> more items</li>
+                        <!-- /ko -->
+                    </ul>
+                <!-- /ko --><!-- ko ifnot: docItems.length -->
+                    <!-- ko ifnot: isEmpty -->
+                        <!-- ko if: isSearch -->
+                            <div class="alert alert-block">Unable to find anything</div>
+                        <!-- /ko --><!-- ko ifnot: isSearch -->
+                            <div class="alert alert-error">Unknown command</div>
+                        <!-- /ko -->
+                    <!-- /ko -->
+                <!-- /ko -->
+            </div>
+        <!-- /ko -->
+    </div>
 </div>

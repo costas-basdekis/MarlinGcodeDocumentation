@@ -23,8 +23,11 @@ screenshots:
   alt: Example of a command
   caption: Example of a command
 - url: /screenshot-example-multiple-commands.png
-  alt: Example of multiple commands
-  caption: Example of multiple commands
+  alt: Example of matching multiple commands
+  caption: Example of matching multiple commands
+- url: /screenshot-example-multiline-commands.png
+  alt: Example of multiple commands in different lines
+  caption: Example of multiple commands in different lines
 - url: /screenshot-example-search.png
   alt: Example of search
   caption: Example of search

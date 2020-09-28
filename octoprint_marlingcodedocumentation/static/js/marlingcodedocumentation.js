@@ -20,9 +20,26 @@ $(function() {
         // Since the terminal VM is bound on `value`, we would only get an
         // update on blur, not after the user types. With this, we get it when
         // the user types, with a 0.5s delay.
-        self.commandValue = ko.observable("").extend({ rateLimit: 500 });
-        $("#terminal-command").on('input', ({target: {value}}) => {
-            self.commandValue(value);
+        self.commandLines = ko.observable([]).extend({ rateLimit: 500 });
+        $(document).on('input', "#terminal-command", ({target: {value}}) => {
+            const newCommandLines = value
+                .trim()
+                .split(/\s*\n\s*/g)
+                .filter(line => line);
+            const commandLinesHaveChanged =
+                JSON.stringify(self.commandLines())
+                !== JSON.stringify(newCommandLines);
+            if (commandLinesHaveChanged) {
+                self.commandLines(newCommandLines);
+            }
+        });
+
+        self.activeCommandLineNumber = ko.observable(0).extend({ rateLimit: 500 });
+        $(document).on("keyup click focus", "#terminal-command", ({target: {value, selectionStart}}) => {
+            const lineNumber = value.slice(0, selectionStart).split(/\n/g).length - 1;
+            if (self.activeCommandLineNumber() !== lineNumber) {
+                self.activeCommandLineNumber(lineNumber);
+            }
         });
 
         self.findDocs = searchString => {
@@ -172,9 +189,21 @@ $(function() {
         };
 
         self.searchResults = ko.computed(() => {
-           const value = self.commandValue();
-            if (!value.trim() || value.trim() === "?") {
+           const commandLines = self.commandLines();
+           const activeCommandLineNumber = self.activeCommandLineNumber();
+           return commandLines.map((line, index) => ({
+               ...self.getSearchResult(line),
+               tabId: `terminal-marlin-gcode-documentation-tab-${index}`,
+               tabLink: `#terminal-marlin-gcode-documentation-tab-${index}`,
+               isActiveInitially: index === activeCommandLineNumber,
+           }));
+        });
+
+        self.getSearchResult = commandLine => {
+            commandLine = commandLine.trim();
+            if (!commandLine || commandLine === "?") {
                 return {
+                    line: commandLine,
                     isEmpty: true,
                     isSearch: false,
                     docItems: [],
@@ -183,13 +212,13 @@ $(function() {
             }
             let docItemsList;
             const parsedParameters = {};
-            const isSearch = value.trim().startsWith('?');
+            const isSearch = commandLine.startsWith('?');
             if (isSearch) {
-                const commands = self.findDocs(value.slice(1));
+                const commands = self.findDocs(commandLine.slice(1));
                 docItemsList = commands.map(
                     command => [command, AllMarlinGcodes[command]]);
             } else {
-                const line = self.parseLine(value);
+                const line = self.parseLine(commandLine);
                 const command = line.words.length
                     ? line.words[0].join('') : null;
                 docItemsList = AllMarlinGcodes[command]
@@ -204,6 +233,7 @@ $(function() {
                     (docItem, index) => [command, index, docItem])));
             const collapsedCommands = self.collapsedCommands();
             return {
+                line: commandLine,
                 isEmpty: false,
                 isSearch,
                 docItems: docItems.slice(0, 20).map(([command, index, docItem]) => ({
@@ -224,7 +254,7 @@ $(function() {
                 })),
                 extraResultsCount: docItems.length > 20 ? docItems.length - 20 : 0,
             };
-        });
+        };
     }
 
     OCTOPRINT_VIEWMODELS.push({
