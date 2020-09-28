@@ -4,9 +4,10 @@ import json
 import os
 
 import yaml
+from six import iteritems
 
 
-class MarlinGcodeDocumentationParser:
+class MarlinGcodeDocumentationParser(object):
     def update_documentation(self, directory, js_path=None):
         if js_path is None:
             js_path = os.path.join(
@@ -26,7 +27,6 @@ class MarlinGcodeDocumentationParser:
     def load_all_docs(self, directory):
         paths_glob = os.path.join(directory, "*.md")
         paths = glob.glob(paths_glob)
-        print(paths_glob, len(paths))
         return [self.load_doc(path) for path in paths]
 
     def load_doc(self, path):
@@ -50,7 +50,7 @@ class MarlinGcodeDocumentationParser:
                     self.parse_doc(doc)
                     for doc in docs
                 )
-                for code, parsed in codes.items()
+                for code, parsed in iteritems(codes)
             ), key=self._get_code), key=self._get_code)
     }
 

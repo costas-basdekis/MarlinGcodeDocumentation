@@ -11,3 +11,5 @@
 setuptools~=49.2.1
 OctoPrint~=1.4.2
 PyYAML~=5.3.1
+
+six~=1.15.0
