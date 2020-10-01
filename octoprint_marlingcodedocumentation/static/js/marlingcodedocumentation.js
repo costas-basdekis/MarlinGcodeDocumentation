@@ -5,12 +5,14 @@
  * License: AGPLv3
  */
 $(function() {
-    function MarlingcodedocumentationViewModel() {
+    function MarlingcodedocumentationViewModel(parameters) {
         const self = this;
+
+        [self.settingsViewModel] = parameters;
 
         self.AllGcodes = window.AllGcodes;
 
-        self.onBeforeBinding = () => {
+        self.moveTemplateToPosition = () => {
 			$("#terminal-marlin-gcode-documentation")
                 .insertAfter("#terminal-sendpanel");
 		};
@@ -40,8 +42,36 @@ $(function() {
             }
         });
 
+        self.mySettings = null;
         self.includeSourceMarlin = ko.observable(true);
         self.includeSourceRepRap = ko.observable(true);
+        self.afterUpdatingSettingsLocally = ko.computed(() => {
+            const includeSourceMarlin = self.includeSourceMarlin();
+            const includeSourceRepRap = self.includeSourceRepRap();
+            if (self.mySettings) {
+                self.mySettings.include_source_marlin(includeSourceMarlin);
+                self.mySettings.include_source_reprap(includeSourceRepRap);
+            }
+            OctoPrint.settings.save({
+                plugins: {
+                    marlingcodedocumentation: {
+                        include_source_marlin: includeSourceMarlin,
+                        include_source_reprap: includeSourceRepRap,
+                    },
+                },
+            });
+        });
+
+        self.loadSettings = function() {
+            self.mySettings = self.settingsViewModel.settings.plugins.marlingcodedocumentation;
+            self.includeSourceMarlin(self.mySettings.include_source_marlin());
+            self.includeSourceRepRap(self.mySettings.include_source_reprap());
+        };
+
+        self.onBeforeBinding = function() {
+            self.moveTemplateToPosition();
+            self.loadSettings();
+        };
 
         self.findDocs = searchString => {
             const parts = searchString.toLowerCase().trim().split(/\s+/g);
@@ -265,7 +295,7 @@ $(function() {
 
     OCTOPRINT_VIEWMODELS.push({
         construct: MarlingcodedocumentationViewModel,
-        dependencies: [ "terminalViewModel" ],
+        dependencies: [ "settingsViewModel", "terminalViewModel" ],
         elements: [ "#terminal-marlin-gcode-documentation" ],
     });
 });

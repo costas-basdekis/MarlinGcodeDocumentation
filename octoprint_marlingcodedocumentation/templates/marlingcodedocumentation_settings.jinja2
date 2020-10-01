@@ -1,0 +1,17 @@
+<form class="form-horizontal">
+    <legend>Documentation Sources</legend>
+    <div class="control-group">
+        <div>
+            <label class="checkbox">
+                Include Gcode Documentation from <a href="https://marlinfw.org/meta/gcode/" target="_blank">Marlin</a>
+                <input type="checkbox" class="input-block-level" data-bind="checked: settings.plugins.marlingcodedocumentation.include_source_marlin">
+            </label>
+        </div>
+        <div>
+            <label class="checkbox">
+                Include Gcode Documentation from <a href="https://reprap.org/wiki/G-code#G-commands" target="_blank">RepRap</a>
+                <input type="checkbox" class="input-block-level" data-bind="checked: settings.plugins.marlingcodedocumentation.include_source_reprap">
+            </label>
+        </div>
+    </div>
+</form>

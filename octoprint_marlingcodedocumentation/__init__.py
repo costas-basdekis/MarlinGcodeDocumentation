@@ -5,14 +5,13 @@ import octoprint.plugin
 
 
 class MarlingcodedocumentationPlugin(
-        octoprint.plugin.StartupPlugin, octoprint.plugin.SettingsPlugin,
-        octoprint.plugin.AssetPlugin, octoprint.plugin.TemplatePlugin):
-
-    def on_after_startup(self):
-        self._logger.info("Hello MarlingcodedocumentationPlugin!")
+        octoprint.plugin.SettingsPlugin, octoprint.plugin.AssetPlugin,
+        octoprint.plugin.TemplatePlugin):
 
     def get_settings_defaults(self):
         return {
+            "include_source_marlin": True,
+            "include_source_reprap": True,
         }
 
     def get_assets(self):
@@ -21,6 +20,11 @@ class MarlingcodedocumentationPlugin(
             css=["css/marlingcodedocumentation.css"],
             less=["less/marlingcodedocumentation.less"]
         )
+
+    def get_template_configs(self):
+        return [
+            {"type": "settings", "custom_bindings": False},
+        ]
 
     def get_update_information(self):
         return dict(
