@@ -13,8 +13,13 @@ $(function() {
         self.AllGcodes = window.AllGcodes;
 
         self.moveTemplateToPosition = () => {
-			$("#terminal-marlin-gcode-documentation")
-                .insertAfter("#terminal-sendpanel");
+            if (self.mySettings.documentation_position() === "above_settings") {
+                $("#terminal-marlin-gcode-documentation")
+                    .insertAfter("#terminal-sendpanel");
+            } else {
+                $("#term")
+                    .append($("#terminal-marlin-gcode-documentation"));
+            }
 		};
 
         // Since the terminal VM is bound on `value`, we would only get an
@@ -131,8 +136,11 @@ $(function() {
         };
 
         self.onBeforeBinding = function() {
-            self.moveTemplateToPosition();
             self.loadSettings();
+            self.onDocumentationPositionChange = ko.computed(() => {
+                self.mySettings.documentation_position();
+                self.moveTemplateToPosition();
+            });
         };
 
         self.findDocs = searchString => {

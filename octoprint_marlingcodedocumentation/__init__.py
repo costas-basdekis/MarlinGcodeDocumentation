@@ -12,6 +12,7 @@ class MarlingcodedocumentationPlugin(
         return {
             "include_source_marlin": True,
             "include_source_reprap": True,
+            "documentation_position": "above_settings",
         }
 
     def get_assets(self):
