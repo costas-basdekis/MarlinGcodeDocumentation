@@ -43,3 +43,21 @@
 .pointer {
     cursor: pointer;
 }
+
+.terminal-documentation-source:after {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: 100%;
+    vertical-align: middle;
+    margin: 5px;
+}
+
+.terminal-documentation-source.terminal-documentation-source-marlin:after {
+    background-image: url(/plugin/marlingcodedocumentation/static/img/marlin.ico);
+}
+
+.terminal-documentation-source.terminal-documentation-source-reprap:after {
+    background-image: url(/plugin/marlingcodedocumentation/static/img/reprap.ico);
+}

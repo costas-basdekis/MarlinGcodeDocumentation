@@ -13,17 +13,27 @@
     <div class="tab-content">
         <!-- ko foreach: searchResults() -->
             <div class="tab-pane" data-bind="attr: {id: tabId}, css: {active: isActiveInitially}">
-                <!-- ko if: docItems.length -->
-                    <div class="btn-group">
+                <div class="btn-group">
+                    <!-- ko if: docItems.length -->
                         <button class="btn" data-bind="click: $root.onToggleResultCollapsedNone"><span class=" fa fa-plus"></span>Expand all</button>
                         <button class="btn" data-bind="click: $root.onToggleResultCollapsedAll"><span class=" fa fa-minus"></span>Collapse all</button>
-                    </div>
+                    <!-- /ko -->
+                    <label class="checkbox inline terminal-documentation-source terminal-documentation-source-marlin">
+                        <input type="checkbox" data-bind="checked: $root.includeSourceMarlin">
+                        Include from Marlin
+                    </label>
+                    <label class="checkbox inline terminal-documentation-source terminal-documentation-source-reprap">
+                        <input type="checkbox" data-bind="checked: $root.includeSourceRepRap">
+                        Include from RepRap
+                    </label>
+                </div>
+                <!-- ko if: docItems.length -->
                     <ul class="terminal-documentation-results">
                         <!-- ko foreach: docItems -->
                             <li class="terminal-documentation-result">
                                 <a class="pointer fa" data-bind="css: {'fa-plus': collapsed, 'fa-minus': !collapsed}, click: $root.onToggleResultCollapsed"></a>
                                 <span class="terminal-documentation-command" data-bind="text: command"></span>:
-                                <a class="fa fa-external-link-alt" target="_blank" data-bind="attr: {href: documentationUrl}"></a>
+                                <a class="fa fa-external-link-alt terminal-documentation-source" target="_blank" data-bind="css: {[iconClass]: true}, attr: {href: docItem.url, title: linkTitle}"></a>
                                 <span data-bind="text: docItem.title"></span>:
                                 <span data-bind="text: docItem.brief"></span>
                                 <!-- ko if: !collapsed -->

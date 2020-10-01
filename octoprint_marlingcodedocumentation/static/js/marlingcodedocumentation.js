@@ -8,9 +8,7 @@ $(function() {
     function MarlingcodedocumentationViewModel() {
         const self = this;
 
-        const DOCUMENTATION_URL = 'https://marlinfw.org/docs/gcode';
-
-        self.AllMarlinGcodes = window.AllMarlinGcodes;
+        self.AllGcodes = window.AllGcodes;
 
         self.onBeforeBinding = () => {
 			$("#terminal-marlin-gcode-documentation")
@@ -42,9 +40,12 @@ $(function() {
             }
         });
 
+        self.includeSourceMarlin = ko.observable(true);
+        self.includeSourceRepRap = ko.observable(true);
+
         self.findDocs = searchString => {
             const parts = searchString.toLowerCase().trim().split(/\s+/g);
-            const commandsAndDocs = Object.entries(self.AllMarlinGcodes)
+            const commandsAndDocs = Object.entries(self.AllGcodes)
                 .filter(([command, doc]) =>
                     parts.some(part =>
                         command.toLowerCase().includes(part))
@@ -179,7 +180,7 @@ $(function() {
         };
 
         self.onToggleResultCollapsedAll = () => {
-            self.collapsedCommands([].concat(...Object.entries(window.AllMarlinGcodes).map(
+            self.collapsedCommands([].concat(...Object.entries(window.AllGcodes).map(
                 ([command, docItems]) => docItems.map(
                     (_, index) => `${command}[${index}]`))));
         };
@@ -216,13 +217,13 @@ $(function() {
             if (isSearch) {
                 const commands = self.findDocs(commandLine.slice(1));
                 docItemsList = commands.map(
-                    command => [command, AllMarlinGcodes[command]]);
+                    command => [command, AllGcodes[command]]);
             } else {
                 const line = self.parseLine(commandLine);
                 const command = line.words.length
                     ? line.words[0].join('') : null;
-                docItemsList = AllMarlinGcodes[command]
-                    ? [[command, AllMarlinGcodes[command]]]  : [];
+                docItemsList = AllGcodes[command]
+                    ? [[command, AllGcodes[command]]]  : [];
                 for (const [tag, value] of line.words.slice(1)) {
                     parsedParameters[tag] = parsedParameters[tag] || [];
                     parsedParameters[tag].push(value);
@@ -232,15 +233,20 @@ $(function() {
                 ([command, docItems]) => docItems.map(
                     (docItem, index) => [command, index, docItem])));
             const collapsedCommands = self.collapsedCommands();
+            const include = {
+                Marlin: self.includeSourceMarlin(),
+                RepRap: self.includeSourceRepRap(),
+            };
             return {
                 line: commandLine,
                 isEmpty: false,
                 isSearch,
-                docItems: docItems.slice(0, 20).map(([command, index, docItem]) => ({
+                docItems: docItems.filter(([command, index, docItem]) => include[docItem.source]).slice(0, 20).map(([command, index, docItem]) => ({
                     id: `${command}[${index}]`,
                     command,
                     collapsed: collapsedCommands.includes(`${command}[${index}]`),
-                    documentationUrl: `${DOCUMENTATION_URL}/${docItem.filename}.html`,
+                    iconClass: `terminal-documentation-source-${docItem.source.toLowerCase()}`,
+                    linkTitle: `Visit ${docItem.source} documentation`,
                     docItem: {
                         ...docItem,
                         parameters: docItem.parameters.map(parameter => ({
