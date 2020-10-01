@@ -101,6 +101,11 @@ $(function() {
                 includeSourceRepRap: self.mySettings.include_source_reprap,
                 showHelp: self.mySettings.show_help,
             };
+            const settingKeys = {
+                includeSourceMarlin: "include_source_marlin",
+                includeSourceRepRap: "include_source_reprap",
+                showHelp: "show_help",
+            };
             const sourceObservables =
                 source === 'local'
                     ? observablesFromLocal : observablesFromCentral;
@@ -118,7 +123,7 @@ $(function() {
             for (const key of Object.keys(sourceData)) {
                 if (targetData[key] !== sourceData[key]) {
                     targetObservables[key](sourceData[key]);
-                    updates[key] = sourceData[key];
+                    updates[settingKeys[key]] = sourceData[key];
                 }
             }
             self.onSettingsUpdated.ignore[target] = false;
