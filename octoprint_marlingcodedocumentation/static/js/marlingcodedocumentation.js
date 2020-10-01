@@ -101,13 +101,22 @@ $(function() {
             const targetData = Object.fromEntries(
                 Object.entries(targetObservables).map(
                     ([key, observable]) => [key, observable()]));
+            const updates = {};
             self.onSettingsUpdated.ignore[target] = true;
             for (const key of Object.keys(sourceData)) {
                 if (targetData[key] !== sourceData[key]) {
                     targetObservables[key](sourceData[key]);
+                    updates[key] = sourceData[key];
                 }
             }
             self.onSettingsUpdated.ignore[target] = false;
+            if (Object.keys(updates).length) {
+                OctoPrint.settings.save({
+                    plugins: {
+                        marlingcodedocumentation: updates,
+                    },
+                });
+            }
         };
         self.onSettingsUpdated.ignore = {local: false, central: false};
         self.onSettingsUpdated.opposite = {local: 'central', central: 'local'};
