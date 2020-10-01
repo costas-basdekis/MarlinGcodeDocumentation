@@ -1,3 +1,8 @@
+.terminal-marlin-gcode-documentation {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
 .terminal-documentation-results {
     overflow-y: auto;
     resize: vertical;
