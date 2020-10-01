@@ -13,6 +13,7 @@ class MarlingcodedocumentationPlugin(
             "include_source_marlin": True,
             "include_source_reprap": True,
             "documentation_position": "above_settings",
+            "show_help": True,
         }
 
     def get_assets(self):

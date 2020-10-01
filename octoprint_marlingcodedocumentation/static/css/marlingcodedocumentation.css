@@ -61,3 +61,7 @@
 .terminal-documentation-source.terminal-documentation-source-reprap:after {
     background-image: url(/plugin/marlingcodedocumentation/static/img/reprap.ico);
 }
+
+.themeify .alert.alert-info .close {
+    color: #000000;
+}

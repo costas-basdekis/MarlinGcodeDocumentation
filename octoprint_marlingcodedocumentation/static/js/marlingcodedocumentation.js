@@ -51,14 +51,17 @@ $(function() {
         self.mySettingsLoaded = ko.observable(false);
         self.includeSourceMarlin = ko.observable(true);
         self.includeSourceRepRap = ko.observable(true);
+        self.showHelp = ko.observable(true);
         self.localSettingsUpdated = ko.computed(() => {
             const includeSourceMarlin = self.includeSourceMarlin();
             const includeSourceRepRap = self.includeSourceRepRap();
+            const showHelp = self.showHelp();
             return {
                 "source": "local",
                 "values": {
                     includeSourceMarlin,
                     includeSourceRepRap,
+                    showHelp,
                 },
             };
         });
@@ -68,11 +71,13 @@ $(function() {
             }
             const includeSourceMarlin = self.mySettings.include_source_marlin();
             const includeSourceRepRap = self.mySettings.include_source_reprap();
+            const showHelp = self.mySettings.show_help();
             return {
                 "source": "central",
                 "values": {
                     includeSourceMarlin,
                     includeSourceRepRap,
+                    showHelp,
                 },
             };
         });
@@ -89,10 +94,12 @@ $(function() {
             const observablesFromLocal = {
                 includeSourceMarlin: self.includeSourceMarlin,
                 includeSourceRepRap: self.includeSourceRepRap,
+                showHelp: self.showHelp,
             };
             const observablesFromCentral = {
                 includeSourceMarlin: self.mySettings.include_source_marlin,
                 includeSourceRepRap: self.mySettings.include_source_reprap,
+                showHelp: self.mySettings.show_help,
             };
             const sourceObservables =
                 source === 'local'
@@ -128,12 +135,21 @@ $(function() {
         self.localSettingsUpdated.subscribe(self.onSettingsUpdated);
         self.centralSettingsUpdated.subscribe(self.onSettingsUpdated);
 
+        self.onHelpClose = () => {
+            self.showHelp(false);
+        };
+        $(document)
+            .on("close", "#terminal-marlin-gcode-documentation-help", self.onHelpClose);
+
         self.loadSettings = function() {
             self.mySettings = self.settingsViewModel.settings.plugins.marlingcodedocumentation;
             self.mySettingsLoaded(true);
             self.includeSourceMarlin(self.mySettings.include_source_marlin());
             self.includeSourceRepRap(self.mySettings.include_source_reprap());
+            self.showHelp(self.mySettings.show_help());
         };
+
+        $("#terminal-marlin-gcode-documentation .alert").alert();
 
         self.onBeforeBinding = function() {
             self.loadSettings();
