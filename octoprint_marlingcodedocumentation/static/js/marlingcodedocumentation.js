@@ -43,27 +43,80 @@ $(function() {
         });
 
         self.mySettings = null;
+        self.mySettingsLoaded = ko.observable(false);
         self.includeSourceMarlin = ko.observable(true);
         self.includeSourceRepRap = ko.observable(true);
-        self.afterUpdatingSettingsLocally = ko.computed(() => {
+        self.localSettingsUpdated = ko.computed(() => {
             const includeSourceMarlin = self.includeSourceMarlin();
             const includeSourceRepRap = self.includeSourceRepRap();
-            if (self.mySettings) {
-                self.mySettings.include_source_marlin(includeSourceMarlin);
-                self.mySettings.include_source_reprap(includeSourceRepRap);
-            }
-            OctoPrint.settings.save({
-                plugins: {
-                    marlingcodedocumentation: {
-                        include_source_marlin: includeSourceMarlin,
-                        include_source_reprap: includeSourceRepRap,
-                    },
+            return {
+                "source": "local",
+                "values": {
+                    includeSourceMarlin,
+                    includeSourceRepRap,
                 },
-            });
+            };
         });
+        self.centralSettingsUpdated = ko.computed(() => {
+            if (!self.mySettingsLoaded()) {
+                return null;
+            }
+            const includeSourceMarlin = self.mySettings.include_source_marlin();
+            const includeSourceRepRap = self.mySettings.include_source_reprap();
+            return {
+                "source": "central",
+                "values": {
+                    includeSourceMarlin,
+                    includeSourceRepRap,
+                },
+            };
+        });
+        self.onSettingsUpdated = message => {
+            if (!message) {
+                return;
+            }
+            const source = message.source;
+            const target = self.onSettingsUpdated.opposite[source];
+            const ignore = self.onSettingsUpdated.ignore[source];
+            if (ignore) {
+                return;
+            }
+            const observablesFromLocal = {
+                includeSourceMarlin: self.includeSourceMarlin,
+                includeSourceRepRap: self.includeSourceRepRap,
+            };
+            const observablesFromCentral = {
+                includeSourceMarlin: self.mySettings.include_source_marlin,
+                includeSourceRepRap: self.mySettings.include_source_reprap,
+            };
+            const sourceObservables =
+                source === 'local'
+                    ? observablesFromLocal : observablesFromCentral;
+            const targetObservables =
+                source === 'local'
+                    ? observablesFromCentral : observablesFromLocal;
+            const sourceData = Object.fromEntries(
+                Object.entries(sourceObservables).map(
+                    ([key, observable]) => [key, observable()]));
+            const targetData = Object.fromEntries(
+                Object.entries(targetObservables).map(
+                    ([key, observable]) => [key, observable()]));
+            self.onSettingsUpdated.ignore[target] = true;
+            for (const key of Object.keys(sourceData)) {
+                if (targetData[key] !== sourceData[key]) {
+                    targetObservables[key](sourceData[key]);
+                }
+            }
+            self.onSettingsUpdated.ignore[target] = false;
+        };
+        self.onSettingsUpdated.ignore = {local: false, central: false};
+        self.onSettingsUpdated.opposite = {local: 'central', central: 'local'};
+        self.localSettingsUpdated.subscribe(self.onSettingsUpdated);
+        self.centralSettingsUpdated.subscribe(self.onSettingsUpdated);
 
         self.loadSettings = function() {
             self.mySettings = self.settingsViewModel.settings.plugins.marlingcodedocumentation;
+            self.mySettingsLoaded(true);
             self.includeSourceMarlin(self.mySettings.include_source_marlin());
             self.includeSourceRepRap(self.mySettings.include_source_reprap());
         };
