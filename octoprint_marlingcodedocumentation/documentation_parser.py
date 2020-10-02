@@ -17,13 +17,24 @@ class DocumentationUpdater(object):
                 os.path.dirname(__file__), "static", "js", "all_codes.js")
         marlin_gcodes = MarlinGcodeDocumentationParser()\
             .load_and_parse_all_codes(directories['marlin'])
+        self.attach_id_to_docs(marlin_gcodes)
         reprap_gcodes = ReprapGcodeDocumentationParser()\
             .load_and_parse_all_codes(directories['reprap'])
+        self.attach_id_to_docs(reprap_gcodes)
         all_codes = {}
         for codes in [marlin_gcodes, reprap_gcodes]:
             for code, values in codes.items():
                 all_codes.setdefault(code, []).extend(values)
         self.save_codes_to_js(all_codes, js_path)
+
+    def attach_id_to_docs(self, codes):
+        for code in list(codes):
+            codes[code] = [
+                dict(value, **{
+                    "id": f"{value['source']}.{code}[{index}]"
+                })
+                for index, value in enumerate(codes[code])
+            ]
 
     def save_codes_to_js(self, all_codes, js_path):
         with open(js_path, "w") as f:

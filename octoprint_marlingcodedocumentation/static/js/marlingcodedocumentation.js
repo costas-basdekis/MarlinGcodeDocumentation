@@ -11,6 +11,11 @@ $(function() {
         [self.settingsViewModel] = parameters;
 
         self.AllGcodes = window.AllGcodes;
+        self.AllGcodesById = Object.fromEntries(
+            [].concat(...Object.entries(window.AllGcodes).map(
+                ([command, values]) => values.map(
+                    value => [command, value]))).map(
+                        commandAndValue => [commandAndValue[1].id, commandAndValue]));
 
         self.moveTemplateToPosition = () => {
             if (self.mySettings.documentation_position() === "above_settings") {
@@ -294,7 +299,7 @@ $(function() {
 
         self.collapsedCommands = ko.observable([]);
 
-        self.onToggleResultCollapsed = ({id}) => {
+        self.onToggleResultCollapsed = ({docItem: {id}}) => {
             const collapsedCommands = self.collapsedCommands();
             const newCollapsedCommands = collapsedCommands.includes(id)
                 ? collapsedCommands.filter(_id => _id !== id)
@@ -354,7 +359,7 @@ $(function() {
             }
             const docItems = [].concat(...docItemsList.map(
                 ([command, docItems]) => docItems.map(
-                    (docItem, index) => [command, index, docItem])));
+                    docItem => [command, docItem])));
             const collapsedCommands = self.collapsedCommands();
             const include = {
                 Marlin: self.includeSourceMarlin(),
@@ -364,10 +369,9 @@ $(function() {
                 line: commandLine,
                 isEmpty: false,
                 isSearch,
-                docItems: docItems.filter(([command, index, docItem]) => include[docItem.source]).slice(0, 20).map(([command, index, docItem]) => ({
-                    id: `${command}[${index}]`,
+                docItems: docItems.filter(([command, docItem]) => include[docItem.source]).slice(0, 20).map(([command, docItem]) => ({
                     command,
-                    collapsed: collapsedCommands.includes(`${command}[${index}]`),
+                    collapsed: collapsedCommands.includes(docItem.id),
                     iconClass: `terminal-documentation-source-${docItem.source.toLowerCase()}`,
                     linkTitle: `Visit ${docItem.source} documentation`,
                     docItem: {
