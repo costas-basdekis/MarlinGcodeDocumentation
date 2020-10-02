@@ -75,3 +75,11 @@
     color: gold;
     cursor: pointer;
 }
+
+.terminal-documentation-command.from-favourites {
+    cursor: pointer;
+}
+
+.terminal-documentation-command.from-favourites:hover {
+    text-decoration: underline;
+}

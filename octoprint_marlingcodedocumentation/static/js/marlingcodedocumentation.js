@@ -375,6 +375,19 @@ $(function() {
             self.favouriteCommands(newFavouriteCommands);
         };
 
+        self.onUseFavourite = ({command}) => {
+            if (self.commandLines().length) {
+                if (!confirm("Are you sure you want to replace the current command?")) {
+                    return;
+                }
+            }
+
+            $("#terminal-command")
+                .val(`${command} `)
+                .trigger('input')
+                .focus();
+        };
+
         self.searchResults = ko.computed(() => {
            const commandLines = self.commandLines();
            return commandLines.map((line, index) => ({

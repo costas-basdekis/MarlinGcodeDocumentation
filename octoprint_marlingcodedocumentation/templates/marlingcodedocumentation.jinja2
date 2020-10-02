@@ -37,7 +37,7 @@
                     <!-- ko foreach: favourites() -->
                         <li class="terminal-documentation-result">
                             <a class="pointer fa" data-bind="css: {'fa-plus': collapsed, 'fa-minus': !collapsed}, click: $root.onToggleResultCollapsed"></a>
-                            <span class="terminal-documentation-command" data-bind="text: command"></span>:
+                            <span class="terminal-documentation-command from-favourites" data-bind="text: command, click: $root.onUseFavourite" title="Use command"></span>:
                             <a class="fa fa-external-link-alt terminal-documentation-source" target="_blank" data-bind="css: {[iconClass]: true}, attr: {href: docItem.url, title: linkTitle}"></a>
                             <span class="fa terminal-documentation-favourite" data-bind="click: $root.toggleFavourite, css: {'fa-star': favourite, 'fa-star-o': !favourite}"></span>
                             <span data-bind="text: docItem.title"></span>:
