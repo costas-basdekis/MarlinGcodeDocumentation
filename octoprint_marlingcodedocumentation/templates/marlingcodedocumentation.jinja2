@@ -7,6 +7,11 @@
         </div>
     <!-- /ko -->
     <ul class="nav nav-tabs">
+        <li>
+            <a href="#terminal-marlin-gcode-documentation-tab-favourites" data-toggle="tab">
+                <span class="fa fa-star terminal-documentation-favourite"></span>
+            </a>
+        </li>
         <!-- ko foreach: searchResults() -->
             <li data-bind="css: {active: isActiveInitially}">
                 <a data-toggle="tab" data-bind="text: line, attr: {href: tabLink}"></a>
@@ -14,6 +19,51 @@
         <!-- /ko -->
     </ul>
     <div class="tab-content">
+        <div class="tab-pane" id="terminal-marlin-gcode-documentation-tab-favourites">
+            <div class="btn-group">
+                <button class="btn" data-bind="click: $root.onToggleResultCollapsedNone"><span class=" fa fa-plus"></span>Expand all</button>
+                <button class="btn" data-bind="click: $root.onToggleResultCollapsedAll"><span class=" fa fa-minus"></span>Collapse all</button>
+                <label class="checkbox inline terminal-documentation-source terminal-documentation-source-marlin">
+                    <input type="checkbox" data-bind="checked: $root.includeSourceMarlin">
+                    Include from Marlin
+                </label>
+                <label class="checkbox inline terminal-documentation-source terminal-documentation-source-reprap">
+                    <input type="checkbox" data-bind="checked: $root.includeSourceRepRap">
+                    Include from RepRap
+                </label>
+            </div>
+            <!-- ko if: favourites().length -->
+                <ul class="terminal-documentation-results">
+                    <!-- ko foreach: favourites() -->
+                        <li class="terminal-documentation-result">
+                            <a class="pointer fa" data-bind="css: {'fa-plus': collapsed, 'fa-minus': !collapsed}, click: $root.onToggleResultCollapsed"></a>
+                            <span class="terminal-documentation-command" data-bind="text: command"></span>:
+                            <a class="fa fa-external-link-alt terminal-documentation-source" target="_blank" data-bind="css: {[iconClass]: true}, attr: {href: docItem.url, title: linkTitle}"></a>
+                            <span class="fa terminal-documentation-favourite" data-bind="click: $root.toggleFavourite, css: {'fa-star': favourite, 'fa-star-o': !favourite}"></span>
+                            <span data-bind="text: docItem.title"></span>:
+                            <span data-bind="text: docItem.brief"></span>
+                            <!-- ko if: !collapsed -->
+                                <ul class="terminal-documentation-result-parameters" data-bind="foreach: docItem.parameters">
+                                    <li
+                                            class="terminal-documentation-result-parameter"
+                                            data-bind="css: {required: !optional, missing: !hasValues}"
+                                    >
+                                        <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
+                                        <pre class="terminal-documentation-parameter-value" data-bind="text: values.join(', ')"></pre>
+                                        [<span class="terminal-documentation-parameter-description" data-bind="text: description"></span>]:
+                                    </li>
+                                </ul>
+                            <!-- /ko -->
+                        </li>
+                    <!-- /ko -->
+                </ul>
+            <!-- /ko --><!-- ko ifnot: favourites().length -->
+                <div id="terminal-marlin-gcode-documentation-help" class="alert alert-info">
+                    Favourite a command to see it here (click on the
+                    <span class="fa fa-star-o terminal-documentation-favourite"></span>)
+                </div>
+            <!-- /ko -->
+        </div>
         <!-- ko foreach: searchResults() -->
             <div class="tab-pane" data-bind="attr: {id: tabId}, css: {active: isActiveInitially}">
                 <div class="btn-group">
@@ -37,6 +87,7 @@
                                 <a class="pointer fa" data-bind="css: {'fa-plus': collapsed, 'fa-minus': !collapsed}, click: $root.onToggleResultCollapsed"></a>
                                 <span class="terminal-documentation-command" data-bind="text: command"></span>:
                                 <a class="fa fa-external-link-alt terminal-documentation-source" target="_blank" data-bind="css: {[iconClass]: true}, attr: {href: docItem.url, title: linkTitle}"></a>
+                                <span class="fa terminal-documentation-favourite" data-bind="click: $root.toggleFavourite, css: {'fa-star': favourite, 'fa-star-o': !favourite}"></span>
                                 <span data-bind="text: docItem.title"></span>:
                                 <span data-bind="text: docItem.brief"></span>
                                 <!-- ko if: !collapsed -->

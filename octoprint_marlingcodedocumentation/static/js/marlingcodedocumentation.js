@@ -43,8 +43,8 @@ $(function() {
                 self.commandLines(newCommandLines);
             }
         });
-
         self.activeCommandLineNumber = ko.observable(0).extend({ rateLimit: 500 });
+        self.activeCommandLineNumber = ko.observable(-1).extend({ rateLimit: 500 });
         $(document).on("keyup click focus", "#terminal-command", ({target: {value, selectionStart}}) => {
             const lineNumber = value.slice(0, selectionStart).split(/\n/g).length - 1;
             if (self.activeCommandLineNumber() !== lineNumber) {
@@ -317,6 +317,46 @@ $(function() {
             self.collapsedCommands([]);
         };
 
+        self.favouriteCommands = ko.observable([]);
+        self.favourites = ko.computed(() => {
+            const parsedParameters = {};
+            const collapsedCommands = self.collapsedCommands();
+            const favouriteCommands = self.favouriteCommands();
+            const visibleSources = [
+                ['Marlin', self.includeSourceMarlin()],
+                ['RepRap', self.includeSourceRepRap()],
+            ].filter(([source, show]) => show).map(([source]) => source);
+            return docItemsList = favouriteCommands
+                .map(id => self.AllGcodesById[id])
+                .map(([command, docItem]) => ({
+                    command,
+                    collapsed: collapsedCommands.includes(docItem.id),
+                    iconClass: `terminal-documentation-source-${docItem.source.toLowerCase()}`,
+                    linkTitle: `Visit ${docItem.source} documentation`,
+                    favourite: favouriteCommands.includes(docItem.id),
+                    docItem: {
+                        ...docItem,
+                        parameters: docItem.parameters.map(parameter => ({
+                            ...parameter,
+                            optional: !!parameter.optional,
+                            hasValues: !!parsedParameters[parameter.tag],
+                            values: parsedParameters[parameter.tag] || [' '],
+                            description: parameter.description !== undefined ? parameter.description : '',
+                        })),
+                    },
+                }))
+                .filter(({docItem: {source}}) => visibleSources.includes(source));
+        });
+
+        self.toggleFavourite = ({docItem: {id}}) => {
+            const oldFavouriteCommands = self.favouriteCommands();
+            const newFavouriteCommands =
+                oldFavouriteCommands.includes(id)
+                    ? oldFavouriteCommands.filter(_id => _id !== id)
+                    : oldFavouriteCommands.concat(id).sort();
+            self.favouriteCommands(newFavouriteCommands);
+        };
+
         self.searchResults = ko.computed(() => {
            const commandLines = self.commandLines();
            const activeCommandLineNumber = self.activeCommandLineNumber();
@@ -361,6 +401,7 @@ $(function() {
                 ([command, docItems]) => docItems.map(
                     docItem => [command, docItem])));
             const collapsedCommands = self.collapsedCommands();
+            const favouriteCommands = self.favouriteCommands();
             const include = {
                 Marlin: self.includeSourceMarlin(),
                 RepRap: self.includeSourceRepRap(),
@@ -374,6 +415,7 @@ $(function() {
                     collapsed: collapsedCommands.includes(docItem.id),
                     iconClass: `terminal-documentation-source-${docItem.source.toLowerCase()}`,
                     linkTitle: `Visit ${docItem.source} documentation`,
+                    favourite: favouriteCommands.includes(docItem.id),
                     docItem: {
                         ...docItem,
                         parameters: docItem.parameters.map(parameter => ({

@@ -70,3 +70,8 @@
 .themeify .alert.alert-info .close {
     color: #000000;
 }
+
+.terminal-documentation-favourite {
+    color: gold;
+    cursor: pointer;
+}
