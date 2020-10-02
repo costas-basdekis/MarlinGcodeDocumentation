@@ -63,6 +63,11 @@ $(function() {
             }
         });
 
+        $(document).on("click", "#terminal-output span.sent", ({target: {textContent}}) => {
+            self.commandLines(self.commandLines().concat([textContent]));
+            self.activeCommandLineNumber(self.commandLines().length - 1);
+        });
+
         self.mySettings = null;
         self.mySettingsLoaded = ko.observable(false);
         self.includeSourceMarlin = ko.observable(true);
