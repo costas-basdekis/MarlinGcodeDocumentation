@@ -7,19 +7,19 @@
         </div>
     <!-- /ko -->
     <ul class="nav nav-tabs">
-        <li>
-            <a href="#terminal-marlin-gcode-documentation-tab-favourites" data-toggle="tab">
+        <li data-bind="css: {active: activeCommandLineNumber() < 0}">
+            <a href="#terminal-marlin-gcode-documentation-tab-favourites" data-toggle="tab" data-tab-index="-1">
                 <span class="fa fa-star terminal-documentation-favourite"></span>
             </a>
         </li>
         <!-- ko foreach: searchResults() -->
-            <li data-bind="css: {active: isActiveInitially}">
-                <a data-toggle="tab" data-bind="text: line, attr: {href: tabLink}"></a>
+            <li data-bind="css: {active: $root.activeCommandLineNumber() === $index()}">
+                <a data-toggle="tab" data-bind="text: line, attr: {href: tabLink, 'data-tab-index': $index()}"></a>
             </li>
         <!-- /ko -->
     </ul>
     <div class="tab-content">
-        <div class="tab-pane" id="terminal-marlin-gcode-documentation-tab-favourites">
+        <div class="tab-pane" id="terminal-marlin-gcode-documentation-tab-favourites" data-bind="css: {active: activeCommandLineNumber() < 0}">
             <div class="btn-group">
                 <button class="btn" data-bind="click: $root.onToggleResultCollapsedNone"><span class=" fa fa-plus"></span>Expand all</button>
                 <button class="btn" data-bind="click: $root.onToggleResultCollapsedAll"><span class=" fa fa-minus"></span>Collapse all</button>
@@ -65,7 +65,7 @@
             <!-- /ko -->
         </div>
         <!-- ko foreach: searchResults() -->
-            <div class="tab-pane" data-bind="attr: {id: tabId}, css: {active: isActiveInitially}">
+            <div class="tab-pane" data-bind="attr: {id: tabId}, css: {active: $root.activeCommandLineNumber() === $index()}">
                 <div class="btn-group">
                     <!-- ko if: docItems.length -->
                         <button class="btn" data-bind="click: $root.onToggleResultCollapsedNone"><span class=" fa fa-plus"></span>Expand all</button>

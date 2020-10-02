@@ -46,9 +46,20 @@ $(function() {
         self.activeCommandLineNumber = ko.observable(0).extend({ rateLimit: 500 });
         self.activeCommandLineNumber = ko.observable(-1).extend({ rateLimit: 500 });
         $(document).on("keyup click focus", "#terminal-command", ({target: {value, selectionStart}}) => {
-            const lineNumber = value.slice(0, selectionStart).split(/\n/g).length - 1;
+            let lineNumber = value
+                .slice(0, selectionStart)
+                .trim()
+                .split(/\s*\n\s*/g)
+                .filter(line => line)
+                .length - 1;
             if (self.activeCommandLineNumber() !== lineNumber) {
                 self.activeCommandLineNumber(lineNumber);
+            }
+        });
+        $(document).on("shown", "#terminal-marlin-gcode-documentation [data-toggle='tab']", ({target}) => {
+            const newTabIndex = parseInt(target.dataset.tabIndex);
+            if (self.activeCommandLineNumber() !== newTabIndex) {
+                self.activeCommandLineNumber(newTabIndex);
             }
         });
 
@@ -359,12 +370,10 @@ $(function() {
 
         self.searchResults = ko.computed(() => {
            const commandLines = self.commandLines();
-           const activeCommandLineNumber = self.activeCommandLineNumber();
            return commandLines.map((line, index) => ({
                ...self.getSearchResult(line),
                tabId: `terminal-marlin-gcode-documentation-tab-${index}`,
                tabLink: `#terminal-marlin-gcode-documentation-tab-${index}`,
-               isActiveInitially: index === activeCommandLineNumber,
            }));
         });
 
