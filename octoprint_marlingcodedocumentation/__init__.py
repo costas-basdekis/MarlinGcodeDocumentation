@@ -14,6 +14,7 @@ class MarlingcodedocumentationPlugin(
             "include_source_reprap": True,
             "documentation_position": "above_settings",
             "show_help": True,
+            "favourite_commands": [],
         }
 
     def get_assets(self):

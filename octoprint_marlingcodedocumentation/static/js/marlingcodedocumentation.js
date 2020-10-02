@@ -68,16 +68,19 @@ $(function() {
         self.includeSourceMarlin = ko.observable(true);
         self.includeSourceRepRap = ko.observable(true);
         self.showHelp = ko.observable(true);
+        self.favouriteCommands = ko.observable([]);
         self.localSettingsUpdated = ko.computed(() => {
             const includeSourceMarlin = self.includeSourceMarlin();
             const includeSourceRepRap = self.includeSourceRepRap();
             const showHelp = self.showHelp();
+            const favouriteCommands = self.favouriteCommands();
             return {
                 "source": "local",
                 "values": {
                     includeSourceMarlin,
                     includeSourceRepRap,
                     showHelp,
+                    favouriteCommands,
                 },
             };
         });
@@ -88,12 +91,14 @@ $(function() {
             const includeSourceMarlin = self.mySettings.include_source_marlin();
             const includeSourceRepRap = self.mySettings.include_source_reprap();
             const showHelp = self.mySettings.show_help();
+            const favouriteCommands = self.mySettings.favourite_commands();
             return {
                 "source": "central",
                 "values": {
                     includeSourceMarlin,
                     includeSourceRepRap,
                     showHelp,
+                    favouriteCommands,
                 },
             };
         });
@@ -111,16 +116,19 @@ $(function() {
                 includeSourceMarlin: self.includeSourceMarlin,
                 includeSourceRepRap: self.includeSourceRepRap,
                 showHelp: self.showHelp,
+                favouriteCommands: self.favouriteCommands,
             };
             const observablesFromCentral = {
                 includeSourceMarlin: self.mySettings.include_source_marlin,
                 includeSourceRepRap: self.mySettings.include_source_reprap,
                 showHelp: self.mySettings.show_help,
+                favouriteCommands: self.mySettings.favourite_commands,
             };
             const settingKeys = {
                 includeSourceMarlin: "include_source_marlin",
                 includeSourceRepRap: "include_source_reprap",
                 showHelp: "show_help",
+                favouriteCommands: "favourite_commands",
             };
             const sourceObservables =
                 source === 'local'
@@ -328,7 +336,6 @@ $(function() {
             self.collapsedCommands([]);
         };
 
-        self.favouriteCommands = ko.observable([]);
         self.favourites = ko.computed(() => {
             const parsedParameters = {};
             const collapsedCommands = self.collapsedCommands();
