@@ -127,12 +127,14 @@ $(function() {
                 }
             }
             self.onSettingsUpdated.ignore[target] = false;
-            if (Object.keys(updates).length) {
-                OctoPrint.settings.save({
-                    plugins: {
-                        marlingcodedocumentation: updates,
-                    },
-                });
+            if (source === 'local') {
+                if (Object.keys(updates).length) {
+                    OctoPrint.settings.save({
+                        plugins: {
+                            marlingcodedocumentation: updates,
+                        },
+                    });
+                }
             }
         };
         self.onSettingsUpdated.ignore = {local: false, central: false};
