@@ -262,21 +262,36 @@ class DocumentationService {
         this.gcodeParser = new GcodeParser();
     }
 
-
     findDocs(searchString) {
         const parts = searchString.toLowerCase().trim().split(/\s+/g);
-        const commandsAndDocs = Object.entries(this.allGcodes)
-            .filter(([command, doc]) =>
-                parts.some(part =>
-                    command.toLowerCase().includes(part))
-                || doc.some(docItem =>
-                    parts.some(part =>
-                        docItem.brief.toLowerCase().includes(part)
-                        || docItem.title.toLowerCase().includes(part)
-                    )));
-        return commandsAndDocs.map(([command]) => command).sort();
+        const idLists = Object.entries(this.allGcodes)
+            .map(([command, doc]) => {
+                const commandLowerCase = command.toLowerCase();
+                if (parts.some(part => commandLowerCase.includes(part))) {
+                    return doc.map(docItem => docItem.id);
+                }
+                const ids = doc
+                    .map(docItem => {
+                        const title = docItem.title.toLowerCase();
+                        if (parts.some(part => title.includes(part))) {
+                            return docItem.id;
+                        }
+                        const brief = docItem.brief.toLowerCase();
+                        if (parts.some(part => brief.includes(part))) {
+                            return docItem.id;
+                        }
+                        return null;
+                    })
+                    .filter(id => id);
+                if (!ids.length) {
+                    return null;
+                }
+                return ids;
+            })
+            .filter(ids => ids);
+        return [].concat(...idLists)
+            .map(id => this.allGcodesById[id]);
     }
-
 
     parseParameters(line, parsedParameters = {}) {
         for (const [tag, value] of line.words.slice(1)) {
@@ -299,25 +314,23 @@ class DocumentationService {
             };
         }
 
-        let docItemsList;
+        let docItems;
         const parsedParameters = {};
         const isSearch = commandLine.startsWith('?');
         if (isSearch) {
-            const commands = this.findDocs(commandLine.slice(1));
-            docItemsList = commands.map(
-                command => [command, this.allGcodes[command]]);
+            docItems = this.findDocs(commandLine.slice(1));
         } else {
             const line = this.gcodeParser.parseLine(commandLine);
             const command = line.words.length
                 ? line.words[0].join('') : null;
-            docItemsList = this.allGcodes[command]
+            const docItemsList = this.allGcodes[command]
                 ? [[command, this.allGcodes[command]]]  : [];
+            docItems = [].concat(...docItemsList.map(
+                ([command, docItems]) => docItems.map(
+                    docItem => [command, docItem])));
             this.parseParameters(line, parsedParameters);
         }
 
-        const docItems = [].concat(...docItemsList.map(
-            ([command, docItems]) => docItems.map(
-                docItem => [command, docItem])));
         const include = {
             Marlin,
             RepRap,
