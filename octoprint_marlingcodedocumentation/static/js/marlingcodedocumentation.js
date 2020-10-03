@@ -4,18 +4,358 @@
  * Author: Costas Basdekis
  * License: AGPLv3
  */
+
+// Adapted from https://github.com/cncjs/gcode-parser/blob/master/src/index.js
+class GcodeParser {
+    static re = /(%.*)|({.*)|((?:\$\$)|(?:\$[a-zA-Z0-9#]*))|([a-zA-Z][0-9\+\-\.]+)|(\*[0-9]+)/igm;
+
+    parseLine(line, options) {
+        options = options || {};
+        options.flatten = !!options.flatten;
+        options.noParseLine = !!options.noParseLine;
+
+        const result = {
+            line: line
+        };
+
+        if (options.noParseLine) {
+            return result;
+        }
+
+        result.words = [];
+
+        let ln; // Line number
+        let cs; // Checksum
+        const words = this.stripComments(line).match(this.constructor.re) || [];
+
+        for (let i = 0; i < words.length; ++i) {
+            const word = words[i];
+            const letter = word[0].toUpperCase();
+            const argument = word.slice(1);
+
+            // Parse % commands for bCNC and CNCjs
+            // - %wait Wait until the planner queue is empty
+            if (letter === '%') {
+                result.cmds = (result.cmds || []).concat(line.trim());
+                continue;
+            }
+
+            // Parse JSON commands for TinyG and g2core
+            if (letter === '{') {
+                result.cmds = (result.cmds || []).concat(line.trim());
+                continue;
+            }
+
+            // Parse $ commands for Grbl
+            // - $C Check gcode mode
+            // - $H Run homing cycle
+            if (letter === '$') {
+                result.cmds = (result.cmds || []).concat(`${letter}${argument}`);
+                continue;
+            }
+
+            // N: Line number
+            if (letter === 'N' && typeof ln === 'undefined') {
+                // Line (block) number in program
+                ln = Number(argument);
+                continue;
+            }
+
+            // *: Checksum
+            if (letter === '*' && typeof cs === 'undefined') {
+                cs = Number(argument);
+                continue;
+            }
+
+            let value = Number(argument);
+            if (Number.isNaN(value)) {
+                value = argument;
+            }
+
+            if (options.flatten) {
+                result.words.push(letter + value);
+            } else {
+                result.words.push([letter, value]);
+            }
+        }
+
+        // Line number
+        (typeof (ln) !== 'undefined') && (result.ln = ln);
+
+        // Checksum
+        (typeof (cs) !== 'undefined') && (result.cs = cs);
+        if (result.cs && (this.computeChecksum(line) !== result.cs)) {
+            result.err = true; // checksum failed
+        }
+
+        return result;
+    }
+
+    // http://reprap.org/wiki/G-code#Special_fields
+    // The checksum "cs" for a GCode string "cmd" (including its line number) is computed
+    // by exor-ing the bytes in the string up to and not including the * character.
+    computeChecksum(s) {
+        s = s || '';
+        if (s.lastIndexOf('*') >= 0) {
+            s = s.substr(0, s.lastIndexOf('*'));
+        }
+
+        let cs = 0;
+        for (let i = 0; i < s.length; ++i) {
+            const c = s[i].charCodeAt(0);
+            cs ^= c;
+        }
+        return cs;
+    }
+
+    static re1 = new RegExp(/\s*\([^\)]*\)/g); // Remove anything inside the parentheses
+    static re2 = new RegExp(/\s*;.*/g); // Remove anything after a semi-colon to the end of the line, including preceding spaces
+    static re3 = new RegExp(/\s+/g);
+
+    // http://linuxcnc.org/docs/html/gcode/overview.html#gcode:comments
+    // Comments can be embedded in a line using parentheses () or for the remainder of a lineusing a semi-colon. The semi-colon is not treated as the start of a comment when enclosed in parentheses.
+    stripComments (line) {
+        return line
+            .replace(this.constructor.re1, '')
+            .replace(this.constructor.re2, '')
+            .replace(this.constructor.re3, '');
+    }
+}
+
+// Sync settings edited from the main page, and settings edited from the
+// settings page
+class SettingsSync {
+    static LOCAL = 'local';
+    static CENTRAL = 'central';
+    static OPPOSITE_SOURCE = {
+        [this.LOCAL]: this.CENTRAL,
+        [this.CENTRAL]: this.LOCAL,
+    };
+    static PLUGIN_NAME = 'marlingcodedocumentation';
+
+    constructor(nameMapping, defaults, view) {
+        this.nameMapping = nameMapping;
+
+        this.pluginSettings = null;
+        this.pluginSettingsLoaded = ko.observable(false);
+
+        this.localSettings = this.createLocalSettings(defaults);
+        Object.assign(view, this.localSettings);
+        this.centralSettings = null;
+
+        this.localSettingsUpdated = ko.computed(() => {
+            return this.createSettingsMessage(
+                this.constructor.LOCAL, this.localSettings);
+        });
+        this.centralSettingsUpdated = ko.computed(() => {
+            if (!this.pluginSettingsLoaded()) {
+                return null;
+            }
+            return this.createSettingsMessage(
+                this.constructor.CENTRAL, this.centralSettings);
+        });
+        this.ignoreSource = {
+            [this.constructor.LOCAL]: false,
+            [this.constructor.CENTRAL]: false,
+        };
+        this.localSettingsUpdated.subscribe(this.onSettingsUpdated.bind(this));
+        this.centralSettingsUpdated.subscribe(this.onSettingsUpdated.bind(this));
+    }
+
+    onPluginSettingsLoaded(pluginSettings) {
+        if (this.centralSettings) {
+            return;
+        }
+        this.pluginSettings = pluginSettings;
+        this.centralSettings = this.createCentralSettings();
+        this.pluginSettingsLoaded(true);
+    }
+
+    createSettingsMessage(source, observablesMapping) {
+        return {
+            source,
+            values: this.getObservableValues(observablesMapping),
+        };
+    }
+
+    getObservableValues(observablesMapping) {
+        return Object.fromEntries(
+            Object.entries(observablesMapping).map(
+                ([name, observable]) => [name, observable()]));
+    }
+
+    createLocalSettings(defaults) {
+        return Object.fromEntries(
+            Object.keys(this.nameMapping).map(
+                localName =>
+                    [localName, ko.observable(defaults[localName])]));
+    }
+
+    createCentralSettings() {
+        return Object.fromEntries(
+            Object.entries(this.nameMapping).map(
+                ([localName, centralName]) =>
+                    [localName, this.pluginSettings[centralName]]));
+    }
+
+    onSettingsUpdated(message) {
+        if (!message) {
+            return;
+        }
+
+        const source = message.source;
+        const isLocal = source === this.constructor.LOCAL;
+        const isCentral = !isLocal;
+        const target = this.constructor.OPPOSITE_SOURCE[source];
+        if (this.ignoreSource[source]) {
+            return;
+        }
+
+        const [sourceObservables, targetObservables] =
+            isLocal
+                ? [this.localSettings, this.centralSettings]
+                : [this.centralSettings, this.localSettings];
+        const sourceData = this.getObservableValues(sourceObservables);
+        const targetData = this.getObservableValues(targetObservables);
+        const updates = {};
+        this.ignoreSource[target] = true;
+        for (const key of Object.keys(sourceData)) {
+            if (targetData[key] === sourceData[key]) {
+                continue;
+            }
+            targetObservables[key](sourceData[key]);
+            updates[this.nameMapping[key]] = sourceData[key];
+        }
+        this.ignoreSource[target] = false;
+        if (isLocal) {
+            if (Object.keys(updates).length) {
+                OctoPrint.settings.save({
+                    plugins: {
+                        marlingcodedocumentation: updates,
+                    },
+                });
+            }
+        }
+    }
+
+    saveUpdatedSettings(updates) {
+        if (!Object.keys(updates).length) {
+            return;
+        }
+        OctoPrint.settings.save({
+            plugins: {
+                [this.constructor.PLUGIN_NAME]: updates,
+            },
+        });
+    }
+}
+
+class DocumentationService {
+    constructor(allGcodes = window.AllGcodes) {
+        this.allGcodes = allGcodes;
+        this.allGcodesById = Object.fromEntries(
+            [].concat(...Object.entries(this.allGcodes).map(
+                ([command, values]) => values.map(
+                    value => [command, value]))).map(
+                        commandAndValue => [commandAndValue[1].id, commandAndValue]));
+
+        this.gcodeParser = new GcodeParser();
+    }
+
+
+    findDocs(searchString) {
+        const parts = searchString.toLowerCase().trim().split(/\s+/g);
+        const commandsAndDocs = Object.entries(this.allGcodes)
+            .filter(([command, doc]) =>
+                parts.some(part =>
+                    command.toLowerCase().includes(part))
+                || doc.some(docItem =>
+                    parts.some(part =>
+                        docItem.brief.toLowerCase().includes(part)
+                        || docItem.title.toLowerCase().includes(part)
+                    )));
+        return commandsAndDocs.map(([command]) => command).sort();
+    }
+
+
+    parseParameters(line, parsedParameters = {}) {
+        for (const [tag, value] of line.words.slice(1)) {
+            parsedParameters[tag] = parsedParameters[tag] || [];
+            parsedParameters[tag].push(value);
+        }
+
+        return parsedParameters;
+    }
+
+    getSearchResult(commandLine, {maxResultCount = 20, include: {Marlin = true, RepRap = true} = {}} = {}) {
+        commandLine = commandLine.trim();
+        if (!commandLine || commandLine === "?") {
+            return {
+                line: commandLine,
+                isEmpty: true,
+                isSearch: false,
+                docItems: [],
+                extraResultsCount: 0,
+            };
+        }
+
+        let docItemsList;
+        const parsedParameters = {};
+        const isSearch = commandLine.startsWith('?');
+        if (isSearch) {
+            const commands = this.findDocs(commandLine.slice(1));
+            docItemsList = commands.map(
+                command => [command, this.allGcodes[command]]);
+        } else {
+            const line = this.gcodeParser.parseLine(commandLine);
+            const command = line.words.length
+                ? line.words[0].join('') : null;
+            docItemsList = this.allGcodes[command]
+                ? [[command, this.allGcodes[command]]]  : [];
+            this.parseParameters(line, parsedParameters);
+        }
+
+        const docItems = [].concat(...docItemsList.map(
+            ([command, docItems]) => docItems.map(
+                docItem => [command, docItem])));
+        const include = {
+            Marlin,
+            RepRap,
+        };
+        return {
+            line: commandLine,
+            isEmpty: false,
+            isSearch,
+            docItems: docItems
+                .filter(([, docItem]) => include[docItem.source])
+                .slice(0, maxResultCount)
+                .map(([command, docItem]) => ({
+                    command,
+                    docItem: {
+                        ...docItem,
+                        parameters: docItem.parameters.map(parameter => ({
+                            ...parameter,
+                            optional: !!parameter.optional,
+                            hasValues: !!parsedParameters[parameter.tag],
+                            values: parsedParameters[parameter.tag] || [' '],
+                            description: parameter.description !== undefined
+                                ? parameter.description : '',
+                        })),
+                    },
+                })),
+            extraResultsCount: docItems.length > maxResultCount
+                ? docItems.length - maxResultCount : 0,
+        };
+    }
+}
+
 $(function() {
     function MarlingcodedocumentationViewModel(parameters) {
         const self = this;
 
         [self.settingsViewModel] = parameters;
 
-        self.AllGcodes = window.AllGcodes;
-        self.AllGcodesById = Object.fromEntries(
-            [].concat(...Object.entries(window.AllGcodes).map(
-                ([command, values]) => values.map(
-                    value => [command, value]))).map(
-                        commandAndValue => [commandAndValue[1].id, commandAndValue]));
+        self.gcodeParser = new GcodeParser();
 
         self.moveTemplateToPosition = () => {
             if (self.mySettings.documentation_position() === "above_settings") {
@@ -68,108 +408,18 @@ $(function() {
             self.activeCommandLineNumber(self.commandLines().length - 1);
         });
 
+        self.settingsSync = new SettingsSync({
+            includeSourceMarlin: 'include_source_marlin',
+            includeSourceRepRap: 'include_source_reprap',
+            showHelp: 'show_help',
+            favouriteCommands: 'favourite_commands',
+        }, {
+            includeSourceMarlin: true,
+            includeSourceRepRap: true,
+            showHelp: true,
+            favouriteCommands: [],
+        }, self);
         self.mySettings = null;
-        self.mySettingsLoaded = ko.observable(false);
-        self.includeSourceMarlin = ko.observable(true);
-        self.includeSourceRepRap = ko.observable(true);
-        self.showHelp = ko.observable(true);
-        self.favouriteCommands = ko.observable([]);
-        self.localSettingsUpdated = ko.computed(() => {
-            const includeSourceMarlin = self.includeSourceMarlin();
-            const includeSourceRepRap = self.includeSourceRepRap();
-            const showHelp = self.showHelp();
-            const favouriteCommands = self.favouriteCommands();
-            return {
-                "source": "local",
-                "values": {
-                    includeSourceMarlin,
-                    includeSourceRepRap,
-                    showHelp,
-                    favouriteCommands,
-                },
-            };
-        });
-        self.centralSettingsUpdated = ko.computed(() => {
-            if (!self.mySettingsLoaded()) {
-                return null;
-            }
-            const includeSourceMarlin = self.mySettings.include_source_marlin();
-            const includeSourceRepRap = self.mySettings.include_source_reprap();
-            const showHelp = self.mySettings.show_help();
-            const favouriteCommands = self.mySettings.favourite_commands();
-            return {
-                "source": "central",
-                "values": {
-                    includeSourceMarlin,
-                    includeSourceRepRap,
-                    showHelp,
-                    favouriteCommands,
-                },
-            };
-        });
-        self.onSettingsUpdated = message => {
-            if (!message) {
-                return;
-            }
-            const source = message.source;
-            const target = self.onSettingsUpdated.opposite[source];
-            const ignore = self.onSettingsUpdated.ignore[source];
-            if (ignore) {
-                return;
-            }
-            const observablesFromLocal = {
-                includeSourceMarlin: self.includeSourceMarlin,
-                includeSourceRepRap: self.includeSourceRepRap,
-                showHelp: self.showHelp,
-                favouriteCommands: self.favouriteCommands,
-            };
-            const observablesFromCentral = {
-                includeSourceMarlin: self.mySettings.include_source_marlin,
-                includeSourceRepRap: self.mySettings.include_source_reprap,
-                showHelp: self.mySettings.show_help,
-                favouriteCommands: self.mySettings.favourite_commands,
-            };
-            const settingKeys = {
-                includeSourceMarlin: "include_source_marlin",
-                includeSourceRepRap: "include_source_reprap",
-                showHelp: "show_help",
-                favouriteCommands: "favourite_commands",
-            };
-            const sourceObservables =
-                source === 'local'
-                    ? observablesFromLocal : observablesFromCentral;
-            const targetObservables =
-                source === 'local'
-                    ? observablesFromCentral : observablesFromLocal;
-            const sourceData = Object.fromEntries(
-                Object.entries(sourceObservables).map(
-                    ([key, observable]) => [key, observable()]));
-            const targetData = Object.fromEntries(
-                Object.entries(targetObservables).map(
-                    ([key, observable]) => [key, observable()]));
-            const updates = {};
-            self.onSettingsUpdated.ignore[target] = true;
-            for (const key of Object.keys(sourceData)) {
-                if (targetData[key] !== sourceData[key]) {
-                    targetObservables[key](sourceData[key]);
-                    updates[settingKeys[key]] = sourceData[key];
-                }
-            }
-            self.onSettingsUpdated.ignore[target] = false;
-            if (source === 'local') {
-                if (Object.keys(updates).length) {
-                    OctoPrint.settings.save({
-                        plugins: {
-                            marlingcodedocumentation: updates,
-                        },
-                    });
-                }
-            }
-        };
-        self.onSettingsUpdated.ignore = {local: false, central: false};
-        self.onSettingsUpdated.opposite = {local: 'central', central: 'local'};
-        self.localSettingsUpdated.subscribe(self.onSettingsUpdated);
-        self.centralSettingsUpdated.subscribe(self.onSettingsUpdated);
 
         self.onHelpClose = () => {
             self.showHelp(false);
@@ -179,10 +429,7 @@ $(function() {
 
         self.loadSettings = function() {
             self.mySettings = self.settingsViewModel.settings.plugins.marlingcodedocumentation;
-            self.mySettingsLoaded(true);
-            self.includeSourceMarlin(self.mySettings.include_source_marlin());
-            self.includeSourceRepRap(self.mySettings.include_source_reprap());
-            self.showHelp(self.mySettings.show_help());
+            self.settingsSync.onPluginSettingsLoaded(self.mySettings);
         };
 
         $("#terminal-marlin-gcode-documentation .alert").alert();
@@ -195,131 +442,7 @@ $(function() {
             });
         };
 
-        self.findDocs = searchString => {
-            const parts = searchString.toLowerCase().trim().split(/\s+/g);
-            const commandsAndDocs = Object.entries(self.AllGcodes)
-                .filter(([command, doc]) =>
-                    parts.some(part =>
-                        command.toLowerCase().includes(part))
-                    || doc.some(docItem =>
-                        parts.some(part =>
-                            docItem.brief.toLowerCase().includes(part)
-                            || docItem.title.toLowerCase().includes(part)
-                        )));
-            return commandsAndDocs.map(([command]) => command).sort();
-        };
-
-        // Taken from https://github.com/cncjs/gcode-parser/blob/master/src/index.js
-        // @param {string} line The G-code line
-        self.parseLine = (() => {
-            // http://reprap.org/wiki/G-code#Special_fields
-            // The checksum "cs" for a GCode string "cmd" (including its line number) is computed
-            // by exor-ing the bytes in the string up to and not including the * character.
-            const computeChecksum = (s) => {
-                s = s || '';
-                if (s.lastIndexOf('*') >= 0) {
-                    s = s.substr(0, s.lastIndexOf('*'));
-                }
-
-                let cs = 0;
-                for (let i = 0; i < s.length; ++i) {
-                    const c = s[i].charCodeAt(0);
-                    cs ^= c;
-                }
-                return cs;
-            };
-            // http://linuxcnc.org/docs/html/gcode/overview.html#gcode:comments
-            // Comments can be embedded in a line using parentheses () or for the remainder of a lineusing a semi-colon. The semi-colon is not treated as the start of a comment when enclosed in parentheses.
-            const stripComments = (() => {
-                const re1 = new RegExp(/\s*\([^\)]*\)/g); // Remove anything inside the parentheses
-                const re2 = new RegExp(/\s*;.*/g); // Remove anything after a semi-colon to the end of the line, including preceding spaces
-                const re3 = new RegExp(/\s+/g);
-                return (line => line.replace(re1, '').replace(re2, '').replace(re3, ''));
-            })();
-            const re = /(%.*)|({.*)|((?:\$\$)|(?:\$[a-zA-Z0-9#]*))|([a-zA-Z][0-9\+\-\.]+)|(\*[0-9]+)/igm;
-
-            return (line, options) => {
-                options = options || {};
-                options.flatten = !!options.flatten;
-                options.noParseLine = !!options.noParseLine;
-
-                const result = {
-                    line: line
-                };
-
-                if (options.noParseLine) {
-                    return result;
-                }
-
-                result.words = [];
-
-                let ln; // Line number
-                let cs; // Checksum
-                const words = stripComments(line).match(re) || [];
-
-                for (let i = 0; i < words.length; ++i) {
-                    const word = words[i];
-                    const letter = word[0].toUpperCase();
-                    const argument = word.slice(1);
-
-                    // Parse % commands for bCNC and CNCjs
-                    // - %wait Wait until the planner queue is empty
-                    if (letter === '%') {
-                        result.cmds = (result.cmds || []).concat(line.trim());
-                        continue;
-                    }
-
-                    // Parse JSON commands for TinyG and g2core
-                    if (letter === '{') {
-                        result.cmds = (result.cmds || []).concat(line.trim());
-                        continue;
-                    }
-
-                    // Parse $ commands for Grbl
-                    // - $C Check gcode mode
-                    // - $H Run homing cycle
-                    if (letter === '$') {
-                        result.cmds = (result.cmds || []).concat(`${letter}${argument}`);
-                        continue;
-                    }
-
-                    // N: Line number
-                    if (letter === 'N' && typeof ln === 'undefined') {
-                        // Line (block) number in program
-                        ln = Number(argument);
-                        continue;
-                    }
-
-                    // *: Checksum
-                    if (letter === '*' && typeof cs === 'undefined') {
-                        cs = Number(argument);
-                        continue;
-                    }
-
-                    let value = Number(argument);
-                    if (Number.isNaN(value)) {
-                        value = argument;
-                    }
-
-                    if (options.flatten) {
-                        result.words.push(letter + value);
-                    } else {
-                        result.words.push([letter, value]);
-                    }
-                }
-
-                // Line number
-                (typeof (ln) !== 'undefined') && (result.ln = ln);
-
-                // Checksum
-                (typeof (cs) !== 'undefined') && (result.cs = cs);
-                if (result.cs && (computeChecksum(line) !== result.cs)) {
-                    result.err = true; // checksum failed
-                }
-
-                return result;
-            };
-        })();
+        self.documentationService = new DocumentationService();
 
         self.collapsedCommands = ko.observable([]);
 
@@ -332,9 +455,10 @@ $(function() {
         };
 
         self.onToggleResultCollapsedAll = () => {
-            self.collapsedCommands([].concat(...Object.entries(window.AllGcodes).map(
-                ([command, docItems]) => docItems.map(
-                    (_, index) => `${command}[${index}]`))));
+            self.collapsedCommands([].concat(
+                ...Object.entries(this.documentationService.allGcodes).map(
+                    ([command, docItems]) => docItems.map(
+                        (_, index) => `${command}[${index}]`))));
         };
 
         self.onToggleResultCollapsedNone = ({id}) => {
@@ -350,7 +474,7 @@ $(function() {
                 ['RepRap', self.includeSourceRepRap()],
             ].filter(([source, show]) => show).map(([source]) => source);
             return docItemsList = favouriteCommands
-                .map(id => self.AllGcodesById[id])
+                .map(id => self.documentationService.allGcodesById[id])
                 .map(([command, docItem]) => ({
                     command,
                     collapsed: collapsedCommands.includes(docItem.id),
@@ -403,66 +527,29 @@ $(function() {
         });
 
         self.getSearchResult = commandLine => {
-            commandLine = commandLine.trim();
-            if (!commandLine || commandLine === "?") {
-                return {
-                    line: commandLine,
-                    isEmpty: true,
-                    isSearch: false,
-                    docItems: [],
-                    extraResultsCount: 0,
-                };
+            const result = self.documentationService.getSearchResult(
+                commandLine, {
+                    include: {
+                        Marlin: self.includeSourceMarlin(),
+                        RepRap: self.includeSourceRepRap(),
+                    },
+                },
+            );
+            if (!result.docItems.length) {
+                return result;
             }
-            let docItemsList;
-            const parsedParameters = {};
-            const isSearch = commandLine.startsWith('?');
-            if (isSearch) {
-                const commands = self.findDocs(commandLine.slice(1));
-                docItemsList = commands.map(
-                    command => [command, AllGcodes[command]]);
-            } else {
-                const line = self.parseLine(commandLine);
-                const command = line.words.length
-                    ? line.words[0].join('') : null;
-                docItemsList = AllGcodes[command]
-                    ? [[command, AllGcodes[command]]]  : [];
-                for (const [tag, value] of line.words.slice(1)) {
-                    parsedParameters[tag] = parsedParameters[tag] || [];
-                    parsedParameters[tag].push(value);
-                }
-            }
-            const docItems = [].concat(...docItemsList.map(
-                ([command, docItems]) => docItems.map(
-                    docItem => [command, docItem])));
+
             const collapsedCommands = self.collapsedCommands();
             const favouriteCommands = self.favouriteCommands();
-            const include = {
-                Marlin: self.includeSourceMarlin(),
-                RepRap: self.includeSourceRepRap(),
-            };
-            return {
-                line: commandLine,
-                isEmpty: false,
-                isSearch,
-                docItems: docItems.filter(([command, docItem]) => include[docItem.source]).slice(0, 20).map(([command, docItem]) => ({
-                    command,
-                    collapsed: collapsedCommands.includes(docItem.id),
-                    iconClass: `terminal-documentation-source-${docItem.source.toLowerCase()}`,
-                    linkTitle: `Visit ${docItem.source} documentation`,
-                    favourite: favouriteCommands.includes(docItem.id),
-                    docItem: {
-                        ...docItem,
-                        parameters: docItem.parameters.map(parameter => ({
-                            ...parameter,
-                            optional: !!parameter.optional,
-                            hasValues: !!parsedParameters[parameter.tag],
-                            values: parsedParameters[parameter.tag] || [' '],
-                            description: parameter.description !== undefined ? parameter.description : '',
-                        })),
-                    },
-                })),
-                extraResultsCount: docItems.length > 20 ? docItems.length - 20 : 0,
-            };
+            result.docItems = result.docItems.map(searchItem => ({
+                ...searchItem,
+                collapsed: collapsedCommands.includes(searchItem.docItem.id),
+                iconClass: `terminal-documentation-source-${searchItem.docItem.source.toLowerCase()}`,
+                linkTitle: `Visit ${searchItem.docItem.source} documentation`,
+                favourite: favouriteCommands.includes(searchItem.docItem.id),
+            }));
+
+            return result;
         };
     }
 
