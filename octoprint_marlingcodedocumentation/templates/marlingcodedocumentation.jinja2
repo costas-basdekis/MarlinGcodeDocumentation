@@ -21,40 +21,14 @@
     <div class="tab-content">
         <div class="tab-pane" id="terminal-marlin-gcode-documentation-tab-favourites" data-bind="css: {active: activeCommandLineNumber() < 0}">
             <div class="btn-group">
-                <button class="btn" data-bind="click: $root.onToggleResultCollapsedNone"><span class=" fa fa-plus"></span>Expand all</button>
-                <button class="btn" data-bind="click: $root.onToggleResultCollapsedAll"><span class=" fa fa-minus"></span>Collapse all</button>
-                <label class="checkbox inline terminal-documentation-source terminal-documentation-source-marlin">
-                    <input type="checkbox" data-bind="checked: $root.includeSourceMarlin">
-                    Include from Marlin
-                </label>
-                <label class="checkbox inline terminal-documentation-source terminal-documentation-source-reprap">
-                    <input type="checkbox" data-bind="checked: $root.includeSourceRepRap">
-                    Include from RepRap
-                </label>
+                <!-- ko template: {name: "tmgd-docItemsVisibilityControls", data: {hasItems: !!favourites().length}} -->
+                <!-- /ko -->
             </div>
             <!-- ko if: favourites().length -->
                 <ul class="terminal-documentation-results">
                     <!-- ko foreach: favourites() -->
                         <li class="terminal-documentation-result">
-                            <a class="pointer fa" data-bind="css: {'fa-plus': $root.collapsedCommands().includes(docItem.id), 'fa-minus': !$root.collapsedCommands().includes(docItem.id)}, click: $root.onToggleResultCollapsed"></a>
-                            <span class="terminal-documentation-command" data-bind="text: command, click: $root.onUseFavourite" title="Use command"></span>:
-                            <a class="fa fa-external-link-alt terminal-documentation-source" target="_blank" data-bind="css: {[`terminal-documentation-source-${docItem.source.toLowerCase()}`]: true}, attr: {href: docItem.url, title: `Visit ${docItem.source} documentation`}"></a>
-                            <span class="fa terminal-documentation-favourite" data-bind="click: $root.toggleFavourite, css: {'fa-star': $root.favouriteCommands().includes(docItem.id), 'fa-star-o': !$root.favouriteCommands().includes(docItem.id)}"></span>
-                            <span data-bind="text: docItem.title"></span>:
-                            <span data-bind="text: docItem.brief"></span>
-                            <!-- ko if: !$root.collapsedCommands().includes(docItem.id) -->
-                                <ul class="terminal-documentation-result-parameters">
-                                    <!-- ko foreach: docItem.parameters -->
-                                        <li
-                                                class="terminal-documentation-result-parameter"
-                                                data-bind="css: {required: !optional, missing: true}"
-                                        >
-                                            <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
-                                            <pre class="terminal-documentation-parameter-value"> </pre>
-                                            [<span class="terminal-documentation-parameter-description" data-bind="text: description"></span>]:
-                                        </li>
-                                    <!-- /ko -->
-                                </ul>
+                            <!-- ko template: {name: "tmgd-docItem", data: {...$data, parsedParameters: {}}} -->
                             <!-- /ko -->
                         </li>
                     <!-- /ko -->
@@ -69,44 +43,14 @@
         <!-- ko foreach: searchResults() -->
             <div class="tab-pane" data-bind="attr: {id: `terminal-marlin-gcode-documentation-tab-${$index()}`}, css: {active: $root.activeCommandLineNumber() === $index()}">
                 <div class="btn-group">
-                    <!-- ko if: docItems.length -->
-                        <button class="btn" data-bind="click: $root.onToggleResultCollapsedNone"><span class=" fa fa-plus"></span>Expand all</button>
-                        <button class="btn" data-bind="click: $root.onToggleResultCollapsedAll"><span class=" fa fa-minus"></span>Collapse all</button>
+                    <!-- ko template: {name: "tmgd-docItemsVisibilityControls", data: {hasItems: !!docItems.length}} -->
                     <!-- /ko -->
-                    <label class="checkbox inline terminal-documentation-source terminal-documentation-source-marlin">
-                        <input type="checkbox" data-bind="checked: $root.includeSourceMarlin">
-                        Include from Marlin
-                    </label>
-                    <label class="checkbox inline terminal-documentation-source terminal-documentation-source-reprap">
-                        <input type="checkbox" data-bind="checked: $root.includeSourceRepRap">
-                        Include from RepRap
-                    </label>
                 </div>
                 <!-- ko if: docItems.length -->
                     <ul class="terminal-documentation-results">
                         <!-- ko foreach: docItems -->
-                            <li class="terminal-documentation-result">
-                                <a class="pointer fa" data-bind="css: {'fa-plus': $root.collapsedCommands().includes(docItem.id), 'fa-minus': !$root.collapsedCommands().includes(docItem.id)}, click: $root.onToggleResultCollapsed"></a>
-                                <span class="terminal-documentation-command" data-bind="text: command, click: $root.onUseFavourite" title="Use command"></span>:
-                                <a class="fa fa-external-link-alt terminal-documentation-source" target="_blank" data-bind="css: {[`terminal-documentation-source-${docItem.source.toLowerCase()}`]: true}, attr: {href: docItem.url, title: `Visit ${docItem.source} documentation`}"></a>
-                                <span class="fa terminal-documentation-favourite" data-bind="click: $root.toggleFavourite, css: {'fa-star': $root.favouriteCommands().includes(docItem.id), 'fa-star-o': !$root.favouriteCommands().includes(docItem.id)}"></span>
-                                <span data-bind="text: docItem.title"></span>:
-                                <span data-bind="text: docItem.brief"></span>
-                                <!-- ko if: !$root.collapsedCommands().includes(docItem.id) -->
-                                    <ul class="terminal-documentation-result-parameters">
-                                        <!-- ko foreach: docItem.parameters -->
-                                            <li
-                                                    class="terminal-documentation-result-parameter"
-                                                    data-bind="css: {required: !optional, missing: !$parents[1].parsedParameters[tag]}"
-                                            >
-                                                <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
-                                                <pre class="terminal-documentation-parameter-value" data-bind="text: ($parents[1].parsedParameters[tag] || [' ']).join(', ')"></pre>
-                                                <span class="terminal-documentation-parameter-description" data-bind="text: description"></span>
-                                            </li>
-                                        <!-- /ko -->
-                                    </ul>
-                                <!-- /ko -->
-                            </li>
+                            <!-- ko template: {name: "tmgd-docItem", data: {...$data, parsedParameters: $parent.parsedParameters}} -->
+                            <!-- /ko -->
                         <!-- /ko -->
                         <!-- ko if: extraResultsCount -->
                             <li><span data-bind="text: extraResultsCount"></span> more items</li>
@@ -125,3 +69,48 @@
         <!-- /ko -->
     </div>
 </div>
+
+<script type="text/html" id="tmgd-docItemsVisibilityControls">
+    <!-- ko if: hasItems -->
+        <button class="btn" data-bind="click: $root.onToggleResultCollapsedNone"><span class=" fa fa-plus"></span>Expand all</button>
+        <button class="btn" data-bind="click: $root.onToggleResultCollapsedAll"><span class=" fa fa-minus"></span>Collapse all</button>
+    <!-- /ko -->
+    <label class="checkbox inline terminal-documentation-source terminal-documentation-source-marlin">
+        <input type="checkbox" data-bind="checked: $root.includeSourceMarlin">
+        Include from Marlin
+    </label>
+    <label class="checkbox inline terminal-documentation-source terminal-documentation-source-reprap">
+        <input type="checkbox" data-bind="checked: $root.includeSourceRepRap">
+        Include from RepRap
+    </label>
+</script>
+
+<script type="text/html" id="tmgd-docItem">
+    <li class="terminal-documentation-result">
+        <a class="pointer fa" data-bind="css: {'fa-plus': $root.collapsedCommands().includes(docItem.id), 'fa-minus': !$root.collapsedCommands().includes(docItem.id)}, click: $root.onToggleResultCollapsed"></a>
+        <span class="terminal-documentation-command" data-bind="text: command, click: $root.onUseFavourite" title="Use command"></span>:
+        <a class="fa fa-external-link-alt terminal-documentation-source" target="_blank" data-bind="css: {[`terminal-documentation-source-${docItem.source.toLowerCase()}`]: true}, attr: {href: docItem.url, title: `Visit ${docItem.source} documentation`}"></a>
+        <span class="fa terminal-documentation-favourite" data-bind="click: $root.toggleFavourite, css: {'fa-star': $root.favouriteCommands().includes(docItem.id), 'fa-star-o': !$root.favouriteCommands().includes(docItem.id)}"></span>
+        <span data-bind="text: docItem.title"></span>:
+        <span data-bind="text: docItem.brief"></span>
+        <!-- ko if: !$root.collapsedCommands().includes(docItem.id) -->
+            <ul class="terminal-documentation-result-parameters">
+                <!-- ko foreach: docItem.parameters -->
+                    <!-- ko template: {name: "tmgd-parameter", data: {...$data, parsedParameters: $parent.parsedParameters}} -->
+                    <!-- /ko -->
+                <!-- /ko -->
+            </ul>
+        <!-- /ko -->
+    </li>
+</script>
+
+<script type="text/html" id="tmgd-parameter">
+    <li
+            class="terminal-documentation-result-parameter"
+            data-bind="css: {required: !optional, missing: !parsedParameters[tag]}"
+    >
+        <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
+        <pre class="terminal-documentation-parameter-value" data-bind="text: (parsedParameters[tag] || [' ']).join(', ')"></pre>
+        <span class="terminal-documentation-parameter-description" data-bind="text: description"></span>
+    </li>
+</script>
