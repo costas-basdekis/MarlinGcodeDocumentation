@@ -522,7 +522,7 @@ $(function() {
             self.collapsedCommands([].concat(
                 ...Object.entries(this.documentationService.allGcodes).map(
                     ([command, docItems]) => docItems.map(
-                        (_, index) => `${command}[${index}]`))));
+                        docItem => docItem.id))));
         };
 
         self.onToggleResultCollapsedNone = ({id}) => {
