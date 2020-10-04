@@ -9,7 +9,7 @@
 class GcodeParser {
     static re = /(%.*)|({.*)|((?:\$\$)|(?:\$[a-zA-Z0-9#]*))|([a-zA-Z][0-9\+\-\.]+)|(\*[0-9]+)/igm;
     // Some commands have a string message, which is not parsed as normally
-    static reStringMessage = /\s*([Nn]\s*[0-9\+\-\.]+)?\s*[Mm]\s*(16|23|28|30|33|117|118|928|81[0-9])([^0-9\+\-\.].*)\s*(;.*)?/igm;
+    static reStringMessage = /\s*([Nn]\s*[0-9\+\-\.]+)?\s*[Mm]\s*(16|23|28|30|33|117|118|928|81[0-9])([^0-9\+\-\.].*)/igm;
     static STRING_MESSAGE_PARAMETER_NAME = {
         16: 'string',
         23: 'filename',
@@ -139,7 +139,9 @@ class GcodeParser {
         const command = "M" + matchStringMessage[2].trim();
         let message = matchStringMessage[3]
             .trim()
-            .replaceAll(/\\([^\\])/g, '$1');
+            .replace(/(^|[^\\]|((^|[^\\])\\\\)+);.*/, '$1')
+            .replaceAll(/\\([^\\])/g, '$1')
+            .trim();
         return [command, message];
     }
 
