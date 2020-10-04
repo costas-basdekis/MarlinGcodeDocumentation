@@ -49,30 +49,11 @@ class DocumentationUpdater(object):
         if not codes_list:
             raise Exception("No sources set to be updated")
         if set(self.PARSERS) - ids_to_update:
-            with open(js_path) as f:
-                prefix = f.read(len(self.JS_PREFIX))
-                if prefix != self.JS_PREFIX:
-                    raise Exception(
-                        f"Prefix in JS file ('{prefix}') didn't match expected "
-                        f"prefix ('{self.JS_PREFIX}')")
-                all_codes = json.load(f)
-            sources_to_update = [
-                self.PARSERS[_id].SOURCE
-                for _id in ids_to_update
-            ]
-            for code, values in list(all_codes.items()):
-                all_codes[code] = [
-                    value
-                    for value in values
-                    if value["source"] not in sources_to_update
-                ]
+            all_codes = self.load_existing_codes(ids_to_update, js_path)
         else:
             all_codes = {}
-        for codes in codes_list:
-            for code, values in codes.items():
-                all_codes.setdefault(code, []).extend(values)
-        for code, values in list(all_codes.items()):
-            all_codes[code] = sorted(values, key=lambda value: value["source"])
+        self.merge_codes(all_codes, codes_list)
+        self.sort_codes(all_codes)
         self.save_codes_to_js(all_codes, js_path)
 
     def attach_id_to_docs(self, codes):
@@ -83,6 +64,35 @@ class DocumentationUpdater(object):
                 })
                 for index, value in enumerate(codes[code])
             ]
+
+    def load_existing_codes(self, ids_to_update, js_path):
+        with open(js_path) as f:
+            prefix = f.read(len(self.JS_PREFIX))
+            if prefix != self.JS_PREFIX:
+                raise Exception(
+                    f"Prefix in JS file ('{prefix}') didn't match expected "
+                    f"prefix ('{self.JS_PREFIX}')")
+            all_codes = json.load(f)
+        sources_to_update = [
+            self.PARSERS[_id].SOURCE
+            for _id in ids_to_update
+        ]
+        for code, values in list(all_codes.items()):
+            all_codes[code] = [
+                value
+                for value in values
+                if value["source"] not in sources_to_update
+            ]
+        return all_codes
+
+    def merge_codes(self, all_codes, codes_list):
+        for codes in codes_list:
+            for code, values in codes.items():
+                all_codes.setdefault(code, []).extend(values)
+
+    def sort_codes(self, all_codes):
+        for code, values in list(all_codes.items()):
+            all_codes[code] = sorted(values, key=lambda value: value["source"])
 
     def save_codes_to_js(self, all_codes, js_path):
         with open(js_path, "w") as f:
