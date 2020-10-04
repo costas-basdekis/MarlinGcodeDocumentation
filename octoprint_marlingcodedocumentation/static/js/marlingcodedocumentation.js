@@ -391,19 +391,13 @@ class DocumentationService {
             line: commandLine,
             isEmpty: false,
             isSearch,
+            parsedParameters,
             docItems: docItems
                 .filter(([, docItem]) => include[docItem.source])
                 .slice(0, maxResultCount)
                 .map(([command, docItem]) => ({
                     command,
-                    docItem: {
-                        ...docItem,
-                        parameters: docItem.parameters.map(parameter => ({
-                            ...parameter,
-                            hasValues: !!parsedParameters[parameter.tag],
-                            values: parsedParameters[parameter.tag] || [' '],
-                        })),
-                    },
+                    docItem,
                 })),
             extraResultsCount: docItems.length > maxResultCount
                 ? docItems.length - maxResultCount : 0,
@@ -536,29 +530,16 @@ $(function() {
         };
 
         self.favourites = ko.computed(() => {
-            const parsedParameters = {};
-            const collapsedCommands = self.collapsedCommands();
             const favouriteCommands = self.favouriteCommands();
             const visibleSources = [
                 ['Marlin', self.includeSourceMarlin()],
                 ['RepRap', self.includeSourceRepRap()],
-            ].filter(([source, show]) => show).map(([source]) => source);
+            ].filter(([, show]) => show).map(([source]) => source);
             return docItemsList = favouriteCommands
                 .map(id => self.documentationService.allGcodesById[id])
                 .map(([command, docItem]) => ({
                     command,
-                    collapsed: collapsedCommands.includes(docItem.id),
-                    iconClass: `terminal-documentation-source-${docItem.source.toLowerCase()}`,
-                    linkTitle: `Visit ${docItem.source} documentation`,
-                    favourite: favouriteCommands.includes(docItem.id),
-                    docItem: {
-                        ...docItem,
-                        parameters: docItem.parameters.map(parameter => ({
-                            ...parameter,
-                            hasValues: !!parsedParameters[parameter.tag],
-                            values: parsedParameters[parameter.tag] || [' '],
-                        })),
-                    },
+                    docItem,
                 }))
                 .filter(({docItem: {source}}) => visibleSources.includes(source));
         });
@@ -585,15 +566,6 @@ $(function() {
                 .focus();
         };
 
-        self.searchResults = ko.computed(() => {
-           const commandLines = self.commandLines();
-           return commandLines.map((line, index) => ({
-               ...self.getSearchResult(line),
-               tabId: `terminal-marlin-gcode-documentation-tab-${index}`,
-               tabLink: `#terminal-marlin-gcode-documentation-tab-${index}`,
-           }));
-        });
-
         self.getSearchResult = commandLine => {
             const result = self.documentationService.getSearchResult(
                 commandLine, {
@@ -607,18 +579,13 @@ $(function() {
                 return result;
             }
 
-            const collapsedCommands = self.collapsedCommands();
-            const favouriteCommands = self.favouriteCommands();
-            result.docItems = result.docItems.map(searchItem => ({
-                ...searchItem,
-                collapsed: collapsedCommands.includes(searchItem.docItem.id),
-                iconClass: `terminal-documentation-source-${searchItem.docItem.source.toLowerCase()}`,
-                linkTitle: `Visit ${searchItem.docItem.source} documentation`,
-                favourite: favouriteCommands.includes(searchItem.docItem.id),
-            }));
-
             return result;
         };
+
+        self.searchResults = ko.computed(() => {
+           return self.commandLines()
+               .map(self.getSearchResult);
+        });
     }
 
     OCTOPRINT_VIEWMODELS.push({
