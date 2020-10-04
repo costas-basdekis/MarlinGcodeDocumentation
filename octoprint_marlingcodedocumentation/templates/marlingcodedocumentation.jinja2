@@ -43,15 +43,17 @@
                             <span data-bind="text: docItem.title"></span>:
                             <span data-bind="text: docItem.brief"></span>
                             <!-- ko if: !$root.collapsedCommands().includes(docItem.id) -->
-                                <ul class="terminal-documentation-result-parameters" data-bind="foreach: docItem.parameters">
-                                    <li
-                                            class="terminal-documentation-result-parameter"
-                                            data-bind="css: {required: !optional, missing: true}"
-                                    >
-                                        <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
-                                        <pre class="terminal-documentation-parameter-value"> </pre>
-                                        [<span class="terminal-documentation-parameter-description" data-bind="text: description"></span>]:
-                                    </li>
+                                <ul class="terminal-documentation-result-parameters">
+                                    <!-- ko foreach: docItem.parameters -->
+                                        <li
+                                                class="terminal-documentation-result-parameter"
+                                                data-bind="css: {required: !optional, missing: true}"
+                                        >
+                                            <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
+                                            <pre class="terminal-documentation-parameter-value"> </pre>
+                                            [<span class="terminal-documentation-parameter-description" data-bind="text: description"></span>]:
+                                        </li>
+                                    <!-- /ko -->
                                 </ul>
                             <!-- /ko -->
                         </li>
@@ -91,15 +93,17 @@
                                 <span data-bind="text: docItem.title"></span>:
                                 <span data-bind="text: docItem.brief"></span>
                                 <!-- ko if: !$root.collapsedCommands().includes(docItem.id) -->
-                                    <ul class="terminal-documentation-result-parameters" data-bind="foreach: docItem.parameters">
-                                        <li
-                                                class="terminal-documentation-result-parameter"
-                                                data-bind="css: {required: !optional, missing: !$parents[1].parsedParameters[tag]}"
-                                        >
-                                            <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
-                                            <pre class="terminal-documentation-parameter-value" data-bind="text: ($parents[1].parsedParameters[tag] || [' ']).join(', ')"></pre>
-                                            <span class="terminal-documentation-parameter-description" data-bind="text: description"></span>
-                                        </li>
+                                    <ul class="terminal-documentation-result-parameters">
+                                        <!-- ko foreach: docItem.parameters -->
+                                            <li
+                                                    class="terminal-documentation-result-parameter"
+                                                    data-bind="css: {required: !optional, missing: !$parents[1].parsedParameters[tag]}"
+                                            >
+                                                <pre class="terminal-documentation-parameter-tag" data-bind="text: label"></pre>
+                                                <pre class="terminal-documentation-parameter-value" data-bind="text: ($parents[1].parsedParameters[tag] || [' ']).join(', ')"></pre>
+                                                <span class="terminal-documentation-parameter-description" data-bind="text: description"></span>
+                                            </li>
+                                        <!-- /ko -->
                                     </ul>
                                 <!-- /ko -->
                             </li>
