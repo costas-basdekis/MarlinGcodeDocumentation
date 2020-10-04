@@ -8,6 +8,28 @@
 // Adapted from https://github.com/cncjs/gcode-parser/blob/master/src/index.js
 class GcodeParser {
     static re = /(%.*)|({.*)|((?:\$\$)|(?:\$[a-zA-Z0-9#]*))|([a-zA-Z][0-9\+\-\.]+)|(\*[0-9]+)/igm;
+    // Some commands have a string message, which is not parsed as normally
+    static reStringMessage = /\s*([Nn]\s*[0-9\+\-\.]+)?\s*[Mm]\s*(16|23|28|30|33|117|118|928|81[0-9])([^0-9\+\-\.].*)\s*(;.*)?/igm;
+    static STRING_MESSAGE_PARAMETER_NAME = {
+        16: 'string',
+        23: 'filename',
+        28: 'filename',
+        30: 'filename',
+        33: 'path',
+        117: 'string',
+        118: 'string',
+        928: 'filename',
+        810: 'command',
+        811: 'command',
+        812: 'command',
+        813: 'command',
+        814: 'command',
+        815: 'command',
+        816: 'command',
+        817: 'command',
+        818: 'command',
+        819: 'command',
+    }
 
     parseLine(line, options) {
         options = options || {};
@@ -82,6 +104,23 @@ class GcodeParser {
         // Line number
         (typeof (ln) !== 'undefined') && (result.ln = ln);
 
+        const [command, stringMessage] = this.getStringMessage(line);
+        if (stringMessage) {
+            if (options.flatten) {
+                result.words = [command, stringMessage];
+            } else {
+                const commandLetter = command[0];
+                const commandNumber = command.slice(1);
+                const parameterName = this.constructor
+                    .STRING_MESSAGE_PARAMETER_NAME[commandNumber];
+                result.words = [
+                    [commandLetter, commandNumber],
+                    [parameterName, stringMessage],
+                ];
+            }
+            return result;
+        }
+
         // Checksum
         (typeof (cs) !== 'undefined') && (result.cs = cs);
         if (result.cs && (this.computeChecksum(line) !== result.cs)) {
@@ -89,6 +128,19 @@ class GcodeParser {
         }
 
         return result;
+    }
+
+    getStringMessage(line) {
+        const [matchStringMessage] = Array.from(
+            line.matchAll(this.constructor.reStringMessage));
+        if (!matchStringMessage) {
+            return [null, null];
+        }
+        const command = "M" + matchStringMessage[2].trim();
+        let message = matchStringMessage[3]
+            .trim()
+            .replaceAll(/\\([^\\])/g, '$1');
+        return [command, message];
     }
 
     // http://reprap.org/wiki/G-code#Special_fields
