@@ -451,8 +451,11 @@ $(function() {
         self.activeCommandLineNumber = ko.observable(0).extend({ rateLimit: 500 });
         self.activeCommandLineNumber = ko.observable(-1).extend({ rateLimit: 500 });
         $(document).on("keyup click focus", "#terminal-command", ({target: {value, selectionStart}}) => {
+            // Use `selectionStart + 1`, so that we get the correct line number,
+            // if the selection is at the start of the line. Otherwise we get
+            // the previous line number
             let lineNumber = value
-                .slice(0, selectionStart)
+                .slice(0, selectionStart + 1)
                 .trim()
                 .split(/\s*\n\s*/g)
                 .filter(line => line)
