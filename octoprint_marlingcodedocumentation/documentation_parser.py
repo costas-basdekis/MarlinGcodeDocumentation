@@ -1,9 +1,14 @@
+import contextlib
 import glob
 import itertools
 import json
 import os
 import re
-import urllib.parse
+import tempfile
+import zipfile
+
+import six.moves.urllib.parse
+import six.moves.urllib.request
 
 import yaml
 from six import iteritems
@@ -29,17 +34,21 @@ class DocumentationUpdater(object):
             js_path = os.path.join(
                 os.path.dirname(__file__), "static", "js", "all_codes.js")
         codes_list = []
-        sources_to_update = set()
+        ids_to_update = set()
         for _id, parser in self.PARSERS.items():
-            if _id not in directories:
-                continue
-            gcodes = parser().load_and_parse_all_codes(directories[_id])
+            if directories is None:
+                directory = None
+            else:
+                if _id not in directories:
+                    continue
+                directory = directories[_id]
+            gcodes = parser().load_and_parse_all_codes(directory)
             self.attach_id_to_docs(gcodes)
             codes_list.append(gcodes)
-            sources_to_update.add(parser.ID)
+            ids_to_update.add(parser.ID)
         if not codes_list:
             raise Exception("No sources set to be updated")
-        if set(self.PARSERS) - sources_to_update:
+        if set(self.PARSERS) - ids_to_update:
             with open(js_path) as f:
                 prefix = f.read(len(self.JS_PREFIX))
                 if prefix != self.JS_PREFIX:
@@ -47,6 +56,10 @@ class DocumentationUpdater(object):
                         f"Prefix in JS file ('{prefix}') didn't match expected "
                         f"prefix ('{self.JS_PREFIX}')")
                 all_codes = json.load(f)
+            sources_to_update = [
+                self.PARSERS[_id].SOURCE
+                for _id in ids_to_update
+            ]
             for code, values in list(all_codes.items()):
                 all_codes[code] = [
                     value
@@ -101,16 +114,55 @@ class BaseDocumentationParser(object):
         """
         raise NotImplementedError()
 
+    @contextlib.contextmanager
+    def latest_documentation_directory(self, directory):
+        """
+        Create a temporary directory, and ask the parser to populate it, if one
+        is not provided.
+        """
+        if directory is not None:
+            yield directory
+            return
+
+        with tempfile.TemporaryDirectory() as directory:
+            alternate_directory = self.populate_temporary_directory(directory)
+            if alternate_directory is not None:
+                yield alternate_directory
+            else:
+                yield directory
+
+    def populate_temporary_directory(self, directory):
+        """
+        Populate a temporary directory with the necessary documentation source.
+        """
+        raise NotImplementedError()
+
 
 @DocumentationUpdater.register_parser
 class MarlinGcodeDocumentationParser(BaseDocumentationParser):
     ID = "marlin"
     SOURCE = "Marlin"
     URL_PREFIX = "https://marlinfw.org/docs/gcode"
+    SOURCE_URL = "https://github.com/MarlinFirmware/MarlinDocumentation/archive/master.zip"
 
     def load_and_parse_all_codes(self, directory):
-        docs = self.load_all_docs(directory)
+        with self.latest_documentation_directory(directory) as directory:
+            docs = self.load_all_docs(directory)
         return self.get_all_codes(docs)
+
+    def populate_temporary_directory(self, directory):
+        zip_filename = os.path.join(directory, "repo.zip")
+        six.moves.urllib.request.urlretrieve(self.SOURCE_URL, zip_filename)
+        with zipfile.ZipFile(zip_filename, "r") as marlin_zip_file:
+            gcode_files = [
+                info
+                for info in marlin_zip_file.infolist()
+                if info.filename.startswith('MarlinDocumentation-master/_gcode')
+                and info.filename.endswith('.md')
+            ]
+            for info in gcode_files:
+                info.filename = os.path.basename(info.filename)
+                marlin_zip_file.extract(info, directory)
 
     def load_all_docs(self, directory):
         paths_glob = os.path.join(directory, "*.md")
@@ -198,10 +250,25 @@ class ReprapGcodeDocumentationParser(BaseDocumentationParser):
     ID = "reprap"
     SOURCE = "RepRap"
     GCODE_URL = "https://reprap.org/wiki/G-code"
+    SOURCE_URL = "https://reprap.org/mediawiki/api.php?action=parse&page=G-code&prop=wikitext&formatversion=2&format=json"
+    HTTP_USER_AGENT = "marlingcodedocumentation"
 
     def load_and_parse_all_codes(self, directory):
-        source = self.load_documentation(directory)
+        with self.latest_documentation_directory(directory) as directory:
+            source = self.load_documentation(directory)
         return self.parse_documentation(source)
+
+    def populate_temporary_directory(self, directory):
+        opener = six.moves.urllib.request.URLopener()
+        opener.addheader('User-Agent', self.HTTP_USER_AGENT)
+        with opener.open(self.SOURCE_URL) as f:
+            page = json.load(f)
+
+        path = os.path.join(directory, "reprap-gcode-wiki-source.txt")
+        with open(path, "wb") as f:
+            f.write(page['parse']['wikitext'].encode())
+
+        return path
 
     def load_documentation(self, path):
         with open(path, "rb") as f:
@@ -378,7 +445,7 @@ class ReprapGcodeDocumentationParser(BaseDocumentationParser):
         }
 
     def generate_url(self, title):
-        _hash = urllib.parse\
+        _hash = six.moves.urllib.parse\
             .quote_plus(title, safe=':')\
             .replace('+', '_')\
             .replace('%', '.')
