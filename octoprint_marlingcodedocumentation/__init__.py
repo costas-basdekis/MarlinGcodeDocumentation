@@ -20,7 +20,7 @@ class MarlingcodedocumentationPlugin(
 
     def get_assets(self):
         return dict(
-            js=["js/all_codes.js", "js/marlingcodedocumentation.js"],
+            js=["js/all_codes.js", "js/marlingcodedocumentation.min.js"],
             css=["css/marlingcodedocumentation.css"],
             less=["less/marlingcodedocumentation.less"]
         )
