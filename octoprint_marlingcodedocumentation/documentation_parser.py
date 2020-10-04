@@ -11,7 +11,18 @@ import wikitextparser as wtp
 
 
 class DocumentationUpdater(object):
+    """Manage updating the documentation from all parsers"""
     JS_PREFIX = "window.AllGcodes = "
+
+    PARSERS = {}
+    SOURCES = set()
+
+    @classmethod
+    def register_parser(cls, parser):
+        cls.PARSERS[parser.ID] = parser
+        cls.SOURCES.add(parser.SOURCE)
+
+        return parser
 
     def update_documentation(self, directories, js_path=None):
         if js_path is None:
@@ -19,22 +30,16 @@ class DocumentationUpdater(object):
                 os.path.dirname(__file__), "static", "js", "all_codes.js")
         codes_list = []
         sources_to_update = set()
-        all_sources = {'Marlin', 'Reprap'}
-        if 'marlin' in directories:
-            marlin_gcodes = MarlinGcodeDocumentationParser()\
-                .load_and_parse_all_codes(directories['marlin'])
-            self.attach_id_to_docs(marlin_gcodes)
-            codes_list.append(marlin_gcodes)
-            sources_to_update.add('Marlin')
-        if 'reprap' in directories:
-            reprap_gcodes = ReprapGcodeDocumentationParser()\
-                .load_and_parse_all_codes(directories['reprap'])
-            self.attach_id_to_docs(reprap_gcodes)
-            codes_list.append(reprap_gcodes)
-            sources_to_update.add('Reprap')
+        for _id, parser in self.PARSERS.items():
+            if _id not in directories:
+                continue
+            gcodes = parser().load_and_parse_all_codes(directories[_id])
+            self.attach_id_to_docs(gcodes)
+            codes_list.append(gcodes)
+            sources_to_update.add(parser.ID)
         if not codes_list:
             raise Exception("No sources set to be updated")
-        if all_sources - sources_to_update:
+        if set(self.PARSERS) - sources_to_update:
             with open(js_path) as f:
                 prefix = f.read(len(self.JS_PREFIX))
                 if prefix != self.JS_PREFIX:
@@ -72,7 +77,35 @@ class DocumentationUpdater(object):
             json.dump(all_codes, f)
 
 
-class MarlinGcodeDocumentationParser(object):
+class BaseDocumentationParser(object):
+    # An id to be used internally
+    ID = NotImplemented
+
+    # The user-friendly source
+    SOURCE = NotImplemented
+
+    def load_and_parse_all_codes(self, directory):
+        """
+        Return a dictionary of code => doc_items
+
+        The doc_item should have these attributes:
+            * title: a short name for the command
+            * brief: a description for what the command does
+            * parameters: a list of parameters description
+
+        A parameter should have these attributes:
+            * tag: the name of the parameter (eg 'X', 'Y', etc), that will be
+            used when matching a user command
+            * label: a label about it's value to be displayed to the user (eg
+            '[X<pos>]')
+        """
+        raise NotImplementedError()
+
+
+@DocumentationUpdater.register_parser
+class MarlinGcodeDocumentationParser(BaseDocumentationParser):
+    ID = "marlin"
+    SOURCE = "Marlin"
     URL_PREFIX = "https://marlinfw.org/docs/gcode"
 
     def load_and_parse_all_codes(self, directory):
@@ -126,7 +159,7 @@ class MarlinGcodeDocumentationParser(object):
                     doc.get("parameters") or [],
                     key=self._order_by_required_first)
             ],
-            "source": "Marlin",
+            "source": self.SOURCE,
             "url": f"{self.URL_PREFIX}/{doc['filename']}",
         }
         return {
@@ -160,7 +193,10 @@ class MarlinGcodeDocumentationParser(object):
             return 0
 
 
-class ReprapGcodeDocumentationParser(object):
+@DocumentationUpdater.register_parser
+class ReprapGcodeDocumentationParser(BaseDocumentationParser):
+    ID = "reprap"
+    SOURCE = "RepRap"
     GCODE_URL = "https://reprap.org/wiki/G-code"
 
     def load_and_parse_all_codes(self, directory):
@@ -269,7 +305,7 @@ class ReprapGcodeDocumentationParser(object):
             "codes": commands,
             "related": [],
             "parameters": parameters,
-            "source": "RepRap",
+            "source": self.SOURCE,
             "url": self.generate_url(title),
         }
 
