@@ -11,20 +11,50 @@ import wikitextparser as wtp
 
 
 class DocumentationUpdater(object):
+    JS_PREFIX = "window.AllGcodes = "
+
     def update_documentation(self, directories, js_path=None):
         if js_path is None:
             js_path = os.path.join(
                 os.path.dirname(__file__), "static", "js", "all_codes.js")
-        marlin_gcodes = MarlinGcodeDocumentationParser()\
-            .load_and_parse_all_codes(directories['marlin'])
-        self.attach_id_to_docs(marlin_gcodes)
-        reprap_gcodes = ReprapGcodeDocumentationParser()\
-            .load_and_parse_all_codes(directories['reprap'])
-        self.attach_id_to_docs(reprap_gcodes)
-        all_codes = {}
-        for codes in [marlin_gcodes, reprap_gcodes]:
+        codes_list = []
+        sources_to_update = set()
+        all_sources = {'Marlin', 'Reprap'}
+        if 'marlin' in directories:
+            marlin_gcodes = MarlinGcodeDocumentationParser()\
+                .load_and_parse_all_codes(directories['marlin'])
+            self.attach_id_to_docs(marlin_gcodes)
+            codes_list.append(marlin_gcodes)
+            sources_to_update.add('Marlin')
+        if 'reprap' in directories:
+            reprap_gcodes = ReprapGcodeDocumentationParser()\
+                .load_and_parse_all_codes(directories['reprap'])
+            self.attach_id_to_docs(reprap_gcodes)
+            codes_list.append(reprap_gcodes)
+            sources_to_update.add('Reprap')
+        if not codes_list:
+            raise Exception("No sources set to be updated")
+        if all_sources - sources_to_update:
+            with open(js_path) as f:
+                prefix = f.read(len(self.JS_PREFIX))
+                if prefix != self.JS_PREFIX:
+                    raise Exception(
+                        f"Prefix in JS file ('{prefix}') didn't match expected "
+                        f"prefix ('{self.JS_PREFIX}')")
+                all_codes = json.load(f)
+            for code, values in list(all_codes.items()):
+                all_codes[code] = [
+                    value
+                    for value in values
+                    if value["source"] not in sources_to_update
+                ]
+        else:
+            all_codes = {}
+        for codes in codes_list:
             for code, values in codes.items():
                 all_codes.setdefault(code, []).extend(values)
+        for code, values in list(all_codes.items()):
+            all_codes[code] = sorted(values, key=lambda value: value["source"])
         self.save_codes_to_js(all_codes, js_path)
 
     def attach_id_to_docs(self, codes):
@@ -38,7 +68,7 @@ class DocumentationUpdater(object):
 
     def save_codes_to_js(self, all_codes, js_path):
         with open(js_path, "w") as f:
-            f.write("window.AllGcodes = ")
+            f.write(self.JS_PREFIX)
             json.dump(all_codes, f)
 
 
