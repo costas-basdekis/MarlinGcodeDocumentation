@@ -15,6 +15,7 @@ class MarlingcodedocumentationPlugin(
             "documentation_position": "above_settings",
             "show_help": True,
             "favourite_commands": [],
+            "explain_sent_commands": True,
         }
 
     def get_assets(self):

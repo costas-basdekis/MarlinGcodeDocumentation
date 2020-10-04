@@ -453,6 +453,11 @@ $(function() {
                 self.mySettings.documentation_position();
                 self.moveTemplateToPosition();
             });
+            self.onExplainSentCommandsChanged = ko.computed(() => {
+                $("#terminal-output").toggleClass(
+                    "explain-sent-commands",
+                    self.mySettings.explain_sent_commands());
+            });
         };
 
         self.documentationService = new DocumentationService();

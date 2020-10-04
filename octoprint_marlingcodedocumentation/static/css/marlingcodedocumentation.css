@@ -84,16 +84,16 @@
     text-decoration: underline;
 }
 
-#terminal-output span.sent {
+#terminal-output.explain-sent-commands span.sent {
     margin-right: 1.5em;
     cursor: pointer;
 }
 
-#terminal-output span.sent:hover {
+#terminal-output.explain-sent-commands span.sent:hover {
     text-decoration: underline;
 }
 
-#terminal-output span.sent::after {
+#terminal-output.explain-sent-commands span.sent::after {
     display: inline-block;
     content: "\f05a";
     width: 1em;
