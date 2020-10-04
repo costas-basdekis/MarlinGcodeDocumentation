@@ -17,6 +17,11 @@
     padding: 2px 4px;
     font-family: "Oxygen Mono", monospace;
     display: inline-block;
+    cursor: pointer;
+}
+
+.terminal-documentation-command:hover {
+    text-decoration: underline;
 }
 
 .terminal-documentation-parameter-tag {
@@ -74,14 +79,6 @@
 .terminal-documentation-favourite {
     color: gold;
     cursor: pointer;
-}
-
-.terminal-documentation-command.from-favourites {
-    cursor: pointer;
-}
-
-.terminal-documentation-command.from-favourites:hover {
-    text-decoration: underline;
 }
 
 #terminal-output.explain-sent-commands span.sent {

@@ -37,7 +37,7 @@
                     <!-- ko foreach: favourites() -->
                         <li class="terminal-documentation-result">
                             <a class="pointer fa" data-bind="css: {'fa-plus': $root.collapsedCommands().includes(docItem.id), 'fa-minus': !$root.collapsedCommands().includes(docItem.id)}, click: $root.onToggleResultCollapsed"></a>
-                            <span class="terminal-documentation-command from-favourites" data-bind="text: command, click: $root.onUseFavourite" title="Use command"></span>:
+                            <span class="terminal-documentation-command" data-bind="text: command, click: $root.onUseFavourite" title="Use command"></span>:
                             <a class="fa fa-external-link-alt terminal-documentation-source" target="_blank" data-bind="css: {[`terminal-documentation-source-${docItem.source.toLowerCase()}`]: true}, attr: {href: docItem.url, title: `Visit ${docItem.source} documentation`}"></a>
                             <span class="fa terminal-documentation-favourite" data-bind="click: $root.toggleFavourite, css: {'fa-star': $root.favouriteCommands().includes(docItem.id), 'fa-star-o': !$root.favouriteCommands().includes(docItem.id)}"></span>
                             <span data-bind="text: docItem.title"></span>:
@@ -87,7 +87,7 @@
                         <!-- ko foreach: docItems -->
                             <li class="terminal-documentation-result">
                                 <a class="pointer fa" data-bind="css: {'fa-plus': $root.collapsedCommands().includes(docItem.id), 'fa-minus': !$root.collapsedCommands().includes(docItem.id)}, click: $root.onToggleResultCollapsed"></a>
-                                <span class="terminal-documentation-command" data-bind="text: command"></span>:
+                                <span class="terminal-documentation-command" data-bind="text: command, click: $root.onUseFavourite" title="Use command"></span>:
                                 <a class="fa fa-external-link-alt terminal-documentation-source" target="_blank" data-bind="css: {[`terminal-documentation-source-${docItem.source.toLowerCase()}`]: true}, attr: {href: docItem.url, title: `Visit ${docItem.source} documentation`}"></a>
                                 <span class="fa terminal-documentation-favourite" data-bind="click: $root.toggleFavourite, css: {'fa-star': $root.favouriteCommands().includes(docItem.id), 'fa-star-o': !$root.favouriteCommands().includes(docItem.id)}"></span>
                                 <span data-bind="text: docItem.title"></span>:
