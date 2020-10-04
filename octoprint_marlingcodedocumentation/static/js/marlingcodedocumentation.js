@@ -400,11 +400,8 @@ class DocumentationService {
                         ...docItem,
                         parameters: docItem.parameters.map(parameter => ({
                             ...parameter,
-                            optional: !!parameter.optional,
                             hasValues: !!parsedParameters[parameter.tag],
                             values: parsedParameters[parameter.tag] || [' '],
-                            description: parameter.description !== undefined
-                                ? parameter.description : '',
                         })),
                     },
                 })),
@@ -558,10 +555,8 @@ $(function() {
                         ...docItem,
                         parameters: docItem.parameters.map(parameter => ({
                             ...parameter,
-                            optional: !!parameter.optional,
                             hasValues: !!parsedParameters[parameter.tag],
                             values: parsedParameters[parameter.tag] || [' '],
-                            description: parameter.description !== undefined ? parameter.description : '',
                         })),
                     },
                 }))

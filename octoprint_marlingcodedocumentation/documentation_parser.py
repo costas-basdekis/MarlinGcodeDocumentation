@@ -108,6 +108,8 @@ class MarlinGcodeDocumentationParser(object):
         has_values = "values" in parameter and parameter["values"] is not None
         return {
             **parameter,
+            "optional": parameter.get("optional", True),
+            "description": parameter.get("description", ""),
             "label": "{lp}{tag}{values}{rp}".format(
                 lp="[" if parameter.get("optional", False) else "",
                 tag=parameter["tag"],
