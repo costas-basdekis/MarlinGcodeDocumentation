@@ -153,7 +153,10 @@ class MarlinGcodeDocumentationParser(BaseDocumentationParser):
     ID = "marlin"
     SOURCE = "Marlin"
     URL_PREFIX = "https://marlinfw.org/docs/gcode"
-    SOURCE_URL = "https://github.com/MarlinFirmware/MarlinDocumentation/archive/master.zip"
+    SOURCE_URL = (
+        "https://github.com/MarlinFirmware/MarlinDocumentation/"
+        "archive/master.zip"
+    )
 
     def load_and_parse_all_codes(self, directory):
         with self.latest_documentation_directory(directory) as directory:
@@ -260,7 +263,11 @@ class ReprapGcodeDocumentationParser(BaseDocumentationParser):
     ID = "reprap"
     SOURCE = "RepRap"
     GCODE_URL = "https://reprap.org/wiki/G-code"
-    SOURCE_URL = "https://reprap.org/mediawiki/api.php?action=parse&page=G-code&prop=wikitext&formatversion=2&format=json"
+    # noinspection SpellCheckingInspection
+    SOURCE_URL = (
+        "https://reprap.org/mediawiki/api.php"
+        "?action=parse&page=G-code&prop=wikitext&formatversion=2&format=json"
+    )
     HTTP_USER_AGENT = "marlingcodedocumentation"
 
     def load_and_parse_all_codes(self, directory):
@@ -270,6 +277,7 @@ class ReprapGcodeDocumentationParser(BaseDocumentationParser):
 
     def populate_temporary_directory(self, directory):
         opener = six.moves.urllib.request.URLopener()
+        # noinspection PyUnresolvedReferences
         opener.addheader('User-Agent', self.HTTP_USER_AGENT)
         with opener.open(self.SOURCE_URL) as f:
             page = json.load(f)
@@ -310,6 +318,7 @@ class ReprapGcodeDocumentationParser(BaseDocumentationParser):
             if wiki_section.level >= 4
         )))
 
+        # noinspection PyUnresolvedReferences
         return {
             code: [value for _, value in values]
             for code, values in itertools.groupby(sorted((
@@ -367,7 +376,7 @@ class ReprapGcodeDocumentationParser(BaseDocumentationParser):
                 line
                 for line in sections[';Parameters']
                 if line.strip().startswith(':')
-                   and wtp.parse(line).get_tags('code')
+                and wtp.parse(line).get_tags('code')
             ]
             parameters = [
                 self.parse_parameter(line)
@@ -404,7 +413,7 @@ class ReprapGcodeDocumentationParser(BaseDocumentationParser):
             start, end = int(start_str), int(end_str)
             commands = [
                 'G{}'.format(number)
-                for number in  range(start, end + 1)
+                for number in range(start, end + 1)
             ]
         else:
             commands = [commands_str]
