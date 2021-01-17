@@ -12,6 +12,7 @@ class MarlingcodedocumentationPlugin(
         return {
             "include_source_marlin": True,
             "include_source_reprap": True,
+            "include_source_klipper": True,
             "documentation_position": "above_settings",
             "show_help": True,
             "favourite_commands": [],

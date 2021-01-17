@@ -356,7 +356,7 @@ class DocumentationService {
         return parsedParameters;
     }
 
-    getSearchResult(commandLine, {maxResultCount = 20, include: {Marlin = true, RepRap = true} = {}} = {}) {
+    getSearchResult(commandLine, {maxResultCount = 20, include: {Marlin = true, RepRap = true, Klipper = true} = {}} = {}) {
         commandLine = commandLine.trim();
         if (!commandLine || commandLine === "?") {
             return {
@@ -388,6 +388,7 @@ class DocumentationService {
         const include = {
             Marlin,
             RepRap,
+            Klipper,
         };
         return {
             line: commandLine,
@@ -472,11 +473,13 @@ $(function() {
         self.settingsSync = new SettingsSync({
             includeSourceMarlin: 'include_source_marlin',
             includeSourceRepRap: 'include_source_reprap',
+            includeSourceKlipper: 'include_source_klipper',
             showHelp: 'show_help',
             favouriteCommands: 'favourite_commands',
         }, {
             includeSourceMarlin: true,
             includeSourceRepRap: true,
+            includeSourceKlipper: true,
             showHelp: true,
             favouriteCommands: [],
         }, self);
@@ -536,6 +539,7 @@ $(function() {
             const visibleSources = [
                 ['Marlin', self.includeSourceMarlin()],
                 ['RepRap', self.includeSourceRepRap()],
+                ['Klipper', self.includeSourceKlipper()],
             ].filter(([, show]) => show).map(([source]) => source);
             return docItemsList = favouriteCommands
                 .map(id => self.documentationService.allGcodesById[id])
@@ -574,6 +578,7 @@ $(function() {
                     include: {
                         Marlin: self.includeSourceMarlin(),
                         RepRap: self.includeSourceRepRap(),
+                        Klipper: self.includeSourceKlipper(),
                     },
                 },
             );

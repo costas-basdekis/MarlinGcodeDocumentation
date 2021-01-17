@@ -72,6 +72,10 @@
     background-image: url(/plugin/marlingcodedocumentation/static/img/reprap.ico);
 }
 
+.terminal-documentation-source.terminal-documentation-source-klipper:after {
+    background-image: url(/plugin/marlingcodedocumentation/static/img/klipper.ico);
+}
+
 .themeify .alert.alert-info .close {
     color: #000000;
 }
