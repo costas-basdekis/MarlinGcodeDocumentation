@@ -9,7 +9,7 @@ window.AllGcodes = {
       "id": "Marlin.G0[0]",
       "parameters": [
         {
-          "description": "A coordinate on the X axis",
+          "description": "An absolute or relative coordinate on the X axis (in current units).",
           "label": "[X<pos>]",
           "optional": true,
           "tag": "X",
@@ -21,7 +21,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "A coordinate on the Y axis",
+          "description": "An absolute or relative coordinate on the Y axis (in current units).",
           "label": "[Y<pos>]",
           "optional": true,
           "tag": "Y",
@@ -33,7 +33,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "A coordinate on the Z axis",
+          "description": "An absolute or relative coordinate on the Z axis (in current units).",
           "label": "[Z<pos>]",
           "optional": true,
           "tag": "Z",
@@ -45,7 +45,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "The length of filament to feed into the extruder between the start and end point",
+          "description": "An absolute or relative coordinate on the E (extruder) axis (in current units). The E axis describes the position of the filament in terms of input to the extruder feeder.",
           "label": "[E<pos>]",
           "optional": true,
           "tag": "E",
@@ -72,7 +72,10 @@ window.AllGcodes = {
       "related": [
         "G2",
         "G3",
-        "G5"
+        "G5",
+        "M82",
+        "M83",
+        "G91"
       ],
       "source": "Marlin",
       "title": "Linear Move",
@@ -122,7 +125,7 @@ window.AllGcodes = {
           "values": []
         },
         {
-          "description": " (RepRapFirmware) Flag to check if an endstop was hit (H1 to check, H0 to ignore, H2 see note, default is H0)",
+          "description": " (RepRapFirmware) Flag to check if an endstop was hit (H1 to check, H0 to ignore, other  see note, default is H0)",
           "label": "Hnnn",
           "optional": true,
           "tag": "H",
@@ -159,7 +162,7 @@ window.AllGcodes = {
       "id": "Marlin.G1[0]",
       "parameters": [
         {
-          "description": "A coordinate on the X axis",
+          "description": "An absolute or relative coordinate on the X axis (in current units).",
           "label": "[X<pos>]",
           "optional": true,
           "tag": "X",
@@ -171,7 +174,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "A coordinate on the Y axis",
+          "description": "An absolute or relative coordinate on the Y axis (in current units).",
           "label": "[Y<pos>]",
           "optional": true,
           "tag": "Y",
@@ -183,7 +186,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "A coordinate on the Z axis",
+          "description": "An absolute or relative coordinate on the Z axis (in current units).",
           "label": "[Z<pos>]",
           "optional": true,
           "tag": "Z",
@@ -195,7 +198,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "The length of filament to feed into the extruder between the start and end point",
+          "description": "An absolute or relative coordinate on the E (extruder) axis (in current units). The E axis describes the position of the filament in terms of input to the extruder feeder.",
           "label": "[E<pos>]",
           "optional": true,
           "tag": "E",
@@ -222,7 +225,10 @@ window.AllGcodes = {
       "related": [
         "G2",
         "G3",
-        "G5"
+        "G5",
+        "M82",
+        "M83",
+        "G91"
       ],
       "source": "Marlin",
       "title": "Linear Move",
@@ -272,7 +278,7 @@ window.AllGcodes = {
           "values": []
         },
         {
-          "description": " (RepRapFirmware) Flag to check if an endstop was hit (H1 to check, H0 to ignore, H2 see note, default is H0)",
+          "description": " (RepRapFirmware) Flag to check if an endstop was hit (H1 to check, H0 to ignore, other  see note, default is H0)",
           "label": "Hnnn",
           "optional": true,
           "tag": "H",
@@ -340,7 +346,7 @@ window.AllGcodes = {
           "values": []
         },
         {
-          "description": " Offset mode (optional)",
+          "description": " Offset mode ",
           "label": "Lnnn",
           "optional": true,
           "tag": "L",
@@ -1115,7 +1121,7 @@ window.AllGcodes = {
       "id": "Marlin.G26[0]",
       "parameters": [
         {
-          "description": "Bed temperature (otherwise 60\u00c2\u00b0C) to use for the test print.",
+          "description": "Bed temperature (otherwise 60\u00b0C) to use for the test print.",
           "label": "[B<temp>]",
           "optional": true,
           "tag": "B",
@@ -1161,7 +1167,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Hot end temperature (otherwise 205\u00c2\u00b0C) to use for the test print.",
+          "description": "Hot end temperature (otherwise 205\u00b0C) to use for the test print.",
           "label": "[H<linear>]",
           "optional": true,
           "tag": "H",
@@ -1459,106 +1465,6 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Create fake points for testing. (`DEBUG_LEVELING_FEATURE`)",
-          "label": "[C<bool>]",
-          "optional": true,
-          "tag": "C",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
-          "description": "Optional. If leveling is already enabled then exit without leveling. (1.1.9)",
-          "label": "[O]",
-          "optional": true,
-          "tag": "O",
-          "type": "bool"
-        },
-        {
-          "description": "Query the current leveling state (`PROBE_MANUALLY`, `DEBUG_LEVELING_FEATURE`)",
-          "label": "[Q<bool>]",
-          "optional": true,
-          "tag": "Q",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
-          "description": "- By default G29 will engage the Z probe, test the bed, then disengage.\n- Include \"E\" to engage/disengage the Z probe for each sample.\n- There's no extra effect if you have a fixed Z probe. (without `PROBE_MANUALLY`)\n",
-          "label": "[E<bool>]",
-          "optional": true,
-          "tag": "E",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
-          "description": "Dry-Run mode. Just probe the grid but don't update the bed leveling data",
-          "label": "[D<bool>]",
-          "optional": true,
-          "tag": "D",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
-          "description": "Jettison the leveling data stored in SRAM and turn off leveling compensation. Data in EEPROM is not affected.",
-          "label": "[J<bool>]",
-          "optional": true,
-          "tag": "J",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
-          "description": "Set the verbose level",
-          "label": "[V<0-4>]",
-          "optional": true,
-          "tag": "V",
-          "values": [
-            {
-              "tag": "0-4",
-              "type": "int"
-            }
-          ]
-        }
-      ],
-      "related": [
-        "M420"
-      ],
-      "source": "Marlin",
-      "title": "Bed Leveling (3-Point)",
-      "url": "https://marlinfw.org/docs/gcode/G029-abl-3point"
-    },
-    {
-      "brief": "Probe the bed and enable leveling compensation.",
-      "codes": [
-        "G29"
-      ],
-      "id": "Marlin.G29[1]",
-      "parameters": [
-        {
-          "description": "Abort leveling procedure in-progress (`PROBE_MANUALLY`)",
-          "label": "[A<bool>]",
-          "optional": true,
-          "tag": "A",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
           "description": "Create a fake grid for testing. (`DEBUG_LEVELING_FEATURE`)",
           "label": "[C<bool>]",
           "optional": true,
@@ -1756,6 +1662,106 @@ window.AllGcodes = {
       "source": "Marlin",
       "title": "Bed Leveling (Bilinear)",
       "url": "https://marlinfw.org/docs/gcode/G029-abl-bilinear"
+    },
+    {
+      "brief": "Probe the bed and enable leveling compensation.",
+      "codes": [
+        "G29"
+      ],
+      "id": "Marlin.G29[1]",
+      "parameters": [
+        {
+          "description": "Abort leveling procedure in-progress (`PROBE_MANUALLY`)",
+          "label": "[A<bool>]",
+          "optional": true,
+          "tag": "A",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Create fake points for testing. (`DEBUG_LEVELING_FEATURE`)",
+          "label": "[C<bool>]",
+          "optional": true,
+          "tag": "C",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Optional. If leveling is already enabled then exit without leveling. (1.1.9)",
+          "label": "[O]",
+          "optional": true,
+          "tag": "O",
+          "type": "bool"
+        },
+        {
+          "description": "Query the current leveling state (`PROBE_MANUALLY`, `DEBUG_LEVELING_FEATURE`)",
+          "label": "[Q<bool>]",
+          "optional": true,
+          "tag": "Q",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "- By default G29 will engage the Z probe, test the bed, then disengage.\n- Include \"E\" to engage/disengage the Z probe for each sample.\n- There's no extra effect if you have a fixed Z probe. (without `PROBE_MANUALLY`)\n",
+          "label": "[E<bool>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Dry-Run mode. Just probe the grid but don't update the bed leveling data",
+          "label": "[D<bool>]",
+          "optional": true,
+          "tag": "D",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Jettison the leveling data stored in SRAM and turn off leveling compensation. Data in EEPROM is not affected.",
+          "label": "[J<bool>]",
+          "optional": true,
+          "tag": "J",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Set the verbose level",
+          "label": "[V<0-4>]",
+          "optional": true,
+          "tag": "V",
+          "values": [
+            {
+              "tag": "0-4",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "M420"
+      ],
+      "source": "Marlin",
+      "title": "Bed Leveling (3-Point)",
+      "url": "https://marlinfw.org/docs/gcode/G029-abl-3point"
     },
     {
       "brief": "Probe the bed and enable leveling compensation.",
@@ -1974,11 +1980,23 @@ window.AllGcodes = {
       "url": "https://marlinfw.org/docs/gcode/G029-abl-linear"
     },
     {
-      "brief": "Measure Z heights in a grid, enable leveling compensation",
+      "brief": "Probe the bed and enable leveling compensation",
       "codes": [
         "G29"
       ],
       "id": "Marlin.G29[3]",
+      "parameters": [],
+      "related": [],
+      "source": "Marlin",
+      "title": "Bed Leveling",
+      "url": "https://marlinfw.org/docs/gcode/G029"
+    },
+    {
+      "brief": "Measure Z heights in a grid, enable leveling compensation",
+      "codes": [
+        "G29"
+      ],
+      "id": "Marlin.G29[4]",
       "parameters": [
         {
           "description": "",
@@ -2086,7 +2104,7 @@ window.AllGcodes = {
       "codes": [
         "G29"
       ],
-      "id": "Marlin.G29[4]",
+      "id": "Marlin.G29[5]",
       "parameters": [
         {
           "description": "**Activate**\nUnified Bed Leveling (i.e., `M420 S1`)\n",
@@ -2378,18 +2396,6 @@ window.AllGcodes = {
       "url": "https://marlinfw.org/docs/gcode/G029-ubl"
     },
     {
-      "brief": "Probe the bed and enable leveling compensation",
-      "codes": [
-        "G29"
-      ],
-      "id": "Marlin.G29[5]",
-      "parameters": [],
-      "related": [],
-      "source": "Marlin",
-      "title": "Bed Leveling",
-      "url": "https://marlinfw.org/docs/gcode/G029"
-    },
-    {
       "brief": "This command uses a probe to measure the bed height at 3 or more points to determine its tilt and overall flatness. It then enables compensation so that the nozzle will remain parallel to the bed. The printer must be homed with G28 before using this command.\nEach firmware behaves differently and depends on the type of bed leveling that's been configured. For example, Marlin 1.0.2 provides 3 different types of automatic bed leveling (probe required) and a manual bed leveling option. See your firmware's documentation for the specific options available.",
       "codes": [
         "G29"
@@ -2529,7 +2535,7 @@ window.AllGcodes = {
       "url": "https://reprap.org/wiki/G-code#G29_Auto_Bed_Leveling_.28Repetier-Firmware.29"
     },
     {
-      "brief": "RepRapFirmware:\n:S0 (default if no S parameter) Probe the bed, save the height map in a file on the SD card, and activate the height map. The default folder for the height map file is /sys and the default file name is heightmap.csv.\n:S1 Load the height map from file and activate bed compensation. The default folder and filename as for S0.\n:S2 Clear the currently-loaded bed height map\nTo define the grid, see M557.",
+      "brief": "RepRapFirmware:\n:S0 (default if no S parameter) Probe the bed, save the height map in a file on the SD card, and activate the height map. The default folder for the height map file is /sys and the default file name is heightmap.csv.\n:S1 Load the height map from file and activate bed compensation. The default folder and filename as for S0.\n:S2 Clear the currently-loaded bed height map\nTo define the grid, see M557.\nIn RepRapFirmware 3.2 and later, G29 runs macro file mesh.g if it exists, otherwise it behaves like G29 S0. The mesh.g file can perform other actions (e.g. homing or tool selection) and then use G29 S0 to do the probing.",
       "codes": [
         "G29"
       ],
@@ -2903,7 +2909,7 @@ window.AllGcodes = {
           "values": []
         },
         {
-          "description": " Temperature coefficient",
+          "description": " Temperature coefficient(s) of trigger height",
           "label": "Cnnn",
           "optional": true,
           "tag": "C",
@@ -3199,7 +3205,7 @@ window.AllGcodes = {
           "tag": "I"
         },
         {
-          "description": "Target accuracy - must be between 0.001 - 1.0",
+          "description": "Target accuracy - must be between 0.01 - 1.0",
           "label": "[T]",
           "optional": true,
           "tag": "T"
@@ -3296,10 +3302,12 @@ window.AllGcodes = {
   ],
   "G38.2": [
     {
-      "brief": "Probe towards a workpiece and stop on contact.",
+      "brief": "Probe towards (or away from) a workpiece",
       "codes": [
         "G38.2",
-        "G38.3"
+        "G38.3",
+        "G38.4",
+        "G38.5"
       ],
       "id": "Marlin.G38.2[0]",
       "parameters": [
@@ -3401,10 +3409,12 @@ window.AllGcodes = {
   ],
   "G38.3": [
     {
-      "brief": "Probe towards a workpiece and stop on contact.",
+      "brief": "Probe towards (or away from) a workpiece",
       "codes": [
         "G38.2",
-        "G38.3"
+        "G38.3",
+        "G38.4",
+        "G38.5"
       ],
       "id": "Marlin.G38.3[0]",
       "parameters": [
@@ -3477,6 +3487,70 @@ window.AllGcodes = {
   ],
   "G38.4": [
     {
+      "brief": "Probe towards (or away from) a workpiece",
+      "codes": [
+        "G38.2",
+        "G38.3",
+        "G38.4",
+        "G38.5"
+      ],
+      "id": "Marlin.G38.4[0]",
+      "parameters": [
+        {
+          "description": "Target X",
+          "label": "[X<pos>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "pos",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Target Y",
+          "label": "[Y<pos>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "pos",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Target Z",
+          "label": "[Z<pos>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "pos",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Feedrate for the move",
+          "label": "[F<rate>]",
+          "optional": true,
+          "tag": "F",
+          "values": [
+            {
+              "tag": "rate",
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Probe target",
+      "url": "https://marlinfw.org/docs/gcode/G038"
+    },
+    {
       "brief": "",
       "codes": [
         "G38.4"
@@ -3490,6 +3564,70 @@ window.AllGcodes = {
     }
   ],
   "G38.5": [
+    {
+      "brief": "Probe towards (or away from) a workpiece",
+      "codes": [
+        "G38.2",
+        "G38.3",
+        "G38.4",
+        "G38.5"
+      ],
+      "id": "Marlin.G38.5[0]",
+      "parameters": [
+        {
+          "description": "Target X",
+          "label": "[X<pos>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "pos",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Target Y",
+          "label": "[Y<pos>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "pos",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Target Z",
+          "label": "[Z<pos>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "pos",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Feedrate for the move",
+          "label": "[F<rate>]",
+          "optional": true,
+          "tag": "F",
+          "values": [
+            {
+              "tag": "rate",
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Probe target",
+      "url": "https://marlinfw.org/docs/gcode/G038"
+    },
     {
       "brief": "",
       "codes": [
@@ -3876,7 +4014,7 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Marlin",
-      "title": "B\u00c3\u00a9zier cubic spline",
+      "title": "B\u00e9zier cubic spline",
       "url": "https://marlinfw.org/docs/gcode/G005"
     }
   ],
@@ -4220,6 +4358,103 @@ window.AllGcodes = {
   ],
   "G6": [
     {
+      "brief": "Perform a direct, uninterpolated, and non-kinematic synchronized move",
+      "codes": [
+        "G6"
+      ],
+      "id": "Marlin.G6[0]",
+      "parameters": [
+        {
+          "description": "Set page index",
+          "label": "[I<state>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "state",
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Step rate per second. Last value is cached for future invocations.",
+          "label": "[R<rate>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "tag": "rate",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Number of steps to take. Defaults to max steps.",
+          "label": "[S<rate>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "rate",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "1 for positive, 0 for negative. Last value is cached for future invocations. Not used for directional formats.",
+          "label": "[X<direction>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "direction",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "1 for positive, 0 for negative. Last value is cached for future invocations. Not used for directional formats.",
+          "label": "[Y<direction>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "direction",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "1 for positive, 0 for negative. Last value is cached for future invocations. Not used for directional formats.",
+          "label": "[Z<direction>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "direction",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "1 for positive, 0 for negative. Last value is cached for future invocations. Not used for directional formats.",
+          "label": "[E<direction>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "direction",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Direct Stepper Move",
+      "url": "https://marlinfw.org/docs/gcode/G006"
+    },
+    {
       "brief": "Perform a direct, uninterpolated, and non-kinematic synchronized move of one or more steppers directly. Units may be linear (e.g., mm or inches on DELTA) or specified in degrees (SCARA). This command is useful for initialization, diagnostics, and calibration, and should be disabled on production equipment. This type of move can be potentially dangerous, especially for deltabots, so implementations should do their best to limit movement to prevent twerking and damaging the carriage assembly.",
       "codes": [
         "G6"
@@ -4551,6 +4786,21 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "G80: Mesh-based Z probe",
       "url": "https://reprap.org/wiki/G-code#G80:_Mesh-based_Z_probe"
+    }
+  ],
+  "G800": [
+    {
+      "brief": "Returns Gcode data",
+      "codes": [
+        "G800",
+        "M800"
+      ],
+      "id": "Marlin.G800[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Marlin",
+      "title": "Debug Gcode Parser",
+      "url": "https://marlinfw.org/docs/gcode/G800"
     }
   ],
   "G81": [
@@ -5041,7 +5291,7 @@ window.AllGcodes = {
   ],
   "M0": [
     {
-      "brief": "Stop and wait for user.",
+      "brief": "Stop and wait for user",
       "codes": [
         "M0",
         "M1"
@@ -5114,7 +5364,7 @@ window.AllGcodes = {
   ],
   "M1": [
     {
-      "brief": "Stop and wait for user.",
+      "brief": "Stop and wait for user",
       "codes": [
         "M0",
         "M1"
@@ -5186,32 +5436,32 @@ window.AllGcodes = {
   ],
   "M100": [
     {
-      "brief": "Description Here",
+      "brief": "Observe memory used by code",
       "codes": [
         "M100"
       ],
       "id": "Marlin.M100[0]",
       "parameters": [
         {
-          "description": "Dump the free memory block from `__brkval` to the stack pointer.",
+          "description": "Dump the free memory block from `__brkval` to the stack pointer",
           "label": "[D]",
           "optional": true,
           "tag": "D"
         },
         {
-          "description": "Return the number of free bytes in the memory pool along with other vital statistics that define the memory pool.",
+          "description": "Return the number of free bytes in the memory pool along with other vital statistics that define the memory pool",
           "label": "[F]",
           "optional": true,
           "tag": "F"
         },
         {
-          "description": "Initialize the free memory pool so it can be watched and print vital statistics that define the free memory pool.",
+          "description": "Initialize the free memory pool so it can be watched and print vital statistics that define the free memory pool",
           "label": "[I]",
           "optional": true,
           "tag": "I"
         },
         {
-          "description": "Corrupt 'n' locations in the free memory pool and report the locations of the corruption. This is useful to check the correctness of the `M100 D` and `M100 F` commands.",
+          "description": "Corrupt 'n' locations in the free memory pool and report the locations of the corruption. This is useful to check the correctness of the `M100 D` and `M100 F` commands",
           "label": "[C<n>]",
           "optional": true,
           "tag": "C",
@@ -5227,6 +5477,46 @@ window.AllGcodes = {
       "source": "Marlin",
       "title": "Free Memory",
       "url": "https://marlinfw.org/docs/gcode/M100"
+    }
+  ],
+  "M1000": [
+    {
+      "brief": "Resume from Power Loss",
+      "codes": [
+        "M1000"
+      ],
+      "id": "Marlin.M1000[0]",
+      "parameters": [
+        {
+          "description": "Display the Resume/Cancel menu.",
+          "label": "[S<bool>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Internal Use Only",
+      "url": "https://marlinfw.org/docs/gcode/M1000"
+    }
+  ],
+  "M1001": [
+    {
+      "brief": "Run SD Print Finishing Actions",
+      "codes": [
+        "M1001"
+      ],
+      "id": "Marlin.M1001[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Marlin",
+      "title": "Internal Use Only",
+      "url": "https://marlinfw.org/docs/gcode/M1001"
     }
   ],
   "M101": [
@@ -6728,6 +7018,17 @@ window.AllGcodes = {
               "type": "float"
             }
           ]
+        },
+        {
+          "description": "Always show a prompt and await a response (With an LCD menu)",
+          "label": "[P<bool>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
         }
       ],
       "related": [],
@@ -7749,6 +8050,13 @@ window.AllGcodes = {
           "optional": true,
           "tag": "S",
           "values": []
+        },
+        {
+          "description": " Interval in seconds between auto-reports. S0 to disable. (Marlin)",
+          "label": "Snnn",
+          "optional": true,
+          "tag": "S",
+          "values": []
         }
       ],
       "related": [],
@@ -8579,8 +8887,15 @@ window.AllGcodes = {
           "values": []
         },
         {
+          "description": " File number to start at",
+          "label": "Rnnn",
+          "optional": true,
+          "tag": "R",
+          "values": []
+        },
+        {
           "description": " Directory to list",
-          "label": "Pnnn",
+          "label": "P\"ddd\"",
           "optional": true,
           "tag": "P",
           "values": []
@@ -8609,6 +8924,30 @@ window.AllGcodes = {
             {
               "tag": "diameter",
               "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Set volumetric extruder limit (in mm<sup>3</sup>/sec). `L0` disables the limit. (Requires `VOLUMETRIC_EXTRUDER_LIMIT`.)",
+          "label": "[L<volume>]",
+          "optional": true,
+          "tag": "L",
+          "values": [
+            {
+              "tag": "volume",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "0 to disable volumetric extrusion mode, otherwise volumetric is enabled.",
+          "label": "[S<flag>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "flag",
+              "type": "bool"
             }
           ]
         },
@@ -9054,13 +9393,13 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Minimum segment time (\u00c2\u00b5s)",
-          "label": "[B<\u00c2\u00b5s>]",
+          "description": "Minimum segment time (\u00b5s)",
+          "label": "[B<\u00b5s>]",
           "optional": true,
           "tag": "B",
           "values": [
             {
-              "tag": "\u00c2\u00b5s",
+              "tag": "\u00b5s",
               "type": "int"
             }
           ]
@@ -9134,7 +9473,7 @@ window.AllGcodes = {
   ],
   "M206": [
     {
-      "brief": "Description Here",
+      "brief": "Apply a persistent offset",
       "codes": [
         "M206"
       ],
@@ -10934,6 +11273,12 @@ window.AllGcodes = {
           "label": "filename",
           "optional": false,
           "tag": "filename"
+        },
+        {
+          "description": "Set an optimized binary file transfer mode. (Requires `BINARY_FILE_TRANSFER`)",
+          "label": "[B1]",
+          "optional": true,
+          "tag": "B1"
         }
       ],
       "related": [
@@ -11809,6 +12154,79 @@ window.AllGcodes = {
     }
   ],
   "M305": [
+    {
+      "brief": "Set (or report) custom thermistor parameters",
+      "codes": [
+        "M305"
+      ],
+      "id": "Marlin.M305[0]",
+      "parameters": [
+        {
+          "description": "Thermistor table index",
+          "label": "[P<index>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Pullup resistor value",
+          "label": "[R<ohm>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "tag": "ohm",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Resistance at 25C",
+          "label": "[T<ohms>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "tag": "ohms",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Thermistor \"beta\" value",
+          "label": "[B<beta>]",
+          "optional": true,
+          "tag": "B",
+          "values": [
+            {
+              "tag": "beta",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Steinhart-Hart Coefficient 'C'",
+          "label": "[C<coeff>]",
+          "optional": true,
+          "tag": "C",
+          "values": [
+            {
+              "tag": "coeff",
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "User Thermistor Parameters",
+      "url": "https://marlinfw.org/docs/gcode/M305"
+    },
     {
       "brief": "",
       "codes": [
@@ -14330,9 +14748,9 @@ window.AllGcodes = {
       "parameters": [
         {
           "description": "Start Pin number. If not given, will default to 0",
-          "label": "[P<pin>]",
+          "label": "[S<pin>]",
           "optional": true,
-          "tag": "P",
+          "tag": "S",
           "values": [
             {
               "tag": "pin",
@@ -14404,6 +14822,54 @@ window.AllGcodes = {
       "source": "Marlin",
       "title": "Toggle Pins",
       "url": "https://marlinfw.org/docs/gcode/M043-T"
+    }
+  ],
+  "M430": [
+    {
+      "brief": "Read and display current (A), voltage (V), and power (W)",
+      "codes": [
+        "M430"
+      ],
+      "id": "Marlin.M430[0]",
+      "parameters": [
+        {
+          "description": "display current (A) on LCD",
+          "label": "[I<bool>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "toggle display voltage (V) on LCD",
+          "label": "[V<bool>]",
+          "optional": true,
+          "tag": "V",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "display power/watts (W) on LCD",
+          "label": "[W<bool>]",
+          "optional": true,
+          "tag": "W",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Power Monitor",
+      "url": "https://marlinfw.org/docs/gcode/M430"
     }
   ],
   "M44": [
@@ -15111,6 +15577,131 @@ window.AllGcodes = {
       "url": "https://reprap.org/wiki/G-code#M509:_Force_language_selection"
     }
   ],
+  "M510": [
+    {
+      "brief": "Lock the machine if it has a passcode",
+      "codes": [
+        "M510"
+      ],
+      "id": "Marlin.M510[0]",
+      "parameters": [],
+      "related": [
+        "M511",
+        "M512"
+      ],
+      "source": "Marlin",
+      "title": "Lock Machine",
+      "url": "https://marlinfw.org/docs/gcode/M510"
+    },
+    {
+      "brief": "Lock the machine. When the machine is locked a passcode is required to unlock it. Use M511 P with your passcode to unlock the machine. In Marlin this feature is enabled with the PASSWORD_FEATURE option.",
+      "codes": [
+        "M510"
+      ],
+      "id": "RepRap.M510[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M510: Lock Machine",
+      "url": "https://reprap.org/wiki/G-code#M510:_Lock_Machine"
+    }
+  ],
+  "M511": [
+    {
+      "brief": "Unlock the machine if it has a passcode",
+      "codes": [
+        "M511"
+      ],
+      "id": "Marlin.M511[0]",
+      "parameters": [
+        {
+          "description": "The passcode to try.",
+          "label": "P<passcode>",
+          "optional": false,
+          "tag": "P",
+          "values": [
+            {
+              "tag": "passcode",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "M510",
+        "M512"
+      ],
+      "source": "Marlin",
+      "title": "Unlock Machine",
+      "url": "https://marlinfw.org/docs/gcode/M511"
+    },
+    {
+      "brief": "Check the given passcode and unlock the machine if it is correct. Otherwise, delay for a period of time before allowing another attempt. In Marlin this feature is enabled with the PASSWORD_FEATURE option.",
+      "codes": [
+        "M511"
+      ],
+      "id": "RepRap.M511[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M511: Unlock Machine with Passcode",
+      "url": "https://reprap.org/wiki/G-code#M511:_Unlock_Machine_with_Passcode"
+    }
+  ],
+  "M512": [
+    {
+      "brief": "Set a numeric passcode for locking the machine",
+      "codes": [
+        "M512"
+      ],
+      "id": "Marlin.M512[0]",
+      "parameters": [
+        {
+          "description": "Current passcode. This must be correct to clear or change the passcode.",
+          "label": "P<password>",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "tag": "password",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "If `S` is included the new passcode will be set to this value.",
+          "label": "[S<password>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "password",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "M510",
+        "M511"
+      ],
+      "source": "Marlin",
+      "title": "Set Passcode",
+      "url": "https://marlinfw.org/docs/gcode/M512"
+    },
+    {
+      "brief": "Check the given passcode (P) and if it is correct clear the passcode. If S is given, set a new passcode. In Marlin this feature is enabled with the PASSWORD_CHANGE_GCODE option.",
+      "codes": [
+        "M512"
+      ],
+      "id": "RepRap.M512[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M512: Set Passcode",
+      "url": "https://reprap.org/wiki/G-code#M512:_Set_Passcode"
+    }
+  ],
   "M524": [
     {
       "brief": "Abort an SD print started with [`M24`](/docs/gcode/M024.html)",
@@ -15428,6 +16019,13 @@ window.AllGcodes = {
           "label": "Znnn",
           "optional": true,
           "tag": "Z",
+          "values": []
+        },
+        {
+          "description": " Apply XY compensation to Y axis instead of X (defaults to 0, requires RRF 3.2-b4 or newer)",
+          "label": "Pnnn",
+          "optional": true,
+          "tag": "P",
           "values": []
         }
       ],
@@ -16512,6 +17110,13 @@ window.AllGcodes = {
           "optional": true,
           "tag": "T",
           "values": []
+        },
+        {
+          "description": " Set or reset allowed site for cross-orgin HTTP requests (RRF > 3.2-b4.1)",
+          "label": "C\"site\"",
+          "optional": true,
+          "tag": "C",
+          "values": []
         }
       ],
       "related": [],
@@ -16696,6 +17301,20 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M594: Enter/Leave Height Following mode",
       "url": "https://reprap.org/wiki/G-code#M594:_Enter.2FLeave_Height_Following_mode"
+    }
+  ],
+  "M595": [
+    {
+      "brief": "",
+      "codes": [
+        "M595"
+      ],
+      "id": "RepRap.M595[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M595: Set movement queue length",
+      "url": "https://reprap.org/wiki/G-code#M595:_Set_movement_queue_length"
     }
   ],
   "M6": [
@@ -17420,60 +18039,11 @@ window.AllGcodes = {
   ],
   "M666": [
     {
-      "brief": "Set dual endstop offsets",
-      "codes": [
-        "M666"
-      ],
-      "id": "Marlin.M666[0]",
-      "parameters": [
-        {
-          "description": "Offset for the X axis endstops",
-          "label": "[X<adj>]",
-          "optional": true,
-          "tag": "X",
-          "values": [
-            {
-              "tag": "adj",
-              "type": "float"
-            }
-          ]
-        },
-        {
-          "description": "Offset for the Y axis endstops",
-          "label": "[Y<adj>]",
-          "optional": true,
-          "tag": "Y",
-          "values": [
-            {
-              "tag": "adj",
-              "type": "float"
-            }
-          ]
-        },
-        {
-          "description": "Offset for the Z axis endstops",
-          "label": "[Z<adj>]",
-          "optional": true,
-          "tag": "Z",
-          "values": [
-            {
-              "tag": "adj",
-              "type": "float"
-            }
-          ]
-        }
-      ],
-      "related": [],
-      "source": "Marlin",
-      "title": "Set dual endstop offsets",
-      "url": "https://marlinfw.org/docs/gcode/M666-dual"
-    },
-    {
       "brief": "Set Delta endstop adjustments",
       "codes": [
         "M666"
       ],
-      "id": "Marlin.M666[1]",
+      "id": "Marlin.M666[0]",
       "parameters": [
         {
           "description": "Adjustment for the X actuator endstop",
@@ -17516,6 +18086,55 @@ window.AllGcodes = {
       "source": "Marlin",
       "title": "Set Delta endstop adjustments",
       "url": "https://marlinfw.org/docs/gcode/M666"
+    },
+    {
+      "brief": "Set dual endstop offsets",
+      "codes": [
+        "M666"
+      ],
+      "id": "Marlin.M666[1]",
+      "parameters": [
+        {
+          "description": "Offset for the X axis endstops",
+          "label": "[X<adj>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "adj",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Offset for the Y axis endstops",
+          "label": "[Y<adj>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "adj",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Offset for the Z axis endstops",
+          "label": "[Z<adj>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "adj",
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Set dual endstop offsets",
+      "url": "https://marlinfw.org/docs/gcode/M666-dual"
     },
     {
       "brief": "",
@@ -17667,6 +18286,42 @@ window.AllGcodes = {
   ],
   "M672": [
     {
+      "brief": "Set/clear Duet Smart Effector sensitivity",
+      "codes": [
+        "M672"
+      ],
+      "id": "Marlin.M672[0]",
+      "parameters": [
+        {
+          "description": "Set sensitivity (0-255)",
+          "label": "[S<sensitivity>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "sensitivity",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Revert sensitivity to factory settings",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Test Speed Warning",
+      "url": "https://marlinfw.org/docs/gcode/M672"
+    },
+    {
       "brief": "",
       "codes": [
         "M672"
@@ -17723,7 +18378,7 @@ window.AllGcodes = {
   ],
   "M7": [
     {
-      "brief": "Turn mist or flood coolant on and off",
+      "brief": "Turn mist or flood coolant on / off",
       "codes": [
         "M7",
         "M8",
@@ -18541,7 +19196,7 @@ window.AllGcodes = {
   ],
   "M8": [
     {
-      "brief": "Turn mist or flood coolant on and off",
+      "brief": "Turn mist or flood coolant on / off",
       "codes": [
         "M7",
         "M8",
@@ -18605,6 +19260,19 @@ window.AllGcodes = {
   ],
   "M800": [
     {
+      "brief": "Returns Gcode data",
+      "codes": [
+        "G800",
+        "M800"
+      ],
+      "id": "Marlin.M800[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Marlin",
+      "title": "Debug Gcode Parser",
+      "url": "https://marlinfw.org/docs/gcode/G800"
+    },
+    {
       "brief": "1 only in bq-Marlin Firmware",
       "codes": [
         "M800"
@@ -18629,6 +19297,45 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M801: Fire end print procedure",
       "url": "https://reprap.org/wiki/G-code#M801:_Fire_end_print_procedure"
+    }
+  ],
+  "M808": [
+    {
+      "brief": "Set or go to a marker for looping G-code",
+      "codes": [
+        "M808"
+      ],
+      "id": "Marlin.M808[0]",
+      "parameters": [
+        {
+          "description": "Loop counter. Use `L` or `L0` for an infinite loop.",
+          "label": "[L<int>]",
+          "optional": true,
+          "tag": "L",
+          "values": [
+            {
+              "type": "int",
+              "unit": "count"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Repeat Marker",
+      "url": "https://marlinfw.org/docs/gcode/M808"
+    },
+    {
+      "brief": "The M808 L[count] command is used in a G-code file to set a Repeat Marker beginning at the start of the following line. For an SD print, the firmware will save a marker with the file's byte position and the count given by the L parameter. To set an infinite loop use L0.\nThe M808 command (no parameters) will cause G-code processing to loop back to the previous Repeat Marker as many times as specified. Ideally, each instance of M808 L should have a corresponding M808.\nThe number of nested M808 L commands is limited to the depth set in the firmware. To enable this feature in Marlin, define GCODE_REPEAT_MARKERS. Hosts should look for Cap:REPEAT. At this time the feature only applies to printing direct from media and otherwise M808 is ignored, so host developers are free to come up with their own approach to these codes with no nesting limit and make it work with any old firmware.",
+      "codes": [
+        "M808"
+      ],
+      "id": "RepRap.M808[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M808: Set or Goto Repeat Marker",
+      "url": "https://reprap.org/wiki/G-code#M808:_Set_or_Goto_Repeat_Marker"
     }
   ],
   "M81": [
@@ -18657,6 +19364,306 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M81: ATX Power Off",
       "url": "https://reprap.org/wiki/G-code#M81:_ATX_Power_Off"
+    }
+  ],
+  "M810": [
+    {
+      "brief": "Set/execute one of ten G-code macros",
+      "codes": [
+        "M810",
+        "M811",
+        "M812",
+        "M813",
+        "M814",
+        "M815",
+        "M816",
+        "M817",
+        "M818",
+        "M819"
+      ],
+      "id": "Marlin.M810[0]",
+      "parameters": [
+        {
+          "description": "Set Macro to the given commands, separated by the pipe character.",
+          "label": "[string]",
+          "optional": true,
+          "tag": "string"
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "G-code macros",
+      "url": "https://marlinfw.org/docs/gcode/M810-M819"
+    }
+  ],
+  "M811": [
+    {
+      "brief": "Set/execute one of ten G-code macros",
+      "codes": [
+        "M810",
+        "M811",
+        "M812",
+        "M813",
+        "M814",
+        "M815",
+        "M816",
+        "M817",
+        "M818",
+        "M819"
+      ],
+      "id": "Marlin.M811[0]",
+      "parameters": [
+        {
+          "description": "Set Macro to the given commands, separated by the pipe character.",
+          "label": "[string]",
+          "optional": true,
+          "tag": "string"
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "G-code macros",
+      "url": "https://marlinfw.org/docs/gcode/M810-M819"
+    }
+  ],
+  "M812": [
+    {
+      "brief": "Set/execute one of ten G-code macros",
+      "codes": [
+        "M810",
+        "M811",
+        "M812",
+        "M813",
+        "M814",
+        "M815",
+        "M816",
+        "M817",
+        "M818",
+        "M819"
+      ],
+      "id": "Marlin.M812[0]",
+      "parameters": [
+        {
+          "description": "Set Macro to the given commands, separated by the pipe character.",
+          "label": "[string]",
+          "optional": true,
+          "tag": "string"
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "G-code macros",
+      "url": "https://marlinfw.org/docs/gcode/M810-M819"
+    }
+  ],
+  "M813": [
+    {
+      "brief": "Set/execute one of ten G-code macros",
+      "codes": [
+        "M810",
+        "M811",
+        "M812",
+        "M813",
+        "M814",
+        "M815",
+        "M816",
+        "M817",
+        "M818",
+        "M819"
+      ],
+      "id": "Marlin.M813[0]",
+      "parameters": [
+        {
+          "description": "Set Macro to the given commands, separated by the pipe character.",
+          "label": "[string]",
+          "optional": true,
+          "tag": "string"
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "G-code macros",
+      "url": "https://marlinfw.org/docs/gcode/M810-M819"
+    }
+  ],
+  "M814": [
+    {
+      "brief": "Set/execute one of ten G-code macros",
+      "codes": [
+        "M810",
+        "M811",
+        "M812",
+        "M813",
+        "M814",
+        "M815",
+        "M816",
+        "M817",
+        "M818",
+        "M819"
+      ],
+      "id": "Marlin.M814[0]",
+      "parameters": [
+        {
+          "description": "Set Macro to the given commands, separated by the pipe character.",
+          "label": "[string]",
+          "optional": true,
+          "tag": "string"
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "G-code macros",
+      "url": "https://marlinfw.org/docs/gcode/M810-M819"
+    }
+  ],
+  "M815": [
+    {
+      "brief": "Set/execute one of ten G-code macros",
+      "codes": [
+        "M810",
+        "M811",
+        "M812",
+        "M813",
+        "M814",
+        "M815",
+        "M816",
+        "M817",
+        "M818",
+        "M819"
+      ],
+      "id": "Marlin.M815[0]",
+      "parameters": [
+        {
+          "description": "Set Macro to the given commands, separated by the pipe character.",
+          "label": "[string]",
+          "optional": true,
+          "tag": "string"
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "G-code macros",
+      "url": "https://marlinfw.org/docs/gcode/M810-M819"
+    }
+  ],
+  "M816": [
+    {
+      "brief": "Set/execute one of ten G-code macros",
+      "codes": [
+        "M810",
+        "M811",
+        "M812",
+        "M813",
+        "M814",
+        "M815",
+        "M816",
+        "M817",
+        "M818",
+        "M819"
+      ],
+      "id": "Marlin.M816[0]",
+      "parameters": [
+        {
+          "description": "Set Macro to the given commands, separated by the pipe character.",
+          "label": "[string]",
+          "optional": true,
+          "tag": "string"
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "G-code macros",
+      "url": "https://marlinfw.org/docs/gcode/M810-M819"
+    }
+  ],
+  "M817": [
+    {
+      "brief": "Set/execute one of ten G-code macros",
+      "codes": [
+        "M810",
+        "M811",
+        "M812",
+        "M813",
+        "M814",
+        "M815",
+        "M816",
+        "M817",
+        "M818",
+        "M819"
+      ],
+      "id": "Marlin.M817[0]",
+      "parameters": [
+        {
+          "description": "Set Macro to the given commands, separated by the pipe character.",
+          "label": "[string]",
+          "optional": true,
+          "tag": "string"
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "G-code macros",
+      "url": "https://marlinfw.org/docs/gcode/M810-M819"
+    }
+  ],
+  "M818": [
+    {
+      "brief": "Set/execute one of ten G-code macros",
+      "codes": [
+        "M810",
+        "M811",
+        "M812",
+        "M813",
+        "M814",
+        "M815",
+        "M816",
+        "M817",
+        "M818",
+        "M819"
+      ],
+      "id": "Marlin.M818[0]",
+      "parameters": [
+        {
+          "description": "Set Macro to the given commands, separated by the pipe character.",
+          "label": "[string]",
+          "optional": true,
+          "tag": "string"
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "G-code macros",
+      "url": "https://marlinfw.org/docs/gcode/M810-M819"
+    }
+  ],
+  "M819": [
+    {
+      "brief": "Set/execute one of ten G-code macros",
+      "codes": [
+        "M810",
+        "M811",
+        "M812",
+        "M813",
+        "M814",
+        "M815",
+        "M816",
+        "M817",
+        "M818",
+        "M819"
+      ],
+      "id": "Marlin.M819[0]",
+      "parameters": [
+        {
+          "description": "Set Macro to the given commands, separated by the pipe character.",
+          "label": "[string]",
+          "optional": true,
+          "tag": "string"
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "G-code macros",
+      "url": "https://marlinfw.org/docs/gcode/M810-M819"
     }
   ],
   "M82": [
@@ -18999,6 +20006,166 @@ window.AllGcodes = {
   ],
   "M860": [
     {
+      "brief": "I2C position encoders for closed loop control",
+      "codes": [
+        "M860",
+        "M861",
+        "M862",
+        "M863",
+        "M864",
+        "M865",
+        "M866",
+        "M867",
+        "M868",
+        "M869"
+      ],
+      "id": "Marlin.M860[0]",
+      "parameters": [
+        {
+          "description": "Module index.  [0, I2CPE_ENCODER_CNT - 1]",
+          "label": "[I<index>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Include homed zero-offset in returned position",
+          "label": "[O<bool>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Report on X axis encoder if present. (If A or I not specified)",
+          "label": "[X<axis>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Y axis encoder if present. (If A or I not specified)",
+          "label": "[Y<axis>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Z axis encoder if present. (If A or I not specified)",
+          "label": "[Z<axis>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on E axis encoder if present. (If A or I not specified)",
+          "label": "[E<axis>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Units in mm or raw step count. (for M860 only)",
+          "label": "[U<bool>]",
+          "optional": true,
+          "tag": "U",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Number of rePeats/iterations. (for M863 only)",
+          "label": "[P<int>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Module new I2C address. [30, 200]. (for M864 only)",
+          "label": "[S<addr>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "addr",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Reset error counter. (for M866 only)",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Enable/disable error correction. 1 enables, 0 disables.  If not supplied, toggle. (for M867 only)",
+          "label": "[S<bool>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "New error correction threshold. (for M868 only)",
+          "label": "[T<float>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "I2C Position Encoders",
+      "url": "https://marlinfw.org/docs/gcode/M860-M869"
+    },
+    {
       "brief": "",
       "codes": [
         "M860"
@@ -19020,6 +20187,166 @@ window.AllGcodes = {
     }
   ],
   "M861": [
+    {
+      "brief": "I2C position encoders for closed loop control",
+      "codes": [
+        "M860",
+        "M861",
+        "M862",
+        "M863",
+        "M864",
+        "M865",
+        "M866",
+        "M867",
+        "M868",
+        "M869"
+      ],
+      "id": "Marlin.M861[0]",
+      "parameters": [
+        {
+          "description": "Module index.  [0, I2CPE_ENCODER_CNT - 1]",
+          "label": "[I<index>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Include homed zero-offset in returned position",
+          "label": "[O<bool>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Report on X axis encoder if present. (If A or I not specified)",
+          "label": "[X<axis>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Y axis encoder if present. (If A or I not specified)",
+          "label": "[Y<axis>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Z axis encoder if present. (If A or I not specified)",
+          "label": "[Z<axis>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on E axis encoder if present. (If A or I not specified)",
+          "label": "[E<axis>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Units in mm or raw step count. (for M860 only)",
+          "label": "[U<bool>]",
+          "optional": true,
+          "tag": "U",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Number of rePeats/iterations. (for M863 only)",
+          "label": "[P<int>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Module new I2C address. [30, 200]. (for M864 only)",
+          "label": "[S<addr>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "addr",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Reset error counter. (for M866 only)",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Enable/disable error correction. 1 enables, 0 disables.  If not supplied, toggle. (for M867 only)",
+          "label": "[S<bool>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "New error correction threshold. (for M868 only)",
+          "label": "[T<float>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "I2C Position Encoders",
+      "url": "https://marlinfw.org/docs/gcode/M860-M869"
+    },
     {
       "brief": "",
       "codes": [
@@ -19070,6 +20397,166 @@ window.AllGcodes = {
     }
   ],
   "M862": [
+    {
+      "brief": "I2C position encoders for closed loop control",
+      "codes": [
+        "M860",
+        "M861",
+        "M862",
+        "M863",
+        "M864",
+        "M865",
+        "M866",
+        "M867",
+        "M868",
+        "M869"
+      ],
+      "id": "Marlin.M862[0]",
+      "parameters": [
+        {
+          "description": "Module index.  [0, I2CPE_ENCODER_CNT - 1]",
+          "label": "[I<index>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Include homed zero-offset in returned position",
+          "label": "[O<bool>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Report on X axis encoder if present. (If A or I not specified)",
+          "label": "[X<axis>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Y axis encoder if present. (If A or I not specified)",
+          "label": "[Y<axis>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Z axis encoder if present. (If A or I not specified)",
+          "label": "[Z<axis>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on E axis encoder if present. (If A or I not specified)",
+          "label": "[E<axis>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Units in mm or raw step count. (for M860 only)",
+          "label": "[U<bool>]",
+          "optional": true,
+          "tag": "U",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Number of rePeats/iterations. (for M863 only)",
+          "label": "[P<int>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Module new I2C address. [30, 200]. (for M864 only)",
+          "label": "[S<addr>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "addr",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Reset error counter. (for M866 only)",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Enable/disable error correction. 1 enables, 0 disables.  If not supplied, toggle. (for M867 only)",
+          "label": "[S<bool>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "New error correction threshold. (for M868 only)",
+          "label": "[T<float>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "I2C Position Encoders",
+      "url": "https://marlinfw.org/docs/gcode/M860-M869"
+    },
     {
       "brief": "Checks the parameters of the printer and gcode and performs compatibility check",
       "codes": [
@@ -19235,6 +20722,1154 @@ window.AllGcodes = {
       "url": "https://reprap.org/wiki/G-code#M862.5:_Gcode_level"
     }
   ],
+  "M863": [
+    {
+      "brief": "I2C position encoders for closed loop control",
+      "codes": [
+        "M860",
+        "M861",
+        "M862",
+        "M863",
+        "M864",
+        "M865",
+        "M866",
+        "M867",
+        "M868",
+        "M869"
+      ],
+      "id": "Marlin.M863[0]",
+      "parameters": [
+        {
+          "description": "Module index.  [0, I2CPE_ENCODER_CNT - 1]",
+          "label": "[I<index>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Include homed zero-offset in returned position",
+          "label": "[O<bool>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Report on X axis encoder if present. (If A or I not specified)",
+          "label": "[X<axis>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Y axis encoder if present. (If A or I not specified)",
+          "label": "[Y<axis>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Z axis encoder if present. (If A or I not specified)",
+          "label": "[Z<axis>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on E axis encoder if present. (If A or I not specified)",
+          "label": "[E<axis>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Units in mm or raw step count. (for M860 only)",
+          "label": "[U<bool>]",
+          "optional": true,
+          "tag": "U",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Number of rePeats/iterations. (for M863 only)",
+          "label": "[P<int>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Module new I2C address. [30, 200]. (for M864 only)",
+          "label": "[S<addr>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "addr",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Reset error counter. (for M866 only)",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Enable/disable error correction. 1 enables, 0 disables.  If not supplied, toggle. (for M867 only)",
+          "label": "[S<bool>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "New error correction threshold. (for M868 only)",
+          "label": "[T<float>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "I2C Position Encoders",
+      "url": "https://marlinfw.org/docs/gcode/M860-M869"
+    }
+  ],
+  "M864": [
+    {
+      "brief": "I2C position encoders for closed loop control",
+      "codes": [
+        "M860",
+        "M861",
+        "M862",
+        "M863",
+        "M864",
+        "M865",
+        "M866",
+        "M867",
+        "M868",
+        "M869"
+      ],
+      "id": "Marlin.M864[0]",
+      "parameters": [
+        {
+          "description": "Module index.  [0, I2CPE_ENCODER_CNT - 1]",
+          "label": "[I<index>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Include homed zero-offset in returned position",
+          "label": "[O<bool>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Report on X axis encoder if present. (If A or I not specified)",
+          "label": "[X<axis>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Y axis encoder if present. (If A or I not specified)",
+          "label": "[Y<axis>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Z axis encoder if present. (If A or I not specified)",
+          "label": "[Z<axis>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on E axis encoder if present. (If A or I not specified)",
+          "label": "[E<axis>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Units in mm or raw step count. (for M860 only)",
+          "label": "[U<bool>]",
+          "optional": true,
+          "tag": "U",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Number of rePeats/iterations. (for M863 only)",
+          "label": "[P<int>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Module new I2C address. [30, 200]. (for M864 only)",
+          "label": "[S<addr>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "addr",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Reset error counter. (for M866 only)",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Enable/disable error correction. 1 enables, 0 disables.  If not supplied, toggle. (for M867 only)",
+          "label": "[S<bool>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "New error correction threshold. (for M868 only)",
+          "label": "[T<float>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "I2C Position Encoders",
+      "url": "https://marlinfw.org/docs/gcode/M860-M869"
+    }
+  ],
+  "M865": [
+    {
+      "brief": "I2C position encoders for closed loop control",
+      "codes": [
+        "M860",
+        "M861",
+        "M862",
+        "M863",
+        "M864",
+        "M865",
+        "M866",
+        "M867",
+        "M868",
+        "M869"
+      ],
+      "id": "Marlin.M865[0]",
+      "parameters": [
+        {
+          "description": "Module index.  [0, I2CPE_ENCODER_CNT - 1]",
+          "label": "[I<index>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Include homed zero-offset in returned position",
+          "label": "[O<bool>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Report on X axis encoder if present. (If A or I not specified)",
+          "label": "[X<axis>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Y axis encoder if present. (If A or I not specified)",
+          "label": "[Y<axis>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Z axis encoder if present. (If A or I not specified)",
+          "label": "[Z<axis>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on E axis encoder if present. (If A or I not specified)",
+          "label": "[E<axis>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Units in mm or raw step count. (for M860 only)",
+          "label": "[U<bool>]",
+          "optional": true,
+          "tag": "U",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Number of rePeats/iterations. (for M863 only)",
+          "label": "[P<int>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Module new I2C address. [30, 200]. (for M864 only)",
+          "label": "[S<addr>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "addr",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Reset error counter. (for M866 only)",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Enable/disable error correction. 1 enables, 0 disables.  If not supplied, toggle. (for M867 only)",
+          "label": "[S<bool>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "New error correction threshold. (for M868 only)",
+          "label": "[T<float>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "I2C Position Encoders",
+      "url": "https://marlinfw.org/docs/gcode/M860-M869"
+    }
+  ],
+  "M866": [
+    {
+      "brief": "I2C position encoders for closed loop control",
+      "codes": [
+        "M860",
+        "M861",
+        "M862",
+        "M863",
+        "M864",
+        "M865",
+        "M866",
+        "M867",
+        "M868",
+        "M869"
+      ],
+      "id": "Marlin.M866[0]",
+      "parameters": [
+        {
+          "description": "Module index.  [0, I2CPE_ENCODER_CNT - 1]",
+          "label": "[I<index>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Include homed zero-offset in returned position",
+          "label": "[O<bool>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Report on X axis encoder if present. (If A or I not specified)",
+          "label": "[X<axis>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Y axis encoder if present. (If A or I not specified)",
+          "label": "[Y<axis>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Z axis encoder if present. (If A or I not specified)",
+          "label": "[Z<axis>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on E axis encoder if present. (If A or I not specified)",
+          "label": "[E<axis>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Units in mm or raw step count. (for M860 only)",
+          "label": "[U<bool>]",
+          "optional": true,
+          "tag": "U",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Number of rePeats/iterations. (for M863 only)",
+          "label": "[P<int>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Module new I2C address. [30, 200]. (for M864 only)",
+          "label": "[S<addr>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "addr",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Reset error counter. (for M866 only)",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Enable/disable error correction. 1 enables, 0 disables.  If not supplied, toggle. (for M867 only)",
+          "label": "[S<bool>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "New error correction threshold. (for M868 only)",
+          "label": "[T<float>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "I2C Position Encoders",
+      "url": "https://marlinfw.org/docs/gcode/M860-M869"
+    }
+  ],
+  "M867": [
+    {
+      "brief": "I2C position encoders for closed loop control",
+      "codes": [
+        "M860",
+        "M861",
+        "M862",
+        "M863",
+        "M864",
+        "M865",
+        "M866",
+        "M867",
+        "M868",
+        "M869"
+      ],
+      "id": "Marlin.M867[0]",
+      "parameters": [
+        {
+          "description": "Module index.  [0, I2CPE_ENCODER_CNT - 1]",
+          "label": "[I<index>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Include homed zero-offset in returned position",
+          "label": "[O<bool>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Report on X axis encoder if present. (If A or I not specified)",
+          "label": "[X<axis>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Y axis encoder if present. (If A or I not specified)",
+          "label": "[Y<axis>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Z axis encoder if present. (If A or I not specified)",
+          "label": "[Z<axis>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on E axis encoder if present. (If A or I not specified)",
+          "label": "[E<axis>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Units in mm or raw step count. (for M860 only)",
+          "label": "[U<bool>]",
+          "optional": true,
+          "tag": "U",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Number of rePeats/iterations. (for M863 only)",
+          "label": "[P<int>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Module new I2C address. [30, 200]. (for M864 only)",
+          "label": "[S<addr>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "addr",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Reset error counter. (for M866 only)",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Enable/disable error correction. 1 enables, 0 disables.  If not supplied, toggle. (for M867 only)",
+          "label": "[S<bool>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "New error correction threshold. (for M868 only)",
+          "label": "[T<float>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "I2C Position Encoders",
+      "url": "https://marlinfw.org/docs/gcode/M860-M869"
+    }
+  ],
+  "M868": [
+    {
+      "brief": "I2C position encoders for closed loop control",
+      "codes": [
+        "M860",
+        "M861",
+        "M862",
+        "M863",
+        "M864",
+        "M865",
+        "M866",
+        "M867",
+        "M868",
+        "M869"
+      ],
+      "id": "Marlin.M868[0]",
+      "parameters": [
+        {
+          "description": "Module index.  [0, I2CPE_ENCODER_CNT - 1]",
+          "label": "[I<index>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Include homed zero-offset in returned position",
+          "label": "[O<bool>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Report on X axis encoder if present. (If A or I not specified)",
+          "label": "[X<axis>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Y axis encoder if present. (If A or I not specified)",
+          "label": "[Y<axis>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Z axis encoder if present. (If A or I not specified)",
+          "label": "[Z<axis>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on E axis encoder if present. (If A or I not specified)",
+          "label": "[E<axis>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Units in mm or raw step count. (for M860 only)",
+          "label": "[U<bool>]",
+          "optional": true,
+          "tag": "U",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Number of rePeats/iterations. (for M863 only)",
+          "label": "[P<int>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Module new I2C address. [30, 200]. (for M864 only)",
+          "label": "[S<addr>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "addr",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Reset error counter. (for M866 only)",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Enable/disable error correction. 1 enables, 0 disables.  If not supplied, toggle. (for M867 only)",
+          "label": "[S<bool>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "New error correction threshold. (for M868 only)",
+          "label": "[T<float>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "I2C Position Encoders",
+      "url": "https://marlinfw.org/docs/gcode/M860-M869"
+    }
+  ],
+  "M869": [
+    {
+      "brief": "I2C position encoders for closed loop control",
+      "codes": [
+        "M860",
+        "M861",
+        "M862",
+        "M863",
+        "M864",
+        "M865",
+        "M866",
+        "M867",
+        "M868",
+        "M869"
+      ],
+      "id": "Marlin.M869[0]",
+      "parameters": [
+        {
+          "description": "Module index.  [0, I2CPE_ENCODER_CNT - 1]",
+          "label": "[I<index>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Include homed zero-offset in returned position",
+          "label": "[O<bool>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Report on X axis encoder if present. (If A or I not specified)",
+          "label": "[X<axis>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Y axis encoder if present. (If A or I not specified)",
+          "label": "[Y<axis>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on Z axis encoder if present. (If A or I not specified)",
+          "label": "[Z<axis>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Report on E axis encoder if present. (If A or I not specified)",
+          "label": "[E<axis>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "axis",
+              "type": "char"
+            }
+          ]
+        },
+        {
+          "description": "Units in mm or raw step count. (for M860 only)",
+          "label": "[U<bool>]",
+          "optional": true,
+          "tag": "U",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Number of rePeats/iterations. (for M863 only)",
+          "label": "[P<int>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Module new I2C address. [30, 200]. (for M864 only)",
+          "label": "[S<addr>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "addr",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Reset error counter. (for M866 only)",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Enable/disable error correction. 1 enables, 0 disables.  If not supplied, toggle. (for M867 only)",
+          "label": "[S<bool>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "New error correction threshold. (for M868 only)",
+          "label": "[T<float>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "I2C Position Encoders",
+      "url": "https://marlinfw.org/docs/gcode/M860-M869"
+    }
+  ],
+  "M87": [
+    {
+      "brief": "",
+      "codes": [
+        "M87"
+      ],
+      "id": "RepRap.M87[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M87: Cancel Safety Timer",
+      "url": "https://reprap.org/wiki/G-code#M87:_Cancel_Safety_Timer"
+    }
+  ],
   "M871": [
     {
       "brief": "Configure probe temperature compensation",
@@ -19245,12 +21880,12 @@ window.AllGcodes = {
       "parameters": [
         {
           "description": "Z adjustment value, in micrometers.",
-          "label": "[V<\u00c2\u00b5m>]",
+          "label": "[V<\u00b5m>]",
           "optional": true,
           "tag": "V",
           "values": [
             {
-              "tag": "\u00c2\u00b5m",
+              "tag": "\u00b5m",
               "type": "int"
             }
           ]
@@ -19361,6 +21996,31 @@ window.AllGcodes = {
   ],
   "M876": [
     {
+      "brief": "Handle Host prompt responses",
+      "codes": [
+        "M876"
+      ],
+      "id": "Marlin.M876[0]",
+      "parameters": [
+        {
+          "description": "Response to prompt",
+          "label": "S<response>",
+          "optional": false,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "response",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Handle Prompt Response",
+      "url": "https://marlinfw.org/docs/gcode/M876"
+    },
+    {
       "brief": "",
       "codes": [
         "M876"
@@ -19412,7 +22072,7 @@ window.AllGcodes = {
   ],
   "M9": [
     {
-      "brief": "Turn mist or flood coolant on and off",
+      "brief": "Turn mist or flood coolant on / off",
       "codes": [
         "M7",
         "M8",
@@ -20365,6 +23025,154 @@ window.AllGcodes = {
   ],
   "M916": [
     {
+      "brief": "Find L6474 drive level (KVAL_HOLD) threshold",
+      "codes": [
+        "M916"
+      ],
+      "id": "Marlin.M916[0]",
+      "parameters": [
+        {
+          "description": "Select which driver(s) to monitor on multi-driver axis",
+          "label": "[J<0|1|2|3|4|5|6|7>]",
+          "optional": true,
+          "tag": "J",
+          "values": [
+            {
+              "description": "(default) Monitor all drivers on the axis",
+              "tag": 0
+            },
+            {
+              "description": "Monitor only X, Y, Z, E1",
+              "tag": 1
+            },
+            {
+              "description": "Monitor only X2, Y2, Z2, E2",
+              "tag": 2
+            },
+            {
+              "description": "Monitor only Z3, E3",
+              "tag": 3
+            },
+            {
+              "description": "Monitor only Z4, E4",
+              "tag": 4
+            },
+            {
+              "description": "Monitor only Z5, E5",
+              "tag": 5
+            },
+            {
+              "description": "Monitor only Z6, E6",
+              "tag": 6
+            },
+            {
+              "description": "Monitor only Z7, E7",
+              "tag": 7
+            }
+          ]
+        },
+        {
+          "description": "Monitor X with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[X<mm>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Monitor Y with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[Y<mm>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Monitor Z with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[Z<mm>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Monitor E with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[E<mm>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Feedrate for the moves. (Default max feedrate if unspecified.)",
+          "label": "[F<feedrate>]",
+          "optional": true,
+          "tag": "F",
+          "values": [
+            {
+              "tag": "feedrate",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Current (mA) setting for TVAL (0 - 4A in 31.25mA increments, rounds down) - L6474 only. If unspecified, report current value from driver.",
+          "label": "[T<current>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "tag": "current",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Value for KVAL_HOLD (0 - 255) (ignored for L6474). If unspecified, report current value from driver.",
+          "label": "[K<Kvalue>]",
+          "optional": true,
+          "tag": "K",
+          "values": [
+            {
+              "tag": "Kvalue",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Time (in seconds) to run each setting of KVAL_HOLD/TVAL. (Default zero, to run each setting once.)",
+          "label": "[D<second>]",
+          "optional": true,
+          "tag": "D",
+          "values": [
+            {
+              "tag": "second",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "M917",
+        "M918"
+      ],
+      "source": "Marlin",
+      "title": "L6474 Thermal Warning Test",
+      "url": "https://marlinfw.org/docs/gcode/M916"
+    },
+    {
       "brief": "",
       "codes": [
         "M916"
@@ -20391,6 +23199,154 @@ window.AllGcodes = {
   ],
   "M917": [
     {
+      "brief": "Find L6474 minimum current thresholds",
+      "codes": [
+        "M917"
+      ],
+      "id": "Marlin.M917[0]",
+      "parameters": [
+        {
+          "description": "Select which driver(s) to monitor on multi-driver axis.",
+          "label": "[J<0|1|2|3|4|5|6|7>]",
+          "optional": true,
+          "tag": "J",
+          "values": [
+            {
+              "description": "(default) Monitor all drivers on the axis or E0.",
+              "tag": 0
+            },
+            {
+              "description": "Monitor only X, Y, Z, E1.",
+              "tag": 1
+            },
+            {
+              "description": "Monitor only X2, Y2, Z2, E2.",
+              "tag": 2
+            },
+            {
+              "description": "Monitor only Z3, E3",
+              "tag": 3
+            },
+            {
+              "description": "Monitor only Z4, E4",
+              "tag": 4
+            },
+            {
+              "description": "Monitor only Z5, E5",
+              "tag": 5
+            },
+            {
+              "description": "Monitor only Z6, E6",
+              "tag": 6
+            },
+            {
+              "description": "Monitor only Z7, E7",
+              "tag": 7
+            }
+          ]
+        },
+        {
+          "description": "Monitor X with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[X<mm>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Monitor Y with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[Y<mm>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Monitor Z with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[Z<mm>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Monitor E with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[E<mm>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Feedrate for the moves. If unspecified, uses the max feedrate.",
+          "label": "[F<feedrate>]",
+          "optional": true,
+          "tag": "F",
+          "values": [
+            {
+              "tag": "feedrate",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Starting overcurrent threshold. Report current value from driver if not specified. If there are multiple drivers on the axis then all will be set the same.",
+          "label": "[I<current>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "current",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Current (mA) setting for TVAL (0 - 4A in 31.25mA increments, rounds down) - L6474 only. Report current value from driver if not specified.",
+          "label": "[T<current>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "tag": "current",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Value for KVAL_HOLD (0 - 255) (ignored for L6474). Report current value from driver if not specified",
+          "label": "[K<Kvalue>]",
+          "optional": true,
+          "tag": "K",
+          "values": [
+            {
+              "tag": "Kvalue",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "M916",
+        "M918"
+      ],
+      "source": "Marlin",
+      "title": "L6474 Overcurrent Warning Test",
+      "url": "https://marlinfw.org/docs/gcode/M917"
+    },
+    {
       "brief": "",
       "codes": [
         "M917"
@@ -20416,6 +23372,154 @@ window.AllGcodes = {
     }
   ],
   "M918": [
+    {
+      "brief": "Find L6474 speed threshold",
+      "codes": [
+        "M918"
+      ],
+      "id": "Marlin.M918[0]",
+      "parameters": [
+        {
+          "description": "Select which driver(s) to monitor on a multi-driver axis.",
+          "label": "[J<0|1|2|3|4|5|6|7>]",
+          "optional": true,
+          "tag": "J",
+          "values": [
+            {
+              "description": "(default) Monitor all drivers on the axis or E0",
+              "tag": 0
+            },
+            {
+              "description": "Monitor only X, Y, Z, E1",
+              "tag": 1
+            },
+            {
+              "description": "Monitor only X2, Y2, Z2, E2",
+              "tag": 2
+            },
+            {
+              "description": "Monitor only Z3, E3",
+              "tag": 3
+            },
+            {
+              "description": "Monitor only Z4, E4",
+              "tag": 4
+            },
+            {
+              "description": "Monitor only Z5, E5",
+              "tag": 5
+            },
+            {
+              "description": "Monitor only Z6, E6",
+              "tag": 6
+            },
+            {
+              "description": "Monitor only Z7, E7",
+              "tag": 7
+            }
+          ]
+        },
+        {
+          "description": "Monitor X with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[X<mm>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Monitor Y with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[Y<mm>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Monitor Z with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[Z<mm>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Monitor E with the given displacement (1 - 255mm) on either side of the current position.",
+          "label": "[E<mm>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "type": "mm"
+            }
+          ]
+        },
+        {
+          "description": "Overcurrent threshold. Report current value from driver if not specified.",
+          "label": "[I<current>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "tag": "current",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Current (mA) setting for TVAL (0 - 4A in 31.25mA increments, rounds down) - L6474 only. Report current value from driver if not specified.",
+          "label": "[T<current>]",
+          "optional": true,
+          "tag": "T",
+          "values": [
+            {
+              "tag": "current",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Value for KVAL_HOLD (0 - 255) (ignored for L6474). Report current value from driver if not specified.",
+          "label": "[K<Kvalue>]",
+          "optional": true,
+          "tag": "K",
+          "values": [
+            {
+              "tag": "Kvalue",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Value for microsteps (1 - 128). Report current value from driver if not specified.",
+          "label": "[M<microsteps>]",
+          "optional": true,
+          "tag": "M",
+          "values": [
+            {
+              "tag": "microsteps",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "M916",
+        "M917"
+      ],
+      "source": "Marlin",
+      "title": "L6474 Speed Warning Test",
+      "url": "https://marlinfw.org/docs/gcode/M918"
+    },
     {
       "brief": "This command is used to tell RepRapFirmware about a directly-connected dumb LCD or similar display.",
       "codes": [
@@ -20643,6 +23747,102 @@ window.AllGcodes = {
   ],
   "M951": [
     {
+      "brief": "Set / report Magnetic Parking Extruder settings",
+      "codes": [
+        "M951"
+      ],
+      "id": "Marlin.M951[0]",
+      "parameters": [
+        {
+          "description": "Set X[0] position. (Default `PARKING_EXTRUDER_PARKING_X`)",
+          "label": "[L<float>]",
+          "optional": true,
+          "tag": "L",
+          "values": [
+            {
+              "type": "float",
+              "unit": "linear"
+            }
+          ]
+        },
+        {
+          "description": "Set X[1] position. (Default `PARKING_EXTRUDER_PARKING_X`)",
+          "label": "[R<float>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "float",
+              "unit": "linear"
+            }
+          ]
+        },
+        {
+          "description": "Set grab distance. (Default `PARKING_EXTRUDER_GRAB_DISTANCE`)",
+          "label": "[I<float>]",
+          "optional": true,
+          "tag": "I",
+          "values": [
+            {
+              "type": "float",
+              "unit": "linear"
+            }
+          ]
+        },
+        {
+          "description": "Set slow feedrate. (Default `MPE_SLOW_SPEED`)",
+          "label": "[J<float>]",
+          "optional": true,
+          "tag": "J",
+          "values": [
+            {
+              "type": "float",
+              "unit": "linear"
+            }
+          ]
+        },
+        {
+          "description": "Set fast feedrate. (Default `MPE_FAST_SPEED`)",
+          "label": "[H<float>]",
+          "optional": true,
+          "tag": "H",
+          "values": [
+            {
+              "type": "float",
+              "unit": "linear"
+            }
+          ]
+        },
+        {
+          "description": "Set travel feedrate. (Default `MPE_TRAVEL_DISTANCE`)",
+          "label": "[D<float>]",
+          "optional": true,
+          "tag": "D",
+          "values": [
+            {
+              "type": "float",
+              "unit": "linear"
+            }
+          ]
+        },
+        {
+          "description": "Set compensation factor. (Default `MPE_COMPENSATION`)",
+          "label": "[C<float>]",
+          "optional": true,
+          "tag": "C",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Magnetic Parking Extruder",
+      "url": "https://marlinfw.org/docs/gcode/M951"
+    },
+    {
       "brief": "",
       "codes": [
         "M951"
@@ -20683,6 +23883,20 @@ window.AllGcodes = {
       "url": "https://reprap.org/wiki/G-code#M953:_Set_CAN-FD_bus_fast_data_rate"
     }
   ],
+  "M954": [
+    {
+      "brief": "",
+      "codes": [
+        "M954"
+      ],
+      "id": "RepRap.M954[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M954: Configure as CAN expansion board",
+      "url": "https://reprap.org/wiki/G-code#M954:_Configure_as_CAN_expansion_board"
+    }
+  ],
   "M98": [
     {
       "brief": "",
@@ -20719,7 +23933,49 @@ window.AllGcodes = {
       "url": "https://reprap.org/wiki/G-code#M99:_Return_from_Macro.2FSubprogram"
     }
   ],
+  "M993": [
+    {
+      "brief": "load or back up SPI Flash and SD",
+      "codes": [
+        "M993",
+        "M994"
+      ],
+      "id": "Marlin.M993[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Marlin",
+      "title": "SD / SPI Flash",
+      "url": "https://marlinfw.org/docs/gcode/M993"
+    }
+  ],
+  "M994": [
+    {
+      "brief": "load or back up SPI Flash and SD",
+      "codes": [
+        "M993",
+        "M994"
+      ],
+      "id": "Marlin.M994[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Marlin",
+      "title": "SD / SPI Flash",
+      "url": "https://marlinfw.org/docs/gcode/M993"
+    }
+  ],
   "M995": [
+    {
+      "brief": "Touch screen calibration for TFT display",
+      "codes": [
+        "M995"
+      ],
+      "id": "Marlin.M995[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Marlin",
+      "title": "Touch Screen Calibration",
+      "url": "https://marlinfw.org/docs/gcode/M995"
+    },
     {
       "brief": "",
       "codes": [
