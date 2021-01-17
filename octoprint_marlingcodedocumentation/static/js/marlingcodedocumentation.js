@@ -176,6 +176,51 @@ class GcodeParser {
     }
 }
 
+class KlipperExtendedGcodeParser {
+    static re = /^([A-Z][A-Z_]+)(\s+.*)?$/im;
+    static reParameter = /^\s*([A-Z][A-Z0-9_]+)\s*=\s*(\S*)/im;
+    gcodeParser = new GcodeParser();
+
+    parseLine(line, options) {
+        const result = {
+            line,
+            words: [],
+        };
+
+        const nameMatch = this.constructor.re.exec(this.stripComments(line));
+        if (!nameMatch) {
+            return this.gcodeParser.parseLine(line, options);
+        }
+        const [, name, parametersText] = nameMatch;
+        result.words.push([name, '']);
+
+        let parametersRest = (parametersText || '').trim();
+        while (parametersRest) {
+            const parameterMatch = this.constructor.reParameter
+                .exec(parametersRest);
+            if (!parameterMatch) {
+                break;
+            }
+            const [parameterText, parameter, value] = parameterMatch;
+            result.words.push([parameter, value]);
+            parametersRest = parametersRest.slice(parameterText.length).trim();
+        }
+
+        return result;
+    }
+
+    static re1 = new RegExp(/\s*\([^\)]*\)/g); // Remove anything inside the parentheses
+    static re2 = new RegExp(/\s*;.*/g); // Remove anything after a semi-colon to the end of the line, including preceding spaces
+
+    // http://linuxcnc.org/docs/html/gcode/overview.html#gcode:comments
+    // Comments can be embedded in a line using parentheses () or for the remainder of a lineusing a semi-colon. The semi-colon is not treated as the start of a comment when enclosed in parentheses.
+    stripComments (line) {
+        return line
+            .replace(this.constructor.re1, '')
+            .replace(this.constructor.re2, '');
+    }
+}
+
 // Sync settings edited from the main page, and settings edited from the
 // settings page
 class SettingsSync {
@@ -313,7 +358,7 @@ class DocumentationService {
                     value => [command, value]))).map(
                         commandAndValue => [commandAndValue[1].id, commandAndValue]));
 
-        this.gcodeParser = new GcodeParser();
+        this.klipperGcodeParser = new KlipperExtendedGcodeParser();
     }
 
     findDocs(searchString) {
@@ -374,7 +419,7 @@ class DocumentationService {
         if (isSearch) {
             docItems = this.findDocs(commandLine.slice(1));
         } else {
-            const line = this.gcodeParser.parseLine(commandLine);
+            const line = this.klipperGcodeParser.parseLine(commandLine);
             const command = line.words.length
                 ? line.words[0].join('') : null;
             const docItemsList = this.allGcodes[command]
