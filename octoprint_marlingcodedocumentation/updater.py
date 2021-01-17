@@ -100,7 +100,7 @@ class DocumentationUpdater(object):
     def save_codes_to_js(self, all_codes, js_path):
         with open(js_path, "w") as f:
             f.write(self.JS_PREFIX)
-            json.dump(all_codes, f)
+            json.dump(all_codes, f, indent=2, sort_keys=True)
 
 
 DocumentationUpdater.import_parsers()
