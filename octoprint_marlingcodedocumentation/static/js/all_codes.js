@@ -435,7 +435,7 @@ window.AllGcodes = {
       "related": [],
       "source": "Klipper",
       "title": "",
-      "url": "https://www.klipper3d.org/G-Codes.html#tmc2130-tmc2660-tmc2208-tmc2209-and-tmc5160"
+      "url": "https://www.klipper3d.org/G-Codes.html#tmc-stepper-drivers"
     }
   ],
   "ENDSTOP_PHASE_CALIBRATE": [
@@ -1773,7 +1773,7 @@ window.AllGcodes = {
       "id": "Marlin.G26[0]",
       "parameters": [
         {
-          "description": "Bed temperature (otherwise 60\u00b0C) to use for the test print.",
+          "description": "Bed temperature (otherwise 60\u00c2\u00b0C) to use for the test print.",
           "label": "[B<temp>]",
           "optional": true,
           "tag": "B",
@@ -1819,7 +1819,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Hot end temperature (otherwise 205\u00b0C) to use for the test print.",
+          "description": "Hot end temperature (otherwise 205\u00c2\u00b0C) to use for the test print.",
           "label": "[H<linear>]",
           "optional": true,
           "tag": "H",
@@ -1891,7 +1891,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Retraction multiplier (otherwise 1.0)",
+          "description": "Retraction multiplier. `G26` retract and recover are 1.0mm and 1.2mm respectively. Both retract and recover are multiplied by this value.",
           "label": "[Q<float>]",
           "optional": true,
           "tag": "Q",
@@ -1902,7 +1902,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Number of [`G26`](/docs/gcode/G026.html) Repetitions (otherwise 999)",
+          "description": "Number of `G26` Repetitions (otherwise 999)",
           "label": "[R<int>]",
           "optional": true,
           "tag": "R",
@@ -2151,6 +2151,106 @@ window.AllGcodes = {
           ]
         },
         {
+          "description": "Create fake points for testing. (`DEBUG_LEVELING_FEATURE`)",
+          "label": "[C<bool>]",
+          "optional": true,
+          "tag": "C",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Optional. If leveling is already enabled then exit without leveling. (1.1.9)",
+          "label": "[O]",
+          "optional": true,
+          "tag": "O",
+          "type": "bool"
+        },
+        {
+          "description": "Query the current leveling state (`PROBE_MANUALLY`, `DEBUG_LEVELING_FEATURE`)",
+          "label": "[Q<bool>]",
+          "optional": true,
+          "tag": "Q",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "- By default G29 will engage the Z probe, test the bed, then disengage.\n- Include \"E\" to engage/disengage the Z probe for each sample.\n- There's no extra effect if you have a fixed Z probe. (without `PROBE_MANUALLY`)\n",
+          "label": "[E<bool>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Dry-Run mode. Just probe the grid but don't update the bed leveling data",
+          "label": "[D<bool>]",
+          "optional": true,
+          "tag": "D",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Jettison the leveling data stored in SRAM and turn off leveling compensation. Data in EEPROM is not affected.",
+          "label": "[J<bool>]",
+          "optional": true,
+          "tag": "J",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Set the verbose level",
+          "label": "[V<0-4>]",
+          "optional": true,
+          "tag": "V",
+          "values": [
+            {
+              "tag": "0-4",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "M420"
+      ],
+      "source": "Marlin",
+      "title": "Bed Leveling (3-Point)",
+      "url": "https://marlinfw.org/docs/gcode/G029-abl-3point"
+    },
+    {
+      "brief": "Probe the bed and enable leveling compensation.",
+      "codes": [
+        "G29"
+      ],
+      "id": "Marlin.G29[1]",
+      "parameters": [
+        {
+          "description": "Abort leveling procedure in-progress (`PROBE_MANUALLY`)",
+          "label": "[A<bool>]",
+          "optional": true,
+          "tag": "A",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
           "description": "Create a fake grid for testing. (`DEBUG_LEVELING_FEATURE`)",
           "label": "[C<bool>]",
           "optional": true,
@@ -2348,106 +2448,6 @@ window.AllGcodes = {
       "source": "Marlin",
       "title": "Bed Leveling (Bilinear)",
       "url": "https://marlinfw.org/docs/gcode/G029-abl-bilinear"
-    },
-    {
-      "brief": "Probe the bed and enable leveling compensation.",
-      "codes": [
-        "G29"
-      ],
-      "id": "Marlin.G29[1]",
-      "parameters": [
-        {
-          "description": "Abort leveling procedure in-progress (`PROBE_MANUALLY`)",
-          "label": "[A<bool>]",
-          "optional": true,
-          "tag": "A",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
-          "description": "Create fake points for testing. (`DEBUG_LEVELING_FEATURE`)",
-          "label": "[C<bool>]",
-          "optional": true,
-          "tag": "C",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
-          "description": "Optional. If leveling is already enabled then exit without leveling. (1.1.9)",
-          "label": "[O]",
-          "optional": true,
-          "tag": "O",
-          "type": "bool"
-        },
-        {
-          "description": "Query the current leveling state (`PROBE_MANUALLY`, `DEBUG_LEVELING_FEATURE`)",
-          "label": "[Q<bool>]",
-          "optional": true,
-          "tag": "Q",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
-          "description": "- By default G29 will engage the Z probe, test the bed, then disengage.\n- Include \"E\" to engage/disengage the Z probe for each sample.\n- There's no extra effect if you have a fixed Z probe. (without `PROBE_MANUALLY`)\n",
-          "label": "[E<bool>]",
-          "optional": true,
-          "tag": "E",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
-          "description": "Dry-Run mode. Just probe the grid but don't update the bed leveling data",
-          "label": "[D<bool>]",
-          "optional": true,
-          "tag": "D",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
-          "description": "Jettison the leveling data stored in SRAM and turn off leveling compensation. Data in EEPROM is not affected.",
-          "label": "[J<bool>]",
-          "optional": true,
-          "tag": "J",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        },
-        {
-          "description": "Set the verbose level",
-          "label": "[V<0-4>]",
-          "optional": true,
-          "tag": "V",
-          "values": [
-            {
-              "tag": "0-4",
-              "type": "int"
-            }
-          ]
-        }
-      ],
-      "related": [
-        "M420"
-      ],
-      "source": "Marlin",
-      "title": "Bed Leveling (3-Point)",
-      "url": "https://marlinfw.org/docs/gcode/G029-abl-3point"
     },
     {
       "brief": "Probe the bed and enable leveling compensation.",
@@ -2666,23 +2666,11 @@ window.AllGcodes = {
       "url": "https://marlinfw.org/docs/gcode/G029-abl-linear"
     },
     {
-      "brief": "Probe the bed and enable leveling compensation",
-      "codes": [
-        "G29"
-      ],
-      "id": "Marlin.G29[3]",
-      "parameters": [],
-      "related": [],
-      "source": "Marlin",
-      "title": "Bed Leveling",
-      "url": "https://marlinfw.org/docs/gcode/G029"
-    },
-    {
       "brief": "Measure Z heights in a grid, enable leveling compensation",
       "codes": [
         "G29"
       ],
-      "id": "Marlin.G29[4]",
+      "id": "Marlin.G29[3]",
       "parameters": [
         {
           "description": "",
@@ -2790,7 +2778,7 @@ window.AllGcodes = {
       "codes": [
         "G29"
       ],
-      "id": "Marlin.G29[5]",
+      "id": "Marlin.G29[4]",
       "parameters": [
         {
           "description": "**Activate**\nUnified Bed Leveling (i.e., `M420 S1`)\n",
@@ -3038,7 +3026,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "**_What?_**: Display valuable UBL data.\n",
+          "description": "**_What?_**: Display valuable UBL data. (Requires `UBL_DEVEL_DEBUGGING`)\n",
           "label": "[W<bool>]",
           "optional": true,
           "tag": "W",
@@ -3080,6 +3068,18 @@ window.AllGcodes = {
       "source": "Marlin",
       "title": "Bed Leveling (Unified)",
       "url": "https://marlinfw.org/docs/gcode/G029-ubl"
+    },
+    {
+      "brief": "Probe the bed and enable leveling compensation",
+      "codes": [
+        "G29"
+      ],
+      "id": "Marlin.G29[5]",
+      "parameters": [],
+      "related": [],
+      "source": "Marlin",
+      "title": "Bed Leveling",
+      "url": "https://marlinfw.org/docs/gcode/G029"
     },
     {
       "brief": "This command uses a probe to measure the bed height at 3 or more points to determine its tilt and overall flatness. It then enables compensation so that the nozzle will remain parallel to the bed. The printer must be homed with G28 before using this command.\nEach firmware behaves differently and depends on the type of bed leveling that's been configured. For example, Marlin 1.0.2 provides 3 different types of automatic bed leveling (probe required) and a manual bed leveling option. See your firmware's documentation for the specific options available.",
@@ -4720,7 +4720,7 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Marlin",
-      "title": "B\u00e9zier cubic spline",
+      "title": "B\u00c3\u00a9zier cubic spline",
       "url": "https://marlinfw.org/docs/gcode/G005"
     }
   ],
@@ -6123,7 +6123,7 @@ window.AllGcodes = {
       "related": [],
       "source": "Klipper",
       "title": "",
-      "url": "https://www.klipper3d.org/G-Codes.html#tmc2130-tmc2660-tmc2208-tmc2209-and-tmc5160"
+      "url": "https://www.klipper3d.org/G-Codes.html#tmc-stepper-drivers"
     }
   ],
   "M0": [
@@ -8499,7 +8499,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Target temperature.<br/>`AUTOTEMP`: the min auto-temperature.",
+          "description": "Target temperature",
           "label": "[S<temp>]",
           "optional": true,
           "tag": "S",
@@ -8689,6 +8689,31 @@ window.AllGcodes = {
     }
   ],
   "M143": [
+    {
+      "brief": "Set the cooler target temperature.",
+      "codes": [
+        "M143"
+      ],
+      "id": "Marlin.M143[0]",
+      "parameters": [
+        {
+          "description": "Target temperature",
+          "label": "[S<temp>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "temp",
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Set Cooler Temperature",
+      "url": "https://marlinfw.org/docs/gcode/M143"
+    },
     {
       "brief": "",
       "codes": [
@@ -9743,7 +9768,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Target temperature (wait only when heating). Also `AUTOTEMP`: The min auto-temperature.",
+          "description": "Target temperature (wait only when heating).",
           "label": "[S<temp>]",
           "optional": true,
           "tag": "S",
@@ -9767,7 +9792,9 @@ window.AllGcodes = {
           ]
         }
       ],
-      "related": [],
+      "related": [
+        "M140"
+      ],
       "source": "Marlin",
       "title": "Wait for Bed Temperature",
       "url": "https://marlinfw.org/docs/gcode/M190"
@@ -9809,7 +9836,7 @@ window.AllGcodes = {
       "id": "Marlin.M191[0]",
       "parameters": [
         {
-          "description": "Target temperature (wait only when heating). Also `AUTOTEMP`: The min auto-temperature.",
+          "description": "Target temperature (wait only when heating).",
           "label": "[S<temp>]",
           "optional": true,
           "tag": "S",
@@ -9918,6 +9945,35 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M192: Wait for Probe Temperature",
       "url": "https://reprap.org/wiki/G-code#M192:_Wait_for_Probe_Temperature"
+    }
+  ],
+  "M193": [
+    {
+      "brief": "Wait for the cooler to go below target.",
+      "codes": [
+        "M193"
+      ],
+      "id": "Marlin.M193[0]",
+      "parameters": [
+        {
+          "description": "Target temperature",
+          "label": "[S<temp>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "temp",
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "M143"
+      ],
+      "source": "Marlin",
+      "title": "Wait for Cooler",
+      "url": "https://marlinfw.org/docs/gcode/M193"
     }
   ],
   "M2": [
@@ -10057,7 +10113,7 @@ window.AllGcodes = {
       "url": "https://marlinfw.org/docs/gcode/M200"
     },
     {
-      "brief": "RepRapFirmware:",
+      "brief": "Volumetric Extrusion is a firmware mode (and an option you can set in some slicers) wherein all extrusion amounts are specified as a volume \u2014using cubic millimeters or inches (i.e., mm3 or in3)\u2014 instead of a linear distance. This makes it possible to use the same G-code with any filament diameter.\nM200 tells the firmware what the filament diameter is, and (if non-zero) to enable Volumetric Extrusion.\nSend M200 without parameters to get the current Volumetric Extrusion state and filament diameters.\nNote that slicer-commanded retraction amounts must also be specified in mm3 since the E axis is interpreted as a volume. However, when using Firmware Retraction (G10 / G11) the retractions specified by M207 are still set in linear units.",
       "codes": [
         "M200"
       ],
@@ -10151,28 +10207,28 @@ window.AllGcodes = {
       "id": "RepRap.M201[0]",
       "parameters": [
         {
-          "description": " Acceleration for X axis",
+          "description": " Acceleration for X axis in units/s",
           "label": "Xnnn",
           "optional": true,
           "tag": "X",
           "values": []
         },
         {
-          "description": " Acceleration for Y axis",
+          "description": " Acceleration for Y axis in units/s",
           "label": "Ynnn",
           "optional": true,
           "tag": "Y",
           "values": []
         },
         {
-          "description": " Acceleration for Z axis",
+          "description": " Acceleration for Z axis in units/s",
           "label": "Znnn",
           "optional": true,
           "tag": "Z",
           "values": []
         },
         {
-          "description": " Acceleration for extruder drives",
+          "description": " Acceleration for the active or specified extruder in units/s",
           "label": "Ennn",
           "optional": true,
           "tag": "E",
@@ -10429,18 +10485,20 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M204: Set default acceleration",
       "url": "https://reprap.org/wiki/G-code#M204:_Set_default_acceleration"
-    },
+    }
+  ],
+  "M204 (Repetier)": [
     {
       "brief": "",
       "codes": [
-        "M204"
+        "M204 (Repetier)"
       ],
-      "id": "RepRap.M204[1]",
+      "id": "RepRap.M204 (Repetier)[0]",
       "parameters": [],
       "related": [],
       "source": "RepRap",
-      "title": "M204 Repetier",
-      "url": "https://reprap.org/wiki/G-code#M204_Repetier"
+      "title": "M204 (Repetier): Set PID values",
+      "url": "https://reprap.org/wiki/G-code#M204_.28Repetier.29:_Set_PID_values"
     }
   ],
   "M205": [
@@ -10500,13 +10558,13 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Minimum segment time (\u00b5s)",
-          "label": "[B<\u00b5s>]",
+          "description": "Minimum segment time (\u00c2\u00b5s)",
+          "label": "[B<\u00c2\u00b5s>]",
           "optional": true,
           "tag": "B",
           "values": [
             {
-              "tag": "\u00b5s",
+              "tag": "\u00c2\u00b5s",
               "type": "int"
             }
           ]
@@ -10564,18 +10622,20 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M205: Advanced settings",
       "url": "https://reprap.org/wiki/G-code#M205:_Advanced_settings"
-    },
+    }
+  ],
+  "M205 (Repetier)": [
     {
       "brief": "Output EEPROM settings. Repetier Firmware only.",
       "codes": [
-        "M205"
+        "M205 (Repetier)"
       ],
-      "id": "RepRap.M205[1]",
+      "id": "RepRap.M205 (Repetier)[0]",
       "parameters": [],
       "related": [],
       "source": "RepRap",
-      "title": "M205: EEPROM Report",
-      "url": "https://reprap.org/wiki/G-code#M205:_EEPROM_Report"
+      "title": "M205 (Repetier): EEPROM Report",
+      "url": "https://reprap.org/wiki/G-code#M205_.28Repetier.29:_EEPROM_Report"
     }
   ],
   "M206": [
@@ -10685,13 +10745,15 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M206: Offset axes",
       "url": "https://reprap.org/wiki/G-code#M206:_Offset_axes"
-    },
+    }
+  ],
+  "M206 (Repetier)": [
     {
       "brief": "Set a Repetier Firmware EEPROM value.",
       "codes": [
-        "M206"
+        "M206 (Repetier)"
       ],
-      "id": "RepRap.M206[1]",
+      "id": "RepRap.M206 (Repetier)[0]",
       "parameters": [
         {
           "description": " Value type",
@@ -10724,8 +10786,8 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "RepRap",
-      "title": "M206: Set EEPROM value",
-      "url": "https://reprap.org/wiki/G-code#M206:_Set_EEPROM_value"
+      "title": "M206 (Repetier): Set EEPROM value",
+      "url": "https://reprap.org/wiki/G-code#M206_.28Repetier.29:_Set_EEPROM_value"
     }
   ],
   "M207": [
@@ -10837,25 +10899,29 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M207: Set retract length",
       "url": "https://reprap.org/wiki/G-code#M207:_Set_retract_length"
-    },
+    }
+  ],
+  "M207 (RepRapFirmware)": [
     {
       "brief": "",
       "codes": [
-        "M207"
+        "M207 (RepRapFirmware)"
       ],
-      "id": "RepRap.M207[1]",
+      "id": "RepRap.M207 (RepRapFirmware)[0]",
       "parameters": [],
       "related": [],
       "source": "RepRap",
-      "title": "M207: Calibrate Z axis with Z max endstop",
-      "url": "https://reprap.org/wiki/G-code#M207:_Calibrate_Z_axis_with_Z_max_endstop"
-    },
+      "title": "M207 (RepRapFirmware): Calibrate Z axis with Z max endstop",
+      "url": "https://reprap.org/wiki/G-code#M207_.28RepRapFirmware.29:_Calibrate_Z_axis_with_Z_max_endstop"
+    }
+  ],
+  "M207 (Repetier)": [
     {
       "brief": "Repetier Firmware only. Change the maximum instantaneous speed change (\"jerk\") values, but don't store the change in EEPROM.\nSince Repetier 0.91 December 2013  (if not earlier)",
       "codes": [
-        "M207"
+        "M207 (Repetier)"
       ],
-      "id": "RepRap.M207[2]",
+      "id": "RepRap.M207 (Repetier)[0]",
       "parameters": [
         {
           "description": " Temporarily set XY jerk in mm/s",
@@ -10881,8 +10947,8 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "RepRap",
-      "title": "M207: Set jerk without saving to EEPROM",
-      "url": "https://reprap.org/wiki/G-code#M207:_Set_jerk_without_saving_to_EEPROM"
+      "title": "M207 (Repetier): Set jerk without saving to EEPROM",
+      "url": "https://reprap.org/wiki/G-code#M207_.28Repetier.29:_Set_jerk_without_saving_to_EEPROM"
     }
   ],
   "M208": [
@@ -10955,6 +11021,35 @@ window.AllGcodes = {
       "id": "RepRap.M208[0]",
       "parameters": [
         {
+          "description": " positive length surplus to the M207 Snnn, in mm",
+          "label": "Snnn",
+          "optional": true,
+          "tag": "S",
+          "values": []
+        },
+        {
+          "description": " feedrate, in mm/sec",
+          "label": "Fnnn",
+          "optional": true,
+          "tag": "F",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "RepRap",
+      "title": "M208: Set unretract length",
+      "url": "https://reprap.org/wiki/G-code#M208:_Set_unretract_length"
+    }
+  ],
+  "M208 (RepRapFirmware)": [
+    {
+      "brief": "",
+      "codes": [
+        "M208 (RepRapFirmware)"
+      ],
+      "id": "RepRap.M208 (RepRapFirmware)[0]",
+      "parameters": [
+        {
           "description": " 0 = set axis maximum (default), 1 = set axis minimum",
           "label": "Snnn",
           "optional": true,
@@ -10985,35 +11080,8 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "RepRap",
-      "title": "M208: Set axis max travel",
-      "url": "https://reprap.org/wiki/G-code#M208:_Set_axis_max_travel"
-    },
-    {
-      "brief": "",
-      "codes": [
-        "M208"
-      ],
-      "id": "RepRap.M208[1]",
-      "parameters": [
-        {
-          "description": " positive length surplus to the M207 Snnn, in mm",
-          "label": "Snnn",
-          "optional": true,
-          "tag": "S",
-          "values": []
-        },
-        {
-          "description": " feedrate, in mm/sec",
-          "label": "Fnnn",
-          "optional": true,
-          "tag": "F",
-          "values": []
-        }
-      ],
-      "related": [],
-      "source": "RepRap",
-      "title": "M208: Set unretract length",
-      "url": "https://reprap.org/wiki/G-code#M208:_Set_unretract_length"
+      "title": "M208 (RepRapFirmware): Set axis max travel",
+      "url": "https://reprap.org/wiki/G-code#M208_.28RepRapFirmware.29:_Set_axis_max_travel"
     }
   ],
   "M209": [
@@ -11043,7 +11111,7 @@ window.AllGcodes = {
       "url": "https://marlinfw.org/docs/gcode/M209"
     },
     {
-      "brief": "",
+      "brief": "With automatic retract detection, G-code generated by slicers without G10/G11 support can take advantage of Firmware Retraction. The firmware converts E-only moves into retract/recover moves, using the firmware's tuned lengths and feedrates in place of the original E moves.",
       "codes": [
         "M209"
       ],
@@ -13080,6 +13148,18 @@ window.AllGcodes = {
               "type": "float"
             }
           ]
+        },
+        {
+          "description": "F term (requires `PID_FAN_SCALING`)",
+          "label": "[F<value>]",
+          "optional": true,
+          "tag": "F",
+          "values": [
+            {
+              "tag": "value",
+              "type": "float"
+            }
+          ]
         }
       ],
       "related": [],
@@ -13247,14 +13327,13 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Toggle activation of `PID_DEBUG` output.",
-          "label": "D<flag>",
+          "description": "Toggle PID debug output on / off (and take no further action). (Requires `PID_DEBUG`)",
+          "label": "D<action>",
           "optional": false,
           "tag": "D",
           "values": [
             {
-              "tag": "flag",
-              "type": "bool"
+              "tag": "action"
             }
           ]
         },
@@ -13822,7 +13901,7 @@ window.AllGcodes = {
       "url": "https://marlinfw.org/docs/gcode/M033"
     },
     {
-      "brief": "Get the long name for a file or folder on the SD card from a dos path. Introduced in Marlin firmware 1.1.0 September 2015.",
+      "brief": "Get the long name for a file or folder on the SD card from a dos path. Introduced in Marlin firmware 1.1.0 September 2015.\nExample input:\n M33 miscel~1/armchair/armcha~1.gco\nExample output: \n /Miscellaneous/Armchair/Armchair.gcode",
       "codes": [
         "M33"
       ],
@@ -15225,17 +15304,51 @@ window.AllGcodes = {
   ],
   "M412": [
     {
-      "brief": "Enable / disable filament runout detection",
+      "brief": "Get/set filament runout detection parameters",
       "codes": [
         "M412"
       ],
       "id": "Marlin.M412[0]",
       "parameters": [
         {
+          "description": "Set the filament runout distance.",
+          "label": "[D<linear>]",
+          "optional": true,
+          "tag": "D",
+          "values": [
+            {
+              "tag": "linear",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Flag to enable or disable host handling of a filament runout.",
+          "label": "[H<bool>]",
+          "optional": true,
+          "tag": "H",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
           "description": "Flag to enable or disable Filament Runout Detection. If omitted, the current enabled state will be reported.",
           "label": "[S<bool>]",
           "optional": true,
           "tag": "S",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Flag to reset the filament runout sensor. Not needed with `S`.",
+          "label": "[R<bool>]",
+          "optional": true,
+          "tag": "R",
           "values": [
             {
               "type": "bool"
@@ -17139,6 +17252,13 @@ window.AllGcodes = {
       "id": "RepRap.M552[0]",
       "parameters": [
         {
+          "description": " (Optional) Number of the network interface to manage (defaults to 0)",
+          "label": "Innn",
+          "optional": true,
+          "tag": "I",
+          "values": []
+        },
+        {
           "description": " IP address, 0.0.0.0 means acquire an IP address using DHCP",
           "label": "Pnnn",
           "optional": true,
@@ -17175,6 +17295,13 @@ window.AllGcodes = {
       "id": "RepRap.M553[0]",
       "parameters": [
         {
+          "description": " (Optional) Number of the network interface to manage (defaults to 0)",
+          "label": "Innn",
+          "optional": true,
+          "tag": "I",
+          "values": []
+        },
+        {
           "description": " Net mask",
           "label": "Pnnn",
           "optional": true,
@@ -17197,17 +17324,31 @@ window.AllGcodes = {
       "id": "RepRap.M554[0]",
       "parameters": [
         {
+          "description": " (Optional) Number of the network interface to manage (defaults to 0)",
+          "label": "Innn",
+          "optional": true,
+          "tag": "I",
+          "values": []
+        },
+        {
           "description": " Gateway",
           "label": "Pnnn",
           "optional": true,
           "tag": "P",
           "values": []
+        },
+        {
+          "description": " (Optional) DNS server (only supported by DSF 3.3 with DuetPi system config plugin)",
+          "label": "Snnn",
+          "optional": true,
+          "tag": "S",
+          "values": []
         }
       ],
       "related": [],
       "source": "RepRap",
-      "title": "M554: Set Gateway",
-      "url": "https://reprap.org/wiki/G-code#M554:_Set_Gateway"
+      "title": "M554: Set Gateway and/or DNS server",
+      "url": "https://reprap.org/wiki/G-code#M554:_Set_Gateway_and.2For_DNS_server"
     }
   ],
   "M555": [
@@ -18414,6 +18555,20 @@ window.AllGcodes = {
           "optional": true,
           "tag": "K",
           "values": []
+        },
+        {
+          "description": " (optional, supported only by DuetPi + DSF v3.3 or newer) DNS server to use",
+          "label": "Lnn.nn.nn.nn",
+          "optional": true,
+          "tag": "L",
+          "values": []
+        },
+        {
+          "description": " (supported only by DuetPi + DSF v3.3 or newer) Country code for the WiFi adapter, only required if not set before",
+          "label": "Cnnn",
+          "optional": true,
+          "tag": "C",
+          "values": []
         }
       ],
       "related": [],
@@ -18678,6 +18833,18 @@ window.AllGcodes = {
           "values": [
             {
               "tag": "beeps",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Resume temperature. (AUTOTEMP: the min auto-temperature.)",
+          "label": "[R<temp>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "tag": "temp",
               "type": "int"
             }
           ]
@@ -19286,60 +19453,11 @@ window.AllGcodes = {
   ],
   "M666": [
     {
-      "brief": "Set Delta endstop adjustments",
-      "codes": [
-        "M666"
-      ],
-      "id": "Marlin.M666[0]",
-      "parameters": [
-        {
-          "description": "Adjustment for the X actuator endstop",
-          "label": "[X<adj>]",
-          "optional": true,
-          "tag": "X",
-          "values": [
-            {
-              "tag": "adj",
-              "type": "float"
-            }
-          ]
-        },
-        {
-          "description": "Adjustment for the Y actuator endstop",
-          "label": "[Y<adj>]",
-          "optional": true,
-          "tag": "Y",
-          "values": [
-            {
-              "tag": "adj",
-              "type": "float"
-            }
-          ]
-        },
-        {
-          "description": "Adjustment for the Z actuator endstop",
-          "label": "[Z<adj>]",
-          "optional": true,
-          "tag": "Z",
-          "values": [
-            {
-              "tag": "adj",
-              "type": "float"
-            }
-          ]
-        }
-      ],
-      "related": [],
-      "source": "Marlin",
-      "title": "Set Delta endstop adjustments",
-      "url": "https://marlinfw.org/docs/gcode/M666"
-    },
-    {
       "brief": "Set dual endstop offsets",
       "codes": [
         "M666"
       ],
-      "id": "Marlin.M666[1]",
+      "id": "Marlin.M666[0]",
       "parameters": [
         {
           "description": "Offset for the X axis endstops",
@@ -19382,6 +19500,55 @@ window.AllGcodes = {
       "source": "Marlin",
       "title": "Set dual endstop offsets",
       "url": "https://marlinfw.org/docs/gcode/M666-dual"
+    },
+    {
+      "brief": "Set Delta endstop adjustments",
+      "codes": [
+        "M666"
+      ],
+      "id": "Marlin.M666[1]",
+      "parameters": [
+        {
+          "description": "Adjustment for the X actuator endstop",
+          "label": "[X<adj>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "tag": "adj",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Adjustment for the Y actuator endstop",
+          "label": "[Y<adj>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "tag": "adj",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Adjustment for the Z actuator endstop",
+          "label": "[Z<adj>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "tag": "adj",
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Set Delta endstop adjustments",
+      "url": "https://marlinfw.org/docs/gcode/M666"
     },
     {
       "brief": "",
@@ -20195,7 +20362,7 @@ window.AllGcodes = {
           "values": []
         },
         {
-          "description": " Time remaining in normal mode",
+          "description": " Time remaining in normal mode (minutes)",
           "label": "R",
           "optional": true,
           "tag": "R",
@@ -20209,7 +20376,7 @@ window.AllGcodes = {
           "values": []
         },
         {
-          "description": " Time remaining in silent mode",
+          "description": " Time remaining in silent mode (minutes)",
           "label": "S",
           "optional": true,
           "tag": "S",
@@ -23159,12 +23326,12 @@ window.AllGcodes = {
       "parameters": [
         {
           "description": "Z adjustment value, in micrometers.",
-          "label": "[V<\u00b5m>]",
+          "label": "[V<\u00c2\u00b5m>]",
           "optional": true,
           "tag": "V",
           "values": [
             {
-              "tag": "\u00b5m",
+              "tag": "\u00c2\u00b5m",
               "type": "int"
             }
           ]
@@ -25176,6 +25343,34 @@ window.AllGcodes = {
       "url": "https://reprap.org/wiki/G-code#M954:_Configure_as_CAN_expansion_board"
     }
   ],
+  "M955": [
+    {
+      "brief": "",
+      "codes": [
+        "M955"
+      ],
+      "id": "RepRap.M955[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M955: Configure Accelerometer",
+      "url": "https://reprap.org/wiki/G-code#M955:_Configure_Accelerometer"
+    }
+  ],
+  "M956": [
+    {
+      "brief": "",
+      "codes": [
+        "M956"
+      ],
+      "id": "RepRap.M956[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M956: Collect accelerometer data and write to file",
+      "url": "https://reprap.org/wiki/G-code#M956:_Collect_accelerometer_data_and_write_to_file"
+    }
+  ],
   "M98": [
     {
       "brief": "",
@@ -25369,6 +25564,13 @@ window.AllGcodes = {
           "optional": true,
           "tag": "P",
           "values": []
+        },
+        {
+          "description": " CAN address of the board to reset (RRF only)",
+          "label": "Bnnn",
+          "optional": true,
+          "tag": "B",
+          "values": []
         }
       ],
       "related": [],
@@ -25482,6 +25684,76 @@ window.AllGcodes = {
       "source": "Klipper",
       "title": "",
       "url": "https://www.klipper3d.org/G-Codes.html#resonance-testing-commands"
+    }
+  ],
+  "PALETTE_CLEAR": [
+    {
+      "brief": "",
+      "codes": [
+        "PALETTE_CLEAR"
+      ],
+      "id": "Klipper.PALETTE_CLEAR[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "",
+      "url": "https://www.klipper3d.org/G-Codes.html#palette-2-commands"
+    }
+  ],
+  "PALETTE_CONNECT": [
+    {
+      "brief": "",
+      "codes": [
+        "PALETTE_CONNECT"
+      ],
+      "id": "Klipper.PALETTE_CONNECT[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "",
+      "url": "https://www.klipper3d.org/G-Codes.html#palette-2-commands"
+    }
+  ],
+  "PALETTE_CUT": [
+    {
+      "brief": "",
+      "codes": [
+        "PALETTE_CUT"
+      ],
+      "id": "Klipper.PALETTE_CUT[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "",
+      "url": "https://www.klipper3d.org/G-Codes.html#palette-2-commands"
+    }
+  ],
+  "PALETTE_DISCONNECT": [
+    {
+      "brief": "",
+      "codes": [
+        "PALETTE_DISCONNECT"
+      ],
+      "id": "Klipper.PALETTE_DISCONNECT[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "",
+      "url": "https://www.klipper3d.org/G-Codes.html#palette-2-commands"
+    }
+  ],
+  "PALETTE_SMART_LOAD": [
+    {
+      "brief": "",
+      "codes": [
+        "PALETTE_SMART_LOAD"
+      ],
+      "id": "Klipper.PALETTE_SMART_LOAD[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "",
+      "url": "https://www.klipper3d.org/G-Codes.html#palette-2-commands"
     }
   ],
   "PAUSE": [
@@ -26656,6 +26928,20 @@ window.AllGcodes = {
           "optional": true,
           "tag": "target",
           "values": []
+        },
+        {
+          "description": "",
+          "label": "min_speed=<min_speed>",
+          "optional": true,
+          "tag": "min_speed",
+          "values": []
+        },
+        {
+          "description": "",
+          "label": "max_speed=<max_speed>",
+          "optional": true,
+          "tag": "max_speed",
+          "values": []
         }
       ],
       "related": [],
@@ -26697,7 +26983,7 @@ window.AllGcodes = {
       "related": [],
       "source": "Klipper",
       "title": "",
-      "url": "https://www.klipper3d.org/G-Codes.html#tmc2130-tmc2660-tmc2208-tmc2209-and-tmc5160"
+      "url": "https://www.klipper3d.org/G-Codes.html#tmc-stepper-drivers"
     }
   ],
   "SET_TMC_FIELD": [
@@ -26733,7 +27019,7 @@ window.AllGcodes = {
       "related": [],
       "source": "Klipper",
       "title": "",
-      "url": "https://www.klipper3d.org/G-Codes.html#tmc2130-tmc2660-tmc2208-tmc2209-and-tmc5160"
+      "url": "https://www.klipper3d.org/G-Codes.html#tmc-stepper-drivers"
     }
   ],
   "SET_VELOCITY_LIMIT": [
@@ -27197,6 +27483,13 @@ window.AllGcodes = {
           "label": "HZ_PER_SEC=<hz_per_sec>",
           "optional": true,
           "tag": "HZ_PER_SEC",
+          "values": []
+        },
+        {
+          "description": "",
+          "label": "INPUT_SHAPING=<0:1>",
+          "optional": true,
+          "tag": "INPUT_SHAPING",
           "values": []
         }
       ],
