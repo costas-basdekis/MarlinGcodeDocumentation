@@ -75,6 +75,7 @@
         <button class="btn" data-bind="click: $root.onToggleResultCollapsedNone"><span class=" fa fa-plus"></span>Expand all</button>
         <button class="btn" data-bind="click: $root.onToggleResultCollapsedAll"><span class=" fa fa-minus"></span>Collapse all</button>
     <!-- /ko -->
+    <!-- ko if: $root.showSourcesCheckboxes -->
     <label class="checkbox inline terminal-documentation-source terminal-documentation-source-marlin">
         <input type="checkbox" data-bind="checked: $root.includeSourceMarlin">
         Include from Marlin
@@ -87,6 +88,10 @@
         <input type="checkbox" data-bind="checked: $root.includeSourceKlipper">
         Include from Klipper
     </label>
+    <!-- /ko -->
+    <!-- ko if: !$root.showSourcesCheckboxes() -->
+        <label style="display: inline-block" data-bind="text: `${$root.includedSources().length}/${$root.allSources.length} sources`"></label>
+    <!-- /ko -->
 </script>
 
 <script type="text/html" id="tmgd-docItem">

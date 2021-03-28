@@ -18,6 +18,7 @@ class MarlingcodedocumentationPlugin(
             "favourite_commands": [],
             "explain_sent_commands": True,
             "collapse_all_by_default": False,
+            "show_sources_checkboxes": True,
         }
 
     def get_assets(self):
