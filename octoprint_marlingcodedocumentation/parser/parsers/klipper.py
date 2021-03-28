@@ -24,7 +24,7 @@ class KlipperGcodeDocumentationParser(BaseDocumentationParser):
     def load_and_parse_all_codes(self, directory):
         with self.latest_documentation_directory(directory) as directory:
             document = bs4.BeautifulSoup(
-                Path(directory).joinpath("g-codes.html").read_text(),
+                Path(directory).joinpath("g-codes.html").read_text('utf8'),
                 "html.parser")
         return self.get_all_codes(document)
 
