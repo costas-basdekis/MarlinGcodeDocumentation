@@ -259,6 +259,7 @@ class SettingsSync {
         };
         this.localSettingsUpdated.subscribe(this.onSettingsUpdated.bind(this));
         this.centralSettingsUpdated.subscribe(this.onSettingsUpdated.bind(this));
+        this.localSettingsSyncedOnce = ko.observable(false);
     }
 
     onPluginSettingsLoaded(pluginSettings) {
@@ -333,6 +334,11 @@ class SettingsSync {
                         marlingcodedocumentation: updates,
                     },
                 });
+            }
+        }
+        if (isCentral) {
+            if (!this.localSettingsSyncedOnce()) {
+                this.localSettingsSyncedOnce(true);
             }
         }
     }
@@ -521,12 +527,14 @@ $(function() {
             includeSourceKlipper: 'include_source_klipper',
             showHelp: 'show_help',
             favouriteCommands: 'favourite_commands',
+            collapseAllByDefault: 'collapse_all_by_default',
         }, {
             includeSourceMarlin: true,
             includeSourceRepRap: true,
             includeSourceKlipper: true,
             showHelp: true,
             favouriteCommands: [],
+            collapseAllByDefault: false,
         }, self);
         self.mySettings = null;
 
@@ -574,7 +582,11 @@ $(function() {
                     ([command, docItems]) => docItems.map(
                         docItem => docItem.id))));
         };
-
+        self.settingsSync.localSettingsSyncedOnce.subscribe(() => {
+            if (self.collapseAllByDefault()) {
+                self.onToggleResultCollapsedAll();
+            }
+        });
         self.onToggleResultCollapsedNone = ({id}) => {
             self.collapsedCommands([]);
         };
