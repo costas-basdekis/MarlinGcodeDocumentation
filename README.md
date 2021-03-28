@@ -33,4 +33,4 @@ or manually using this URL:
 
 ## Configuration
 
-There is no configuration  currently.
+There are several options that control the appearance and behaviour
