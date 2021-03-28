@@ -528,6 +528,7 @@ $(function() {
             showHelp: 'show_help',
             favouriteCommands: 'favourite_commands',
             collapseAllByDefault: 'collapse_all_by_default',
+            showSourcesCheckboxes: 'show_sources_checkboxes',
         }, {
             includeSourceMarlin: true,
             includeSourceRepRap: true,
@@ -535,8 +536,18 @@ $(function() {
             showHelp: true,
             favouriteCommands: [],
             collapseAllByDefault: false,
+            showSourcesCheckboxes: true,
         }, self);
         self.mySettings = null;
+
+        self.allSources = [ "marlin", "reprap", "klipper"];
+        self.includedSources = ko.computed(() => {
+            return [
+                self.includeSourceMarlin() ? "marlin" : null,
+                self.includeSourceRepRap() ? "reprap" : null,
+                self.includeSourceKlipper() ? "klipper" : null,
+            ].filter(item => item);
+        });
 
         self.onHelpClose = () => {
             self.showHelp(false);

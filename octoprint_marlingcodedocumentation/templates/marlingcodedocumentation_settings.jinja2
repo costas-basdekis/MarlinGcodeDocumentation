@@ -3,6 +3,12 @@
     <div class="control-group">
         <div>
             <label class="checkbox">
+                Show documentation sources checkboxes in terminal
+                <input type="checkbox" data-bind="checked: settings.plugins.marlingcodedocumentation.show_sources_checkboxes">
+            </label>
+        </div>
+        <div>
+            <label class="checkbox">
                 Include Gcode Documentation from <a href="https://marlinfw.org/meta/gcode/" target="_blank">Marlin</a>
                 <input type="checkbox" data-bind="checked: settings.plugins.marlingcodedocumentation.include_source_marlin">
             </label>
