@@ -1,7 +1,7 @@
 window.AllGcodes = {
   "ABORT": [
     {
-      "brief": "",
+      "brief": "This command terminates the manual probing tool.",
       "codes": [
         "ABORT"
       ],
@@ -9,13 +9,78 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command terminates the manual probing tool",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
+    }
+  ],
+  "ACCELEROMETER_DEBUG_READ": [
+    {
+      "brief": "queries  ADXL345 register",
+      "codes": [
+        "ACCELEROMETER_DEBUG_READ"
+      ],
+      "id": "Klipper.ACCELEROMETER_DEBUG_READ[0]",
+      "parameters": [
+        {
+          "description": "",
+          "label": "CHIP=<config_name>",
+          "optional": true,
+          "tag": "CHIP",
+          "values": []
+        },
+        {
+          "description": "",
+          "label": "REG=<register>",
+          "optional": false,
+          "tag": "REG",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "Klipper",
+      "title": "queries  ADXL345 register",
+      "url": "https://www.klipper3d.org/G-Codes.html#adxl345-accelerometer-commands"
+    }
+  ],
+  "ACCELEROMETER_DEBUG_WRITE": [
+    {
+      "brief": "writes raw",
+      "codes": [
+        "ACCELEROMETER_DEBUG_WRITE"
+      ],
+      "id": "Klipper.ACCELEROMETER_DEBUG_WRITE[0]",
+      "parameters": [
+        {
+          "description": "",
+          "label": "CHIP=<config_name>",
+          "optional": true,
+          "tag": "CHIP",
+          "values": []
+        },
+        {
+          "description": "",
+          "label": "REG=<reg>",
+          "optional": false,
+          "tag": "REG",
+          "values": []
+        },
+        {
+          "description": "",
+          "label": "VAL=<value>",
+          "optional": false,
+          "tag": "VAL",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "Klipper",
+      "title": "writes raw",
+      "url": "https://www.klipper3d.org/G-Codes.html#adxl345-accelerometer-commands"
     }
   ],
   "ACCELEROMETER_MEASURE": [
     {
-      "brief": "",
+      "brief": "Starts  accelerometer measurements at the requested number of samples per  second. If CHIP is not specified it defaults to \"adxl345\". The  command works in a start-stop mode: when executed for the first  time, it starts the measurements, next execution stops them. The  results of measurements are written to a file named",
       "codes": [
         "ACCELEROMETER_MEASURE"
       ],
@@ -30,13 +95,6 @@ window.AllGcodes = {
         },
         {
           "description": "",
-          "label": "RATE=<value>",
-          "optional": true,
-          "tag": "RATE",
-          "values": []
-        },
-        {
-          "description": "",
           "label": "NAME=<value>",
           "optional": true,
           "tag": "NAME",
@@ -45,13 +103,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Starts  accelerometer measurements at the requested number of samples per  second",
       "url": "https://www.klipper3d.org/G-Codes.html#adxl345-accelerometer-commands"
     }
   ],
   "ACCELEROMETER_QUERY": [
     {
-      "brief": "",
+      "brief": "queries  accelerometer for the current value. If CHIP is not specified it  defaults to \"adxl345\". If RATE is not specified, the default value  is used. This command is useful to test the connection to the  ADXL345 accelerometer: one of the returned values should be a  free-fall acceleration (+/- some noise of the chip).",
       "codes": [
         "ACCELEROMETER_QUERY"
       ],
@@ -74,13 +132,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "queries  accelerometer for the current value",
       "url": "https://www.klipper3d.org/G-Codes.html#adxl345-accelerometer-commands"
     }
   ],
   "ACCEPT": [
     {
-      "brief": "",
+      "brief": "This command accepts the current Z position andconcludes the manual probing tool.",
       "codes": [
         "ACCEPT"
       ],
@@ -88,13 +146,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command accepts the current Z position andconcludes the manual probing tool",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "ACTIVATE_EXTRUDER": [
     {
-      "brief": "",
+      "brief": "In a printer with  multiple extruders this command is used to change the active  extruder.",
       "codes": [
         "ACTIVATE_EXTRUDER"
       ],
@@ -110,13 +168,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "In a printer with  multiple extruders this command is used to change the active  extruder",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "BED_MESH_CALIBRATE": [
     {
-      "brief": "",
+      "brief": "This command probes the bed using generated points specified by the  parameters in the config. After probing, a mesh is generated and  z-movement is adjusted according to the mesh. See the PROBE command  for details on the optional probe parameters. If METHOD=manual is  specified then the manual probing tool is activated - see the  MANUAL_PROBE command above for details on the additional commands  available while this tool is active.",
       "codes": [
         "BED_MESH_CALIBRATE"
       ],
@@ -146,13 +204,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command probes the bed using generated points specified by the  parameters in the config",
       "url": "https://www.klipper3d.org/G-Codes.html#mesh-bed-leveling"
     }
   ],
   "BED_MESH_CLEAR": [
     {
-      "brief": "",
+      "brief": "This command clears the mesh and removes all  z adjustment.  It is recommended to put this in your end-gcode.",
       "codes": [
         "BED_MESH_CLEAR"
       ],
@@ -160,13 +218,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command clears the mesh and removes all  z adjustment",
       "url": "https://www.klipper3d.org/G-Codes.html#mesh-bed-leveling"
     }
   ],
   "BED_MESH_MAP": [
     {
-      "brief": "",
+      "brief": "Like to BED_MESH_OUTPUT, this command prints the current  state of the mesh to the terminal.  Instead of printing the values in a  human readable format, the state is serialized in json format. This allows  octoprint plugins to easily capture the data and generate height maps  approximating the bed's surface.",
       "codes": [
         "BED_MESH_MAP"
       ],
@@ -174,13 +232,42 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Like to BED_MESH_OUTPUT, this command prints the current  state of the mesh to the terminal",
+      "url": "https://www.klipper3d.org/G-Codes.html#mesh-bed-leveling"
+    }
+  ],
+  "BED_MESH_OFFSET": [
+    {
+      "brief": "Applies X and/or Y  offsets to the mesh lookup.  This is useful for printers with  independent extruders, as an offset is necessary to produce  correct Z adjustment after a tool change.",
+      "codes": [
+        "BED_MESH_OFFSET"
+      ],
+      "id": "Klipper.BED_MESH_OFFSET[0]",
+      "parameters": [
+        {
+          "description": "",
+          "label": "X=<value>",
+          "optional": true,
+          "tag": "X",
+          "values": []
+        },
+        {
+          "description": "",
+          "label": "Y=<value>",
+          "optional": true,
+          "tag": "Y",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "Klipper",
+      "title": "Applies X and/or Y  offsets to the mesh lookup",
       "url": "https://www.klipper3d.org/G-Codes.html#mesh-bed-leveling"
     }
   ],
   "BED_MESH_OUTPUT": [
     {
-      "brief": "",
+      "brief": "This command outputs the current probed  z values and current mesh values to the terminal.  If PGP=1 is specified  the x,y coordinates generated by bed_mesh, along with their associated  indices, will be output to the terminal.",
       "codes": [
         "BED_MESH_OUTPUT"
       ],
@@ -196,13 +283,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command outputs the current probed  z values and current mesh values to the terminal",
       "url": "https://www.klipper3d.org/G-Codes.html#mesh-bed-leveling"
     }
   ],
   "BED_MESH_PROFILE": [
     {
-      "brief": "",
+      "brief": "This  command provides profile management for mesh state.  LOAD will  restore the mesh state from the profile matching the supplied name.  SAVE will save the current mesh state to a profile matching the  supplied name.  Remove will delete the profile matching the  supplied name from persistent memory.  Note that after SAVE or  REMOVE operations have been run the SAVE_CONFIG gcode must be run  to make the changes to peristent memory permanent.",
       "codes": [
         "BED_MESH_PROFILE"
       ],
@@ -232,13 +319,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This  command provides profile management for mesh state",
       "url": "https://www.klipper3d.org/G-Codes.html#mesh-bed-leveling"
     }
   ],
   "BED_SCREWS_ADJUST": [
     {
-      "brief": "",
+      "brief": "This command will invoke the bed screws  adjustment tool. It will command the nozzle to different locations  (as defined in the config file) and allow one to make adjustments to  the bed screws so that the bed is a constant distance from the  nozzle.",
       "codes": [
         "BED_SCREWS_ADJUST"
       ],
@@ -246,13 +333,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command will invoke the bed screws  adjustment tool",
       "url": "https://www.klipper3d.org/G-Codes.html#bed-screws-helper"
     }
   ],
   "BED_TILT_CALIBRATE": [
     {
-      "brief": "",
+      "brief": "This command will probe the points specified in the config and then  recommend updated x and y tilt adjustments. See the PROBE command  for details on the optional probe parameters. If METHOD=manual is  specified then the manual probing tool is activated - see the  MANUAL_PROBE command above for details on the additional commands  available while this tool is active.",
       "codes": [
         "BED_TILT_CALIBRATE"
       ],
@@ -275,13 +362,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command will probe the points specified in the config and then  recommend updated x and y tilt adjustments",
       "url": "https://www.klipper3d.org/G-Codes.html#bed-tilt"
     }
   ],
   "BLTOUCH_DEBUG": [
     {
-      "brief": "",
+      "brief": "This sends a command to the  BLTouch. It may be useful for debugging. Available commands are",
       "codes": [
         "BLTOUCH_DEBUG"
       ],
@@ -297,13 +384,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This sends a command to the  BLTouch",
       "url": "https://www.klipper3d.org/G-Codes.html#bltouch"
     }
   ],
   "BLTOUCH_STORE": [
     {
-      "brief": "",
+      "brief": "This stores an output mode in the  EEPROM of a BLTouch V3.1 Available output_modes are",
       "codes": [
         "BLTOUCH_STORE"
       ],
@@ -319,13 +406,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This stores an output mode in the  EEPROM of a BLTouch V3",
       "url": "https://www.klipper3d.org/G-Codes.html#bltouch"
     }
   ],
   "CALC_MEASURED_SKEW": [
     {
-      "brief": "",
+      "brief": "Calculates and reports the skew (in radians and  degrees) based on a measured print. This can be useful for  determining the printer's current skew after correction has been  applied. It may also be useful before correction is applied to  determine if skew correction is necessary. See skew_correction.md  for details on skew calibration objects and measurements.",
       "codes": [
         "CALC_MEASURED_SKEW"
       ],
@@ -355,13 +442,27 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Calculates and reports the skew (in radians and  degrees) based on a measured print",
       "url": "https://www.klipper3d.org/G-Codes.html#skew-correction"
+    }
+  ],
+  "CANCEL_PRINT": [
+    {
+      "brief": "Cancels the current print.",
+      "codes": [
+        "CANCEL_PRINT"
+      ],
+      "id": "Klipper.CANCEL_PRINT[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "Cancels the current print",
+      "url": "https://www.klipper3d.org/G-Codes.html#pause-resume"
     }
   ],
   "CLEAR_PAUSE": [
     {
-      "brief": "",
+      "brief": "Clears the current paused state without resuming the  print. This is useful if one decides to cancel a print after a  PAUSE. It is recommended to add this to your start gcode to make  sure the paused state is fresh for each print.",
       "codes": [
         "CLEAR_PAUSE"
       ],
@@ -369,13 +470,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Clears the current paused state without resuming the  print",
       "url": "https://www.klipper3d.org/G-Codes.html#pause-resume"
     }
   ],
   "DELTA_ANALYZE": [
     {
-      "brief": "",
+      "brief": "This command is used during enhanced delta  calibration. See",
       "codes": [
         "DELTA_ANALYZE"
       ],
@@ -383,13 +484,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command is used during enhanced delta  calibration",
       "url": "https://www.klipper3d.org/G-Codes.html#delta-calibration"
     }
   ],
   "DELTA_CALIBRATE": [
     {
-      "brief": "",
+      "brief": "This  command will probe seven points on the bed and recommend updated  endstop positions, tower angles, and radius. See the PROBE command  for details on the optional probe parameters. If METHOD=manual is  specified then the manual probing tool is activated - see the  MANUAL_PROBE command above for details on the additional commands  available while this tool is active.",
       "codes": [
         "DELTA_CALIBRATE"
       ],
@@ -412,13 +513,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This  command will probe seven points on the bed and recommend updated  endstop positions, tower angles, and radius",
       "url": "https://www.klipper3d.org/G-Codes.html#delta-calibration"
     }
   ],
   "DUMP_TMC": [
     {
-      "brief": "",
+      "brief": "This command will read the TMC driver  registers and report their values.",
       "codes": [
         "DUMP_TMC"
       ],
@@ -434,13 +535,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command will read the TMC driver  registers and report their values",
       "url": "https://www.klipper3d.org/G-Codes.html#tmc-stepper-drivers"
     }
   ],
   "ENDSTOP_PHASE_CALIBRATE": [
     {
-      "brief": "",
+      "brief": "If no STEPPER  parameter is provided then this command will reports statistics on  endstop stepper phases during past homing operations. When a STEPPER  parameter is provided it arranges for the given endstop phase  setting to be written to the config file (in conjunction with the  SAVE_CONFIG command).",
       "codes": [
         "ENDSTOP_PHASE_CALIBRATE"
       ],
@@ -456,13 +557,27 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "If no STEPPER  parameter is provided then this command will reports statistics on  endstop stepper phases during past homing operations",
       "url": "https://www.klipper3d.org/G-Codes.html#endstop-adjustments-by-stepper-phase"
+    }
+  ],
+  "FACTOR": [
+    {
+      "brief": "and",
+      "codes": [
+        "FACTOR"
+      ],
+      "id": "Klipper.FACTOR[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "and",
+      "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "FIRMWARE_RESTART": [
     {
-      "brief": "",
+      "brief": "This is similar to a RESTART command, but it  also clears any error state from the micro-controller.",
       "codes": [
         "FIRMWARE_RESTART"
       ],
@@ -470,13 +585,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This is similar to a RESTART command, but it  also clears any error state from the micro-controller",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "FORCE_MOVE": [
     {
-      "brief": "",
+      "brief": "This command will forcibly move the given stepper  the given distance (in mm) at the given constant velocity (in  mm/s). If ACCEL is specified and is greater than zero, then the  given acceleration (in mm/s^2) will be used; otherwise no  acceleration is performed. No boundary checks are performed; no  kinematic updates are made; other parallel steppers on an axis will  not be moved. Use caution as an incorrect command could cause  damage! Using this command will almost certainly place the low-level  kinematics in an incorrect state; issue a G28 afterwards to reset  the kinematics. This command is intended for low-level diagnostics  and debugging.",
       "codes": [
         "FORCE_MOVE"
       ],
@@ -513,7 +628,7 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command will forcibly move the given stepper  the given distance (in mm) at the given constant velocity (in  mm/s)",
       "url": "https://www.klipper3d.org/G-Codes.html#force-movement"
     }
   ],
@@ -582,6 +697,19 @@ window.AllGcodes = {
           "values": [
             {
               "tag": "rate",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Set the Laser power for the move. (Requires `LASER_MOVE_POWER`). `G0` will turn off the laser with `LASER_MOVE_G0_OFF` enabled.",
+          "label": "[S<power>]",
+          "optional": true,
+          "since": "2.0.8",
+          "tag": "S",
+          "values": [
+            {
+              "tag": "power",
               "type": "float"
             }
           ]
@@ -786,6 +914,19 @@ window.AllGcodes = {
               "type": "float"
             }
           ]
+        },
+        {
+          "description": "Set the Laser power for the move. (Requires `LASER_MOVE_POWER`). `G0` will turn off the laser with `LASER_MOVE_G0_OFF` enabled.",
+          "label": "[S<power>]",
+          "optional": true,
+          "since": "2.0.8",
+          "tag": "S",
+          "values": [
+            {
+              "tag": "power",
+              "type": "float"
+            }
+          ]
         }
       ],
       "related": [
@@ -893,12 +1034,11 @@ window.AllGcodes = {
       "parameters": [
         {
           "description": "Use `G10 S1` to do a swap retraction, before changing extruders. The subsequent [`G11`](/docs/gcode/G011.html) (after tool change) will do a swap recover. (Requires `EXTRUDERS` > 1)",
-          "label": "[S<flag>]",
+          "label": "[S<bool>]",
           "optional": true,
           "tag": "S",
           "values": [
             {
-              "tag": "flag",
               "type": "bool"
             }
           ]
@@ -1145,11 +1285,43 @@ window.AllGcodes = {
           "label": "[T<count>]",
           "optional": true,
           "tag": "T",
-          "type": "int",
           "values": [
             {
               "tag": "count",
               "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Include X motion when cleaning with limited axes. (Leave out `X`, `Y`, and `Z` for non-limited cleaning.)",
+          "label": "[X<flag>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "type": "flag"
+            }
+          ]
+        },
+        {
+          "description": "Include Y motion when cleaning with limited axes. (Leave out `X`, `Y`, and `Z` for non-limited cleaning.)",
+          "label": "[Y<flag>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "type": "flag"
+            }
+          ]
+        },
+        {
+          "description": "Include Z motion when cleaning with limited axes. (Leave out `X`, `Y`, and `Z` for non-limited cleaning.)",
+          "label": "[Z<flag>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "type": "flag"
             }
           ]
         }
@@ -1605,14 +1777,39 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Specify complete circles - requires `ARC_P_CIRCLES`",
-          "label": "[P<rate>]",
+          "description": "The maximum rate of the move between the start and end point",
+          "label": "[F<rate>]",
           "optional": true,
-          "tag": "P",
+          "tag": "F",
           "values": [
             {
               "optional": false,
               "tag": "rate",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Specify complete circles. (Requires `ARC_P_CIRCLES`)",
+          "label": "[P<count>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "tag": "count",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Set the Laser power for the move. (Requires `LASER_MOVE_POWER`)",
+          "label": "[S<power>]",
+          "optional": true,
+          "since": "2.0.8",
+          "tag": "S",
+          "values": [
+            {
+              "tag": "power",
               "type": "float"
             }
           ]
@@ -1797,12 +1994,12 @@ window.AllGcodes = {
         },
         {
           "description": "Disable leveling compensation (otherwise, enable)",
-          "label": "[D<bool>]",
+          "label": "[D<flag>]",
           "optional": true,
           "tag": "D",
           "values": [
             {
-              "type": "bool"
+              "type": "flag"
             }
           ]
         },
@@ -2011,6 +2208,18 @@ window.AllGcodes = {
       "source": "Marlin",
       "title": "Park toolhead",
       "url": "https://marlinfw.org/docs/gcode/G027"
+    },
+    {
+      "brief": "Park the toolhead (i.e., nozzle) at a predefined XY position, with a Z raise value that applies over 0 or over the current position depending on the P parameter.\nIn Marlin this G-code is enabled by NOZZLE_PARK_FEATURE and the park position is defined by NOZZLE_PARK_POINT. See G27 Park Toolhead for details.",
+      "codes": [
+        "G27"
+      ],
+      "id": "RepRap.G27[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "G27: Park toolhead",
+      "url": "https://reprap.org/wiki/G-code#G27:_Park_toolhead"
     }
   ],
   "G28": [
@@ -2056,35 +2265,44 @@ window.AllGcodes = {
       "id": "Marlin.G28[0]",
       "parameters": [
         {
-          "description": "Optional. If the position is known then exit without homing. (1.1.9)",
-          "label": "[O]",
+          "description": "Flag to restore bed leveling state after homing. (default `true`)",
+          "label": "[L]",
           "optional": true,
-          "tag": "O",
-          "type": "bool"
+          "tag": "L",
+          "type": "flag"
         },
         {
-          "description": "Raise before homing distance (1.1.9)",
+          "description": "Flag to skip homing if the position is already trusted",
+          "label": "[O]",
+          "optional": true,
+          "since": "1.1.9",
+          "tag": "O",
+          "type": "flag"
+        },
+        {
+          "description": "The distance to raise the nozzle before homing",
           "label": "[R]",
           "optional": true,
+          "since": "1.1.9",
           "tag": "R",
           "type": "float"
         },
         {
-          "description": "Flag to go back to the X axis origin",
+          "description": "Flag to home the X axis",
           "label": "[X]",
           "optional": true,
           "tag": "X",
           "type": "bool"
         },
         {
-          "description": "Flag to go back to the Y axis origin",
+          "description": "Flag to home the Y axis",
           "label": "[Y]",
           "optional": true,
           "tag": "Y",
           "type": "bool"
         },
         {
-          "description": "Flag to go back to the Z axis origin",
+          "description": "Flag to home the Z axis",
           "label": "[Z]",
           "optional": true,
           "tag": "Z",
@@ -2782,23 +3000,24 @@ window.AllGcodes = {
       "parameters": [
         {
           "description": "**Activate**\nUnified Bed Leveling (i.e., `M420 S1`)\n",
-          "label": "[A<bool>]",
+          "label": "[A<flag>]",
           "optional": true,
           "tag": "A",
           "values": [
             {
-              "type": "bool"
+              "type": "flag"
             }
           ]
         },
         {
-          "description": "**Business Card** mode (`P2` only)\n- Use the 'Business Card' mode of the Manual Probe subsystem with `P2`.\n- In this mode of `G29 P2`, use a shim that the nozzle can grab onto as it is lowered.\n  In principle, the nozzle-bed distance is the same when the same resistance is felt in the shim. You can omit the numerical value on first invocation of `G29 P2 B` to measure shim thickness. Subsequent use of `B` will apply the previously-measured thickness by default.\n- Note: A non-compressible Spark Gap feeler gauge is recommended over a business card.\n",
-          "label": "[B<bool>]",
+          "description": "**Business Card** mode (`P2` only)\n- Use the 'Business Card' mode of the Manual Probe subsystem with `P2`. A value may be given, or else it will be measured.\n- In this mode of `G29 P2`, use a shim that the nozzle can grab onto as it is lowered.\n  In principle, the nozzle-bed distance is the same when the same resistance is felt in the shim. You can omit the numerical value on first invocation of `G29 P2 B` to measure shim thickness. Subsequent use of `B` will apply the previously-measured thickness by default.\n- Note: A non-compressible Spark Gap feeler gauge is recommended over a business card.\n",
+          "label": "[B<mm/flag>]",
           "optional": true,
           "tag": "B",
           "values": [
             {
-              "type": "bool"
+              "tag": "mm/flag",
+              "type": "float"
             }
           ]
         },
@@ -2816,23 +3035,23 @@ window.AllGcodes = {
         },
         {
           "description": "Disable Unified Bed Leveling (i.e., `M420 S0`).",
-          "label": "[D<bool>]",
+          "label": "[D<flag>]",
           "optional": true,
           "tag": "D",
           "values": [
             {
-              "type": "bool"
+              "type": "flag"
             }
           ]
         },
         {
           "description": "Stow probe after probing `E`ach point (`P1` only).",
-          "label": "[E<bool>]",
+          "label": "[E<flag>]",
           "optional": true,
           "tag": "E",
           "values": [
             {
-              "type": "bool"
+              "type": "flag"
             }
           ]
         },
@@ -2929,7 +3148,7 @@ window.AllGcodes = {
               "tag": 3
             },
             {
-              "description": "**Fine Tune** the Mesh. Generally used in the form `G29 P4 Rnn Xxxx Yyyy`.\n- This phase requires an LCD Panel. To fine-tune the mesh without a controller, use [`G42`](/docs/gcode/G042.html) and [`M421`](/docs/gcode/M421.html).\n- Phase 4 is meant to be used with [`G26`](/docs/gcode/G026.html) Mesh Validation to fine tune the mesh by direct editing of Mesh Points. Raise and lower points to fine tune the mesh until it gives consistently reliable adhesion.\n- `P4` moves to the closest Mesh Point (and/or the given `X` `Y`), raises the nozzle above the mesh height by the given `H` offset (or default Z_CLEARANCE_BETWEEN_PROBES), and waits while the controller is used to adjust the nozzle height. On click the displayed height is saved in the mesh.\n- Start Phase 4 at a specific location with `X` and `Y`. Adjust a specific number of Mesh Points with the `R` (Repeat) parameter. (If `R` is left out, the whole matrix is assumed.) This command can be terminated early (e.g., after editing the area of interest) by pressing and holding the encoder button.\n- The general form is `G29 P4 [R points] [X position] [Y position]`.\n- The `H[offset]`` parameter is useful if a shim is used to fine-tune the mesh. For a 0.4mm shim the command would be `G29 P4 H0.4`. The nozzle is moved to the shim height, you adjust height to the shim, and on click the height minus the shim thickness is saved in the mesh.\n- _USE WITH CAUTION, as a bad mesh can cause the nozzle to crash into the bed!_\n",
+              "description": "**Fine Tune** the Mesh. Generally used in the form `G29 P4 Rnn Xxxx Yyyy`.\n- This phase requires an LCD Panel. To fine-tune the mesh without a controller, use [`G42`](/docs/gcode/G042.html) and [`M421`](/docs/gcode/M421.html).\n- Phase 4 is meant to be used with [`G26`](/docs/gcode/G026.html) Mesh Validation to fine tune the mesh by direct editing of Mesh Points. Raise and lower points to fine tune the mesh until it gives consistently reliable adhesion.\n- `P4` moves to the closest Mesh Point (and/or the given `X` `Y`), raises the nozzle above the mesh height by the given `H` offset (or default Z_CLEARANCE_BETWEEN_PROBES), and waits while the controller is used to adjust the nozzle height. On click the displayed height is saved in the mesh.\n- Start Phase 4 at a specific location with `X` and `Y`. Adjust a specific number of Mesh Points with the `R` (Repeat) parameter. (If `R` is left out, the whole matrix is assumed.) This command can be terminated early (e.g., after editing the area of interest) by pressing and holding the encoder button.\n- The general form is `G29 P4 [R points] [X position] [Y position]`.\n- The `H[offset]` parameter is useful if a shim is used to fine-tune the mesh. For a 0.4mm shim the command would be `G29 P4 H0.4`. The nozzle is moved to the shim height, you adjust height to the shim, and on click the height minus the shim thickness is saved in the mesh.\n- _USE WITH CAUTION, as a bad mesh can cause the nozzle to crash into the bed!_\n",
               "tag": 4
             },
             {
@@ -2993,12 +3212,12 @@ window.AllGcodes = {
         },
         {
           "description": "**Unlevel**: Probe the outer perimeter to assist bed tramming. (Use with `G29 P1 O`)\n- Only used with `G29 P1 T U`. This speeds up the probing of the edge of the bed. This option is useful when the entire bed doesn't need to be probed because it will be physically adjusted (tramming).\n",
-          "label": "[U<bool>]",
+          "label": "[U<flag>]",
           "optional": true,
           "tag": "U",
           "values": [
             {
-              "type": "bool"
+              "type": "flag"
             }
           ]
         },
@@ -3027,12 +3246,12 @@ window.AllGcodes = {
         },
         {
           "description": "**_What?_**: Display valuable UBL data. (Requires `UBL_DEVEL_DEBUGGING`)\n",
-          "label": "[W<bool>]",
+          "label": "[W<flag>]",
           "optional": true,
           "tag": "W",
           "values": [
             {
-              "type": "bool"
+              "type": "flag"
             }
           ]
         },
@@ -3359,14 +3578,39 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Specify complete circles - requires `ARC_P_CIRCLES`",
-          "label": "[P<rate>]",
+          "description": "The maximum rate of the move between the start and end point",
+          "label": "[F<rate>]",
           "optional": true,
-          "tag": "P",
+          "tag": "F",
           "values": [
             {
               "optional": false,
               "tag": "rate",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Specify complete circles. (Requires `ARC_P_CIRCLES`)",
+          "label": "[P<count>]",
+          "optional": true,
+          "tag": "P",
+          "values": [
+            {
+              "tag": "count",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Set the Laser power for the move. (Requires `LASER_MOVE_POWER`)",
+          "label": "[S<power>]",
+          "optional": true,
+          "since": "2.0.8",
+          "tag": "S",
+          "values": [
+            {
+              "tag": "power",
               "type": "float"
             }
           ]
@@ -3471,16 +3715,14 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Engage the probe for each point.",
+          "description": "Engage the probe for each point",
           "label": "[E<bool>]",
           "optional": true,
           "tag": "E",
           "values": [
             {
+              "default": 0,
               "type": "bool"
-            },
-            {
-              "default": 0
             }
           ]
         }
@@ -3682,12 +3924,12 @@ window.AllGcodes = {
       "parameters": [
         {
           "description": "If omitted iterations stop at best achievable precision. If set iterations will stop at the set precision.",
-          "label": "[C<int>]",
+          "label": "[C<float>]",
           "optional": true,
           "tag": "C",
           "values": [
             {
-              "type": "int"
+              "type": "float"
             }
           ]
         },
@@ -3716,10 +3958,13 @@ window.AllGcodes = {
         },
         {
           "description": "Number of probe points. If not specified, uses DELTA_CALIBRATION_DEFAULT_POINTS",
-          "label": "[P<0|1|2|3|4-10>]",
+          "label": "[P<int|0|1|2|3|4-10>]",
           "optional": true,
           "tag": "P",
           "values": [
+            {
+              "type": "int"
+            },
             {
               "description": "Normalize end-stops and tower angle corrections only (no probing).",
               "tag": 0
@@ -3755,10 +4000,13 @@ window.AllGcodes = {
         },
         {
           "description": "Set the verbose level",
-          "label": "[V<0|1|2|3>]",
+          "label": "[V<int|0|1|2|3>]",
           "optional": true,
           "tag": "V",
           "values": [
+            {
+              "type": "int"
+            },
             {
               "description": "Dry run, no calibration",
               "tag": 0
@@ -3777,6 +4025,30 @@ window.AllGcodes = {
             },
             {
               "default": 1
+            }
+          ]
+        },
+        {
+          "description": "Probe at probe-offset-relative positions instead of the required kinematic points.",
+          "label": "[O<bool>]",
+          "optional": true,
+          "since": "2.0.9.2",
+          "tag": "O",
+          "values": [
+            {
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Temporarily reduce the size of the probe grid by the specified amount.",
+          "label": "[R<float>]",
+          "optional": true,
+          "since": "2.0.9.2",
+          "tag": "R",
+          "values": [
+            {
+              "type": "float"
             }
           ]
         }
@@ -3868,6 +4140,20 @@ window.AllGcodes = {
           "optional": true,
           "tag": "E",
           "values": []
+        },
+        {
+          "description": " Do not probe at the required kinematic points but at positions offseted to the probe-offsets  ",
+          "label": "O",
+          "optional": true,
+          "tag": "O",
+          "values": []
+        },
+        {
+          "description": " Temporary reduce the size of the probe grid by the specified amount (mm) ",
+          "label": "R",
+          "optional": true,
+          "tag": "R",
+          "values": []
         }
       ],
       "related": [],
@@ -3909,7 +4195,9 @@ window.AllGcodes = {
           "tag": "E"
         }
       ],
-      "related": [],
+      "related": [
+        "M422"
+      ],
       "source": "Marlin",
       "title": "Z Steppers Auto-Alignment",
       "url": "https://marlinfw.org/docs/gcode/G034"
@@ -4615,14 +4903,14 @@ window.AllGcodes = {
   ],
   "G5": [
     {
-      "brief": "Cubic B-spline with XYZE destination and IJPQ offsets",
+      "brief": "Cubic B-spline with XYE destination and IJPQ offsets",
       "codes": [
         "G5"
       ],
       "id": "Marlin.G5[0]",
       "parameters": [
         {
-          "description": "A coordinate on the X axis",
+          "description": "A destination coordinate on the X axis",
           "label": "X<pos>",
           "optional": false,
           "tag": "X",
@@ -4634,7 +4922,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "A coordinate on the Y axis",
+          "description": "A destination coordinate on the Y axis",
           "label": "Y<pos>",
           "optional": false,
           "tag": "Y",
@@ -4646,7 +4934,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "X incremental offset from start point to first control point",
+          "description": "Offset from the `X` start point to first control point",
           "label": "I<pos>",
           "optional": false,
           "tag": "I",
@@ -4658,7 +4946,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Y incremental offset from start point to first control point",
+          "description": "Offset from the `Y` start point to first control point",
           "label": "J<pos>",
           "optional": false,
           "tag": "J",
@@ -4670,7 +4958,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "X incremental offset from end point to second control point",
+          "description": "Offset from the `X` end point to second control point",
           "label": "P<pos>",
           "optional": false,
           "tag": "P",
@@ -4682,7 +4970,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Y incremental offset from end point to second control point",
+          "description": "Offset from the `Y` end point to the second control point",
           "label": "Q<pos>",
           "optional": false,
           "tag": "Q",
@@ -4713,6 +5001,19 @@ window.AllGcodes = {
           "values": [
             {
               "tag": "rate",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Set the Laser power for the move. (Requires `LASER_MOVE_POWER`)",
+          "label": "[S<power>]",
+          "optional": true,
+          "since": "2.0.8",
+          "tag": "S",
+          "values": [
+            {
+              "tag": "power",
               "type": "float"
             }
           ]
@@ -5072,13 +5373,13 @@ window.AllGcodes = {
       "parameters": [
         {
           "description": "Set page index",
-          "label": "[I<state>]",
+          "label": "[I<index>]",
           "optional": true,
           "tag": "I",
           "values": [
             {
-              "tag": "state",
-              "type": "bool"
+              "tag": "index",
+              "type": "int"
             }
           ]
         },
@@ -5211,10 +5512,16 @@ window.AllGcodes = {
       "id": "Marlin.G60[0]",
       "parameters": [
         {
-          "description": "Specify memory slot to save to",
-          "label": "[S]",
+          "description": "Memory slot. If omitted, the first slot (0) is used.",
+          "label": "[S<slot>]",
           "optional": true,
-          "tag": "S"
+          "tag": "S",
+          "values": [
+            {
+              "tag": "slot",
+              "type": "int"
+            }
+          ]
         }
       ],
       "related": [
@@ -5254,22 +5561,72 @@ window.AllGcodes = {
       "id": "Marlin.G61[0]",
       "parameters": [
         {
-          "description": "Axes to restore. At least one is required.",
-          "label": "X Y Z",
-          "optional": false,
-          "tag": "X Y Z"
-        },
-        {
           "description": "Move feedrate",
-          "label": "[F]",
+          "label": "[F<rate>]",
           "optional": true,
-          "tag": "F"
+          "tag": "F",
+          "values": [
+            {
+              "tag": "rate",
+              "type": "float"
+            }
+          ]
         },
         {
-          "description": "Use saved position of the specified memory slot (defaults to 0 if not spificied)",
-          "label": "[S]",
+          "description": "Memory slot (0 if omitted)",
+          "label": "[S<slot>]",
           "optional": true,
-          "tag": "S"
+          "tag": "S",
+          "values": [
+            {
+              "tag": "slot",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Flag to restore the X axis",
+          "label": "[X<flag>]",
+          "optional": true,
+          "tag": "X",
+          "values": [
+            {
+              "type": "flag"
+            }
+          ]
+        },
+        {
+          "description": "Flag to restore the Y axis",
+          "label": "[Y<flag>]",
+          "optional": true,
+          "tag": "Y",
+          "values": [
+            {
+              "type": "flag"
+            }
+          ]
+        },
+        {
+          "description": "Flag to restore the Z axis",
+          "label": "[Z<flag>]",
+          "optional": true,
+          "tag": "Z",
+          "values": [
+            {
+              "type": "flag"
+            }
+          ]
+        },
+        {
+          "description": "Flag to restore the E axis",
+          "label": "[E<flag>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "type": "flag"
+            }
+          ]
         }
       ],
       "related": [
@@ -5492,21 +5849,6 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "G80: Mesh-based Z probe",
       "url": "https://reprap.org/wiki/G-code#G80:_Mesh-based_Z_probe"
-    }
-  ],
-  "G800": [
-    {
-      "brief": "Returns Gcode data",
-      "codes": [
-        "G800",
-        "M800"
-      ],
-      "id": "Marlin.G800[0]",
-      "parameters": [],
-      "related": [],
-      "source": "Marlin",
-      "title": "Debug Gcode Parser",
-      "url": "https://marlinfw.org/docs/gcode/G800"
     }
   ],
   "G81": [
@@ -6050,7 +6392,7 @@ window.AllGcodes = {
   ],
   "GET_CURRENT_SKEW": [
     {
-      "brief": "",
+      "brief": "Reports the current printer skew for each plane  in both radians and degrees. The skew is calculated based on  parameters provided via the",
       "codes": [
         "GET_CURRENT_SKEW"
       ],
@@ -6058,13 +6400,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Reports the current printer skew for each plane  in both radians and degrees",
       "url": "https://www.klipper3d.org/G-Codes.html#skew-correction"
     }
   ],
   "GET_POSITION": [
     {
-      "brief": "",
+      "brief": "Return information on the current location of the  toolhead.",
       "codes": [
         "GET_POSITION"
       ],
@@ -6072,13 +6414,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Return information on the current location of the  toolhead",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "GET_RETRACTION": [
     {
-      "brief": "",
+      "brief": "Queries the current parameters used by firmware  retraction and displays them on the terminal.",
       "codes": [
         "GET_RETRACTION"
       ],
@@ -6086,13 +6428,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Queries the current parameters used by firmware  retraction and displays them on the terminal",
       "url": "https://www.klipper3d.org/G-Codes.html#firmware-retraction"
     }
   ],
   "HELP": [
     {
-      "brief": "",
+      "brief": "Report the list of available extended G-Code commands.",
       "codes": [
         "HELP"
       ],
@@ -6100,13 +6442,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Report the list of available extended G-Code commands",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "INIT_TMC": [
     {
-      "brief": "",
+      "brief": "This command will intitialize the TMC  registers. Needed to re-enable the driver if power to the chip is  turned off then back on.",
       "codes": [
         "INIT_TMC"
       ],
@@ -6122,7 +6464,7 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command will intitialize the TMC  registers",
       "url": "https://www.klipper3d.org/G-Codes.html#tmc-stepper-drivers"
     }
   ],
@@ -6259,6 +6601,19 @@ window.AllGcodes = {
   ],
   "M10": [
     {
+      "brief": "Enable and disable the Cutter Vacuum or Laser Blower Motor.",
+      "codes": [
+        "M10",
+        "M11"
+      ],
+      "id": "Marlin.M10[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Marlin",
+      "title": "Vacuum / Blower Control",
+      "url": "https://marlinfw.org/docs/gcode/M010-M011"
+    },
+    {
       "brief": "",
       "codes": [
         "M10"
@@ -6314,46 +6669,6 @@ window.AllGcodes = {
       "source": "Marlin",
       "title": "Free Memory",
       "url": "https://marlinfw.org/docs/gcode/M100"
-    }
-  ],
-  "M1000": [
-    {
-      "brief": "Resume from Power Loss",
-      "codes": [
-        "M1000"
-      ],
-      "id": "Marlin.M1000[0]",
-      "parameters": [
-        {
-          "description": "Display the Resume/Cancel menu.",
-          "label": "[S<bool>]",
-          "optional": true,
-          "tag": "S",
-          "values": [
-            {
-              "type": "bool"
-            }
-          ]
-        }
-      ],
-      "related": [],
-      "source": "Marlin",
-      "title": "Internal Use Only",
-      "url": "https://marlinfw.org/docs/gcode/M1000"
-    }
-  ],
-  "M1001": [
-    {
-      "brief": "Run SD Print Finishing Actions",
-      "codes": [
-        "M1001"
-      ],
-      "id": "Marlin.M1001[0]",
-      "parameters": [],
-      "related": [],
-      "source": "Marlin",
-      "title": "Internal Use Only",
-      "url": "https://marlinfw.org/docs/gcode/M1001"
     }
   ],
   "M101": [
@@ -6592,6 +6907,17 @@ window.AllGcodes = {
       "id": "Marlin.M105[0]",
       "parameters": [
         {
+          "description": "Include the Redundant temperature sensor (if any)",
+          "label": "[R<flag>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "flag"
+            }
+          ]
+        },
+        {
           "description": "Hotend index",
           "label": "[T<index>]",
           "optional": true,
@@ -6604,7 +6930,7 @@ window.AllGcodes = {
           ]
         }
       ],
-      "related": [],
+      "related": "M155",
       "source": "Marlin",
       "title": "Report Temperatures",
       "url": "https://marlinfw.org/docs/gcode/M105"
@@ -7064,6 +7390,19 @@ window.AllGcodes = {
   ],
   "M11": [
     {
+      "brief": "Enable and disable the Cutter Vacuum or Laser Blower Motor.",
+      "codes": [
+        "M10",
+        "M11"
+      ],
+      "id": "Marlin.M11[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Marlin",
+      "title": "Vacuum / Blower Control",
+      "url": "https://marlinfw.org/docs/gcode/M010-M011"
+    },
+    {
       "brief": "",
       "codes": [
         "M11"
@@ -7248,7 +7587,7 @@ window.AllGcodes = {
       "id": "Marlin.M113[0]",
       "parameters": [
         {
-          "description": "Keepalive interval (0-60)",
+          "description": "Keepalive interval (0-60).",
           "label": "[S<seconds>]",
           "optional": true,
           "tag": "S",
@@ -7320,20 +7659,39 @@ window.AllGcodes = {
       "parameters": [
         {
           "description": "Detailed information (requires `M114_DETAIL`)",
-          "label": "[D<bool>]",
+          "label": "[D<flag>]",
           "optional": true,
           "tag": "D",
           "values": [
             {
-              "type": "bool"
-            },
+              "type": "flag"
+            }
+          ]
+        },
+        {
+          "description": "Report E stepper position (requires `M114_DETAIL`)",
+          "label": "[E<flag>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
             {
-              "default": 0
+              "type": "flag"
+            }
+          ]
+        },
+        {
+          "description": "Real position information (requires `M114_REALTIME`)",
+          "label": "[R<flag>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "type": "flag"
             }
           ]
         }
       ],
-      "related": [],
+      "related": "M154",
       "source": "Marlin",
       "title": "Get Current Position",
       "url": "https://marlinfw.org/docs/gcode/M114"
@@ -7564,6 +7922,26 @@ window.AllGcodes = {
           "label": "[E1]",
           "optional": true,
           "tag": "E1"
+        },
+        {
+          "description": "Send message to host serial port (1-9).",
+          "label": "[Pn<0|1|2>]",
+          "optional": true,
+          "tag": "Pn",
+          "values": [
+            {
+              "description": "Send message to all ports.",
+              "tag": 0
+            },
+            {
+              "description": "Send message to main host serial port.",
+              "tag": 1
+            },
+            {
+              "description": "Send message to secondary host serial port. Requires `SERIAL_PORT_2`.",
+              "tag": 2
+            }
+          ]
         }
       ],
       "related": [],
@@ -7768,14 +8146,29 @@ window.AllGcodes = {
           "description": "Report raw register data. Refer to the datasheet to decypher.",
           "label": "[V]",
           "optional": true,
+          "requires": "TMC_DEBUG",
           "tag": "V"
         },
         {
           "description": "Flag to enable/disable continuous debug reporting.",
           "label": "[S]",
           "optional": true,
+          "requires": "TMC_DEBUG, MONITOR_DRIVER_STATUS",
           "tag": "S",
           "type": "bool"
+        },
+        {
+          "description": "Interval between continuous debug reports, in milliseconds.",
+          "label": "[P<ms>]",
+          "optional": true,
+          "requires": "TMC_DEBUG, MONITOR_DRIVER_STATUS",
+          "tag": "P",
+          "values": [
+            {
+              "tag": "ms",
+              "type": "int"
+            }
+          ]
         }
       ],
       "related": [],
@@ -7808,7 +8201,7 @@ window.AllGcodes = {
       "url": "https://reprap.org/wiki/G-code#M122:_Set_Software_Endstop_.28MK4duo.29"
     },
     {
-      "brief": "Get diagnostic info about all L6470 stepper drivers.",
+      "brief": "Get diagnostic info about L6470 or Trinamic stepper drivers having a UART or SPI interface.\nWith Trinamic drivers there are some extra parameters, and depending on the configuration either basic or detailed information will be reported. Use parameters X, Y, Z, etc. to limit the report only to the specified steppers, otherwise all steppers are reported. Pass I to re-initialize the drivers. Use parameter S to sample at regular intervals. The P parameter can be used to set the sample interval in milliseconds.",
       "codes": [
         "M122"
       ],
@@ -7816,13 +8209,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "RepRap",
-      "title": "M122: Debug L6470 drivers (Marlin)",
-      "url": "https://reprap.org/wiki/G-code#M122:_Debug_L6470_drivers_.28Marlin.29"
+      "title": "M122: Debug Stepper drivers (Marlin)",
+      "url": "https://reprap.org/wiki/G-code#M122:_Debug_Stepper_drivers_.28Marlin.29"
     }
   ],
   "M123": [
     {
-      "brief": "Sending an M123 causes the RepRap to transmit filament tachometer values from all extruders.",
+      "brief": "Sending an M123 causes the RepRap to transmit filament tachometer values from all extruders.\nSending a M123 is used in Prusa firmware to report fan speeds and fan pwm values.1",
       "codes": [
         "M123"
       ],
@@ -7830,8 +8223,8 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "RepRap",
-      "title": "M123: Tachometer value (RepRap)",
-      "url": "https://reprap.org/wiki/G-code#M123:_Tachometer_value_.28RepRap.29"
+      "title": "M123: Tachometer value (RepRap & Prusa)",
+      "url": "https://reprap.org/wiki/G-code#M123:_Tachometer_value_.28RepRap_.26_Prusa.29"
     },
     {
       "brief": "",
@@ -8690,14 +9083,14 @@ window.AllGcodes = {
   ],
   "M143": [
     {
-      "brief": "Set the cooler target temperature.",
+      "brief": "Set a new target laser coolant temperature.",
       "codes": [
         "M143"
       ],
       "id": "Marlin.M143[0]",
       "parameters": [
         {
-          "description": "Target temperature",
+          "description": "Target laser coolant temperature.",
           "label": "[S<temp>]",
           "optional": true,
           "tag": "S",
@@ -8711,7 +9104,7 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Marlin",
-      "title": "Set Cooler Temperature",
+      "title": "Set Laser Cooler Temperature",
       "url": "https://marlinfw.org/docs/gcode/M143"
     },
     {
@@ -9079,6 +9472,45 @@ window.AllGcodes = {
       "url": "https://reprap.org/wiki/G-code#M150:_Set_LED_color"
     }
   ],
+  "M154": [
+    {
+      "brief": "Periodically auto-report position to serial",
+      "codes": [
+        "M154"
+      ],
+      "id": "Marlin.M154[0]",
+      "parameters": [
+        {
+          "description": "Interval in seconds between auto-reports. `S0` to disable.",
+          "label": "[S<seconds>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "seconds",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": "M114",
+      "source": "Marlin",
+      "title": "Position Auto-Report",
+      "url": "https://marlinfw.org/docs/gcode/M154"
+    },
+    {
+      "brief": "Hosts normally monitor printer position by sending M114 every couple of seconds. This adds more serial traffic and fails if the command queue is full. M154 reduces traffic by setting the firmware to report the 'projected' position at regular intervals. This behavior is disabled by default for best compatibility with existing hosts. If the firmware supports M154 the output of M115 will report the AUTOREPORT_POS capability.",
+      "codes": [
+        "M154"
+      ],
+      "id": "RepRap.M154[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M154: Auto Report Position",
+      "url": "https://reprap.org/wiki/G-code#M154:_Auto_Report_Position"
+    }
+  ],
   "M155": [
     {
       "brief": "Auto-report temperatures to host periodically.",
@@ -9100,7 +9532,7 @@ window.AllGcodes = {
           ]
         }
       ],
-      "related": [],
+      "related": "M105",
       "source": "Marlin",
       "title": "Temperature Auto-Report",
       "url": "https://marlinfw.org/docs/gcode/M155"
@@ -9120,10 +9552,17 @@ window.AllGcodes = {
           "values": []
         },
         {
-          "description": " Interval in seconds between auto-reports. S0 to disable. (Marlin)",
+          "description": " Interval in seconds between auto-reports. S0 to disable. (Marlin) Prusa has a Maximum: 255",
           "label": "Snnn",
           "optional": true,
           "tag": "S",
+          "values": []
+        },
+        {
+          "description": " Activate auto-report function (bit mask). Default is temperature.",
+          "label": "Cnn",
+          "optional": true,
+          "tag": "C",
           "values": []
         }
       ],
@@ -9949,14 +10388,14 @@ window.AllGcodes = {
   ],
   "M193": [
     {
-      "brief": "Wait for the cooler to go below target.",
+      "brief": "Set a new target laser coolant temperature.",
       "codes": [
         "M193"
       ],
       "id": "Marlin.M193[0]",
       "parameters": [
         {
-          "description": "Target temperature",
+          "description": "Target laser coolant temperature.",
           "label": "[S<temp>]",
           "optional": true,
           "tag": "S",
@@ -9972,7 +10411,7 @@ window.AllGcodes = {
         "M143"
       ],
       "source": "Marlin",
-      "title": "Wait for Cooler",
+      "title": "Set Laser Cooler Temperature",
       "url": "https://marlinfw.org/docs/gcode/M193"
     }
   ],
@@ -10009,8 +10448,25 @@ window.AllGcodes = {
         "M20"
       ],
       "id": "Marlin.M20[0]",
-      "parameters": [],
-      "related": [],
+      "parameters": [
+        {
+          "description": "Include the long filename in the listing.",
+          "experimental": true,
+          "label": "[L<flag>]",
+          "optional": true,
+          "requires": "LONG_FILENAME_HOST_SUPPORT",
+          "since": "2.0.9",
+          "tag": "L",
+          "values": [
+            {
+              "type": "flag"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "M33"
+      ],
       "source": "Marlin",
       "title": "List SD Card",
       "url": "https://marlinfw.org/docs/gcode/M020"
@@ -10041,6 +10497,20 @@ window.AllGcodes = {
           "label": "P\"ddd\"",
           "optional": true,
           "tag": "P",
+          "values": []
+        },
+        {
+          "description": " Reports long filenames instead of just short filenames. Requires host software parsing (Cap:EXTENDED_M20).",
+          "label": "L",
+          "optional": true,
+          "tag": "L",
+          "values": []
+        },
+        {
+          "description": " Report timestamps as well. The value is one uint32_t encoded as hex. Requires host software parsing (Cap:EXTENDED_M20).",
+          "label": "T",
+          "optional": true,
+          "tag": "T",
           "values": []
         }
       ],
@@ -10899,20 +11369,18 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M207: Set retract length",
       "url": "https://reprap.org/wiki/G-code#M207:_Set_retract_length"
-    }
-  ],
-  "M207 (RepRapFirmware)": [
+    },
     {
       "brief": "",
       "codes": [
-        "M207 (RepRapFirmware)"
+        "M207"
       ],
-      "id": "RepRap.M207 (RepRapFirmware)[0]",
+      "id": "RepRap.M207[1]",
       "parameters": [],
       "related": [],
       "source": "RepRap",
-      "title": "M207 (RepRapFirmware): Calibrate Z axis with Z max endstop",
-      "url": "https://reprap.org/wiki/G-code#M207_.28RepRapFirmware.29:_Calibrate_Z_axis_with_Z_max_endstop"
+      "title": "M207 Calibrate Z axis with Z max endstop",
+      "url": "https://reprap.org/wiki/G-code#M207_Calibrate_Z_axis_with_Z_max_endstop"
     }
   ],
   "M207 (Repetier)": [
@@ -11245,6 +11713,13 @@ window.AllGcodes = {
       "id": "Marlin.M217[0]",
       "parameters": [
         {
+          "description": "Prime active tool using TOOLCHANGE_FILAMENT_SWAP settings",
+          "label": "[Q]",
+          "optional": true,
+          "tag": "Q",
+          "type": "flag"
+        },
+        {
           "description": "Swap length",
           "label": "[S<linear>]",
           "optional": true,
@@ -11257,14 +11732,26 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Retract feedrate",
-          "label": "[R<feedrate>]",
+          "description": "Extra resume",
+          "label": "[B<linear>]",
           "optional": true,
-          "tag": "R",
+          "tag": "B",
           "values": [
             {
-              "tag": "feedrate",
-              "type": "int"
+              "tag": "linear",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Extra Prime Length",
+          "label": "[E<linear>]",
+          "optional": true,
+          "tag": "E",
+          "values": [
+            {
+              "tag": "linear",
+              "type": "float"
             }
           ]
         },
@@ -11281,7 +11768,91 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Park X position. Requires `SINGLENOZZLE_SWAP_PARK`.",
+          "description": "Retract feedrate",
+          "label": "[R<feedrate>]",
+          "optional": true,
+          "tag": "R",
+          "values": [
+            {
+              "tag": "feedrate",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Unretract feedrate",
+          "label": "[U<linear>]",
+          "optional": true,
+          "tag": "U",
+          "values": [
+            {
+              "tag": "linear",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Fan speed (0-255)",
+          "label": "[F<linear>]",
+          "optional": true,
+          "tag": "F",
+          "values": [
+            {
+              "tag": "linear",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Fan Time (seconds)",
+          "label": "[G<linear>]",
+          "optional": true,
+          "tag": "G",
+          "values": [
+            {
+              "tag": "linear",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Migration Auto Mode. Requires `TOOLCHANGE_MIGRATION_FEATURE`.",
+          "label": "[A<linear>]",
+          "optional": true,
+          "tag": "A",
+          "values": [
+            {
+              "tag": "linear",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Last Migration. Requires `TOOLCHANGE_MIGRATION_FEATURE`.",
+          "label": "[L<linear>]",
+          "optional": true,
+          "tag": "L",
+          "values": [
+            {
+              "tag": "linear",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Enable Park Feature. Requires `TOOLCHANGE_PARK` - was `SINGLENOZZLE_SWAP_PARK`.",
+          "label": "[W<linear>]",
+          "optional": true,
+          "tag": "W",
+          "values": [
+            {
+              "tag": "linear",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Park X position. Requires `TOOLCHANGE_PARK` - was `SINGLENOZZLE_SWAP_PARK`.",
           "label": "[X<linear>]",
           "optional": true,
           "tag": "X",
@@ -11293,7 +11864,7 @@ window.AllGcodes = {
           ]
         },
         {
-          "description": "Park Y position. Requires `SINGLENOZZLE_SWAP_PARK`.",
+          "description": "Park Y position. Requires `TOOLCHANGE_PARK` - was `SINGLENOZZLE_SWAP_PARK`.",
           "label": "[Y<linear>]",
           "optional": true,
           "tag": "Y",
@@ -11301,6 +11872,18 @@ window.AllGcodes = {
             {
               "tag": "linear",
               "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Enable First Prime on uninitialized Nozzles. Requires `TOOLCHANGE_FS_PRIME_FIRST_USED`.",
+          "label": "[V<linear>]",
+          "optional": true,
+          "tag": "V",
+          "values": [
+            {
+              "tag": "linear",
+              "type": "int"
             }
           ]
         },
@@ -12306,6 +12889,45 @@ window.AllGcodes = {
       "url": "https://reprap.org/wiki/G-code#M251:_Measure_Z_steps_from_homing_stop_.28Delta_printers.29"
     }
   ],
+  "M256": [
+    {
+      "brief": "Set and/or get the LCD brightness.",
+      "codes": [
+        "M256"
+      ],
+      "id": "Marlin.M256[0]",
+      "parameters": [
+        {
+          "description": "Brightness value (0 - 255)",
+          "label": "[B<brightness>]",
+          "optional": true,
+          "tag": "B",
+          "values": [
+            {
+              "tag": "brightness",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "LCD Brightness",
+      "url": "https://marlinfw.org/docs/gcode/M256"
+    },
+    {
+      "brief": "",
+      "codes": [
+        "M256"
+      ],
+      "id": "RepRap.M256[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M256: Set LCD brightness",
+      "url": "https://reprap.org/wiki/G-code#M256:_Set_LCD_brightness"
+    }
+  ],
   "M26": [
     {
       "brief": "",
@@ -12486,6 +13108,35 @@ window.AllGcodes = {
               "type": "byte"
             }
           ]
+        },
+        {
+          "description": "Output style. Default is 0 (raw echo) if nothing else is given.",
+          "label": "[S<0|1|2|3>]",
+          "optional": true,
+          "since": "2.0.9.3",
+          "tag": "S",
+          "values": [
+            {
+              "description": "Raw echo",
+              "tag": 0,
+              "type": "style"
+            },
+            {
+              "description": "Bytes (hex)",
+              "tag": 1,
+              "type": "style"
+            },
+            {
+              "description": "1 or 2 byte value (decimal)",
+              "tag": 2,
+              "type": "style"
+            },
+            {
+              "description": "Bytes (decimal)",
+              "tag": 3,
+              "type": "style"
+            }
+          ]
         }
       ],
       "related": [],
@@ -12494,7 +13145,7 @@ window.AllGcodes = {
       "url": "https://marlinfw.org/docs/gcode/M261"
     },
     {
-      "brief": "Request data from an i2c slave device. This command simply relays the received data to the host.",
+      "brief": "Request data (synchronously) from an i2c slave device. This command in basic form simply relays the received data to the host.",
       "codes": [
         "M261"
       ],
@@ -12727,6 +13378,87 @@ window.AllGcodes = {
       "source": "Marlin",
       "title": "Edit Servo Angles",
       "url": "https://marlinfw.org/docs/gcode/M281"
+    },
+    {
+      "brief": "Set the angles for a servo's deployed (or selected) and stowed (or unselected) states. To activate this command in Marlin enable the EDITABLE_SERVO_ANGLES option.",
+      "codes": [
+        "M281"
+      ],
+      "id": "RepRap.M281[0]",
+      "parameters": [
+        {
+          "description": " - Servo Index",
+          "label": "P[index]",
+          "optional": true,
+          "tag": "P",
+          "values": []
+        },
+        {
+          "description": " - Deployed / Selected Angle",
+          "label": "L[angle]",
+          "optional": true,
+          "tag": "L",
+          "values": []
+        },
+        {
+          "description": " - Stowed / Unselected Angle",
+          "label": "U[angle]",
+          "optional": true,
+          "tag": "U",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "RepRap",
+      "title": "M281: Set Servo Angles",
+      "url": "https://reprap.org/wiki/G-code#M281:_Set_Servo_Angles"
+    }
+  ],
+  "M282": [
+    {
+      "brief": "Detach a servo until its next move",
+      "codes": [
+        "M282"
+      ],
+      "id": "Marlin.M282[0]",
+      "parameters": [
+        {
+          "description": "Index of the servo to detach.",
+          "label": "P<index>",
+          "optional": false,
+          "tag": "P",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "Detach Servo",
+      "url": "https://marlinfw.org/docs/gcode/M282"
+    },
+    {
+      "brief": "Detach servo. This disables the servo until its next move. To activate this command in Marlin enable the SERVO_DETACH_GCODE option.",
+      "codes": [
+        "M282"
+      ],
+      "id": "RepRap.M282[0]",
+      "parameters": [
+        {
+          "description": " Servo index",
+          "label": "Pnnn",
+          "optional": true,
+          "tag": "P",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "RepRap",
+      "title": "M282: Detach Servo",
+      "url": "https://reprap.org/wiki/G-code#M282:_Detach_Servo"
     }
   ],
   "M29": [
@@ -12917,6 +13649,30 @@ window.AllGcodes = {
       "id": "Marlin.M3[0]",
       "parameters": [
         {
+          "description": "Spindle speed or laser power in the configured value range (see `CUTTER_POWER_DISPLAY`). (PWM 0-255 by default)",
+          "label": "[S<power>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "power",
+              "type": "byte"
+            }
+          ]
+        },
+        {
+          "description": "Spindle speed or laser power in PWM 0-255 value range",
+          "label": "[O<power>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "tag": "power",
+              "type": "byte"
+            }
+          ]
+        },
+        {
           "description": "Inline mode ON / OFF.",
           "label": "[I<mode>]",
           "optional": true,
@@ -13012,7 +13768,7 @@ window.AllGcodes = {
       "id": "Marlin.M300[0]",
       "parameters": [
         {
-          "description": "Duration (1s)",
+          "description": "Duration (1ms)",
           "label": "[P<ms>]",
           "optional": true,
           "tag": "P",
@@ -13319,6 +14075,18 @@ window.AllGcodes = {
           "label": "U<flag>",
           "optional": false,
           "tag": "U",
+          "values": [
+            {
+              "tag": "flag",
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "description": "Toggle activation of `PID_DEBUG` output.",
+          "label": "D<flag>",
+          "optional": false,
+          "tag": "D",
           "values": [
             {
               "tag": "flag",
@@ -13701,6 +14469,20 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M308: Set or report sensor parameters",
       "url": "https://reprap.org/wiki/G-code#M308:_Set_or_report_sensor_parameters"
+    }
+  ],
+  "M309": [
+    {
+      "brief": "",
+      "codes": [
+        "M309"
+      ],
+      "id": "RepRap.M309[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M309: Set or report heater feedforward",
+      "url": "https://reprap.org/wiki/G-code#M309:_Set_or_report_heater_feedforward"
     }
   ],
   "M31": [
@@ -14848,6 +15630,30 @@ window.AllGcodes = {
       "id": "Marlin.M4[0]",
       "parameters": [
         {
+          "description": "Spindle speed or laser power in the configured value range (see `CUTTER_POWER_UNIT`). (PWM 0-255 by default)",
+          "label": "[S<power>]",
+          "optional": true,
+          "tag": "S",
+          "values": [
+            {
+              "tag": "power",
+              "type": "byte"
+            }
+          ]
+        },
+        {
+          "description": "Spindle speed or laser power in PWM 0-255 value range",
+          "label": "[O<power>]",
+          "optional": true,
+          "tag": "O",
+          "values": [
+            {
+              "tag": "power",
+              "type": "byte"
+            }
+          ]
+        },
+        {
           "description": "Inline mode ON / OFF.",
           "label": "[I<mode>]",
           "optional": true,
@@ -15810,7 +16616,9 @@ window.AllGcodes = {
           "tag": "Y"
         }
       ],
-      "related": [],
+      "related": [
+        "G34"
+      ],
       "source": "Marlin",
       "title": "Set Z Motor XY",
       "url": "https://marlinfw.org/docs/gcode/M422"
@@ -16161,18 +16969,6 @@ window.AllGcodes = {
           "values": [
             {
               "tag": "time",
-              "type": "int"
-            }
-          ]
-        },
-        {
-          "description": "Perform a Z-servo probe test on the servo with the specified index.",
-          "label": "[S<index>]",
-          "optional": true,
-          "tag": "S",
-          "values": [
-            {
-              "tag": "index",
               "type": "int"
             }
           ]
@@ -17767,7 +18563,7 @@ window.AllGcodes = {
   ],
   "M568": [
     {
-      "brief": "This command is obsolete. When using a tool defined as a mixing extruder, RepRapFirmware applies the mix ratio defined by M567 whenever only one E parameter is provided in G1 commands. When multiple colon-separated E values are provided in the G1 command, they will be used as the individual amounts to extrude.",
+      "brief": "",
       "codes": [
         "M568"
       ],
@@ -17775,8 +18571,20 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "RepRap",
-      "title": "M568: Turn off/on tool mix ratios (obsolete)",
-      "url": "https://reprap.org/wiki/G-code#M568:_Turn_off.2Fon_tool_mix_ratios_.28obsolete.29"
+      "title": "M568: Tool settings",
+      "url": "https://reprap.org/wiki/G-code#M568:_Tool_settings"
+    },
+    {
+      "brief": "This command is obsolete. When using a tool defined as a mixing extruder, RepRapFirmware applies the mix ratio defined by M567 whenever only one E parameter is provided in G1 commands. When multiple colon-separated E values are provided in the G1 command, they will be used as the individual amounts to extrude.",
+      "codes": [
+        "M568"
+      ],
+      "id": "RepRap.M568[1]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M568: Turn off/on tool mix ratios (obsolete meaning in old RepRapFirmware versions)",
+      "url": "https://reprap.org/wiki/G-code#M568:_Turn_off.2Fon_tool_mix_ratios_.28obsolete_meaning_in_old_RepRapFirmware_versions.29"
     }
   ],
   "M569": [
@@ -17884,7 +18692,7 @@ window.AllGcodes = {
           "values": []
         },
         {
-          "description": " Stepper driver mode (RepRapFirmware 2.0 and later): 0=constant off time, 1=random off time, 2=spread cycle, 3=stealthChop ",
+          "description": " Stepper driver mode (RepRapFirmware 2.0 and later): 0=constant off time, 1=random off time, 2=spread cycle, 3=stealthChop, 4=closed loop",
           "label": "Dnn",
           "optional": true,
           "tag": "D",
@@ -17995,12 +18803,186 @@ window.AllGcodes = {
           "optional": true,
           "tag": "D",
           "values": []
+        },
+        {
+          "description": " Minimum holding current as a percentage of the configured current when operating in closed loop mode",
+          "label": "Hn",
+          "optional": true,
+          "tag": "H",
+          "values": []
         }
       ],
       "related": [],
       "source": "RepRap",
-      "title": "M569.1: Stepper driver closed loop control",
-      "url": "https://reprap.org/wiki/G-code#M569.1:_Stepper_driver_closed_loop_control"
+      "title": "M569.1: Stepper driver closed loop configuration",
+      "url": "https://reprap.org/wiki/G-code#M569.1:_Stepper_driver_closed_loop_configuration"
+    }
+  ],
+  "M569.2": [
+    {
+      "brief": "",
+      "codes": [
+        "M569.2"
+      ],
+      "id": "RepRap.M569.2[0]",
+      "parameters": [
+        {
+          "description": " Motor driver number",
+          "label": "Pnn",
+          "optional": true,
+          "tag": "P",
+          "values": []
+        },
+        {
+          "description": " Register number, 0-127",
+          "label": "Rnn",
+          "optional": true,
+          "tag": "R",
+          "values": []
+        },
+        {
+          "description": " Value to write (optional)",
+          "label": "Vnnnn",
+          "optional": true,
+          "tag": "V",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "RepRap",
+      "title": "M569.2: Read or write any stepper driver register",
+      "url": "https://reprap.org/wiki/G-code#M569.2:_Read_or_write_any_stepper_driver_register"
+    }
+  ],
+  "M569.3": [
+    {
+      "brief": "This causes the RepRap machine to report its current motor encoder positions to the host in units of arc degrees (1/360'ths of turns), relative to some reference position that you set with the S parameter.\nBefore the first call with the S parameter, the reference is unknown and arbitrary.",
+      "codes": [
+        "M569.3"
+      ],
+      "id": "RepRap.M569.3[0]",
+      "parameters": [
+        {
+          "description": " or Pn.n Motor driver number, or board address and driver number. Several (remote) drivers may be specified, separated by colon. No more than number of visible axes, as specified by M584 P parameter, are allowed.",
+          "label": "Pn",
+          "optional": true,
+          "tag": "P",
+          "values": []
+        },
+        {
+          "description": " Sets an encoder reference point. Current and subsequent M569.3 Pn.n calls returns numbers that are relative to the M569.3 Pn.n S call.",
+          "label": "S",
+          "optional": true,
+          "tag": "S",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "RepRap",
+      "title": "M569.3: Read Motor Driver Encoder",
+      "url": "https://reprap.org/wiki/G-code#M569.3:_Read_Motor_Driver_Encoder"
+    }
+  ],
+  "M569.4": [
+    {
+      "brief": "Tell one or more motor drivers to apply a specified torque regardless of position.",
+      "codes": [
+        "M569.4"
+      ],
+      "id": "RepRap.M569.4[0]",
+      "parameters": [
+        {
+          "description": " or Pn.n Motor driver number, or board address and driver number. Can also be a colon separated list of driver numbers.",
+          "label": "Pn",
+          "optional": true,
+          "tag": "P",
+          "values": []
+        },
+        {
+          "description": " Where n is the mode/torque to apply in units of Nm.",
+          "label": "Tn",
+          "optional": true,
+          "tag": "T",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "RepRap",
+      "title": "M569.4: Set Motor Driver Torque Mode",
+      "url": "https://reprap.org/wiki/G-code#M569.4:_Set_Motor_Driver_Torque_Mode"
+    }
+  ],
+  "M569.5": [
+    {
+      "brief": "",
+      "codes": [
+        "M569.5"
+      ],
+      "id": "RepRap.M569.5[0]",
+      "parameters": [
+        {
+          "description": " Motor CAN board address and driver number",
+          "label": "Pn.n",
+          "optional": true,
+          "tag": "P",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "RepRap",
+      "title": "M569.5: Collect Data from Closed-loop Driver",
+      "url": "https://reprap.org/wiki/G-code#M569.5:_Collect_Data_from_Closed-loop_Driver"
+    }
+  ],
+  "M569.6": [
+    {
+      "brief": "",
+      "codes": [
+        "M569.6"
+      ],
+      "id": "RepRap.M569.6[0]",
+      "parameters": [
+        {
+          "description": " Motor CAN board address and driver number",
+          "label": "Pn.n",
+          "optional": true,
+          "tag": "P",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "RepRap",
+      "title": "M569.6: Execute Closed-loop Driver Tuning Move",
+      "url": "https://reprap.org/wiki/G-code#M569.6:_Execute_Closed-loop_Driver_Tuning_Move"
+    }
+  ],
+  "M569.7": [
+    {
+      "brief": "",
+      "codes": [
+        "M569.7"
+      ],
+      "id": "RepRap.M569.7[0]",
+      "parameters": [
+        {
+          "description": " Motor CAN board address (if applicable) and driver number",
+          "label": "Pn.n",
+          "optional": true,
+          "tag": "P",
+          "values": []
+        },
+        {
+          "description": " Port name of the brake control port. The port must be on the same CAN board as the driver. The CAN address does not need to be specified in the port name, but if it is then it must be the same as the driver address.",
+          "label": "C\"port\"",
+          "optional": true,
+          "tag": "C",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "RepRap",
+      "title": "M569.7: Configure motor brake port",
+      "url": "https://reprap.org/wiki/G-code#M569.7:_Configure_motor_brake_port"
     }
   ],
   "M570": [
@@ -18182,6 +19164,42 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M575: Set serial comms parameters",
       "url": "https://reprap.org/wiki/G-code#M575:_Set_serial_comms_parameters"
+    }
+  ],
+  "M576": [
+    {
+      "brief": "",
+      "codes": [
+        "M576"
+      ],
+      "id": "RepRap.M576[0]",
+      "parameters": [
+        {
+          "description": " Maximum delay between full SPI transfers (in ms, defaults to 25ms)",
+          "label": "Snnn",
+          "optional": true,
+          "tag": "S",
+          "values": []
+        },
+        {
+          "description": " Maximum delay between full SPI transfers when a file is open (in ms, defaults to 5ms)",
+          "label": "Fnnn",
+          "optional": true,
+          "tag": "F",
+          "values": []
+        },
+        {
+          "description": " Number of events required to skip the delay (defaults to 4)",
+          "label": "Pnnn",
+          "optional": true,
+          "tag": "P",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "RepRap",
+      "title": "M576: Set SPI comms parameters",
+      "url": "https://reprap.org/wiki/G-code#M576:_Set_SPI_comms_parameters"
     }
   ],
   "M577": [
@@ -19002,11 +20020,23 @@ window.AllGcodes = {
       "url": "https://marlinfw.org/docs/gcode/M603"
     },
     {
-      "brief": "Stops print on Prusa i3 MK2/s,MK2.5/s,MK3/s.\n(In development)\nPrusa-mini specific : M603 Configure filament change",
+      "brief": "Stop print on Prusa i3 MK2/s, MK2.5/s, and MK3/s.",
       "codes": [
         "M603"
       ],
       "id": "RepRap.M603[0]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M603: Stop print (Prusa i3)",
+      "url": "https://reprap.org/wiki/G-code#M603:_Stop_print_.28Prusa_i3.29"
+    },
+    {
+      "brief": "This command configures Filament Change behavior in Marlin Firmware and in Prusa mini firmware under development.",
+      "codes": [
+        "M603"
+      ],
+      "id": "RepRap.M603[1]",
       "parameters": [
         {
           "description": " Select extruder to configure, active extruder if not specified (not used yet)",
@@ -19032,8 +20062,8 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "RepRap",
-      "title": "M603: Stop print",
-      "url": "https://reprap.org/wiki/G-code#M603:_Stop_print"
+      "title": "M603: Configure Filament Change",
+      "url": "https://reprap.org/wiki/G-code#M603:_Configure_Filament_Change"
     }
   ],
   "M605": [
@@ -19153,8 +20183,8 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "RepRap",
-      "title": "M651: execute peel move",
-      "url": "https://reprap.org/wiki/G-code#M651:_execute_peel_move"
+      "title": "M651: Execute peel move",
+      "url": "https://reprap.org/wiki/G-code#M651:_Execute_peel_move"
     }
   ],
   "M665": [
@@ -19348,6 +20378,39 @@ window.AllGcodes = {
           "label": "[Z<float>]",
           "optional": true,
           "tag": "Z",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Alpha (Tower 1) diagonal rod trim",
+          "label": "[A<float>]",
+          "optional": true,
+          "tag": "A",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Beta  (Tower 2) diagonal rod trim",
+          "label": "[B<float>]",
+          "optional": true,
+          "tag": "B",
+          "values": [
+            {
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Gamma (Tower 3) diagonal rod trim",
+          "label": "[C<float>]",
+          "optional": true,
+          "tag": "C",
           "values": [
             {
               "type": "float"
@@ -20340,6 +21403,20 @@ window.AllGcodes = {
               "type": "int"
             }
           ]
+        },
+        {
+          "description": "Set remaining time.",
+          "label": "[R<minutes>]",
+          "optional": true,
+          "requires": "USE_M73_REMAINING_TIME",
+          "since": "2.0.0",
+          "tag": "R",
+          "values": [
+            {
+              "tag": "minutes",
+              "type": "int"
+            }
+          ]
         }
       ],
       "related": [],
@@ -20380,6 +21457,20 @@ window.AllGcodes = {
           "label": "S",
           "optional": true,
           "tag": "S",
+          "values": []
+        },
+        {
+          "description": " Time to change/pause/user interaction in normal mode (minutes)",
+          "label": "C",
+          "optional": true,
+          "tag": "C",
+          "values": []
+        },
+        {
+          "description": " Time to change/pause/user interaction in silent mode (minutes)",
+          "label": "D",
+          "optional": true,
+          "tag": "D",
           "values": []
         }
       ],
@@ -20685,7 +21776,15 @@ window.AllGcodes = {
         "M80"
       ],
       "id": "RepRap.M80[0]",
-      "parameters": [],
+      "parameters": [
+        {
+          "description": " (RepRapFirmware 3.4 and later only) Name of the pin used to control the power supply, default \"pson\"",
+          "label": "C\"port_name\"",
+          "optional": true,
+          "tag": "C",
+          "values": []
+        }
+      ],
       "related": [],
       "source": "RepRap",
       "title": "M80: ATX Power On",
@@ -20693,19 +21792,6 @@ window.AllGcodes = {
     }
   ],
   "M800": [
-    {
-      "brief": "Returns Gcode data",
-      "codes": [
-        "G800",
-        "M800"
-      ],
-      "id": "Marlin.M800[0]",
-      "parameters": [],
-      "related": [],
-      "source": "Marlin",
-      "title": "Debug Gcode Parser",
-      "url": "https://marlinfw.org/docs/gcode/G800"
-    },
     {
       "brief": "1 only in bq-Marlin Firmware",
       "codes": [
@@ -20760,7 +21846,7 @@ window.AllGcodes = {
       "url": "https://marlinfw.org/docs/gcode/M808"
     },
     {
-      "brief": "The M808 L[count] command is used in a G-code file to set a Repeat Marker beginning at the start of the following line. For an SD print, the firmware will save a marker with the file's byte position and the count given by the L parameter. To set an infinite loop use L0.\nThe M808 command (no parameters) will cause G-code processing to loop back to the previous Repeat Marker as many times as specified. Ideally, each instance of M808 L should have a corresponding M808.\nThe number of nested M808 L commands is limited to the depth set in the firmware. To enable this feature in Marlin, define GCODE_REPEAT_MARKERS. Hosts should look for Cap:REPEAT. At this time the feature only applies to printing direct from media and otherwise M808 is ignored, so host developers are free to come up with their own approach to these codes with no nesting limit and make it work with any old firmware.",
+      "brief": "The M808 L[count] command is used in a G-code file to set a Repeat Marker beginning at the start of the following line. For an SD print, the firmware will save a marker with the file's byte position and the count given by the L parameter. To set an infinite loop use L0. To terminate an infinite loop from the host, M808 K will cancel all current loops.\nThe M808 command (no parameters) will cause G-code processing to loop back to the previous Repeat Marker as many times as specified. Ideally, each instance of M808 L should have a corresponding M808.\nThe number of nested M808 L commands is limited to the depth set in the firmware. To enable this feature in Marlin, define GCODE_REPEAT_MARKERS. Hosts should look for Cap:REPEAT. At this time the feature only applies to printing direct from media and otherwise M808 is ignored, so host developers are free to come up with their own approach to these codes with no nesting limit and make it work with any old firmware.",
       "codes": [
         "M808"
       ],
@@ -20770,6 +21856,18 @@ window.AllGcodes = {
       "source": "RepRap",
       "title": "M808: Set or Goto Repeat Marker",
       "url": "https://reprap.org/wiki/G-code#M808:_Set_or_Goto_Repeat_Marker"
+    },
+    {
+      "brief": " \n M808 L         ; Set marker to repeat infinitely\n M300 P100 S440 ; Beep!\n M300 P10 S0    ; Silence\n M808           ; End marker\n M808 K         ; Sent from host to cancel the loop",
+      "codes": [
+        "M808"
+      ],
+      "id": "RepRap.M808[1]",
+      "parameters": [],
+      "related": [],
+      "source": "RepRap",
+      "title": "M808 in Marlin 2.0.8",
+      "url": "https://reprap.org/wiki/G-code#M808_in_Marlin_2.0.8"
     }
   ],
   "M81": [
@@ -21313,7 +22411,7 @@ window.AllGcodes = {
       "url": "https://marlinfw.org/docs/gcode/M851"
     },
     {
-      "brief": "Sets the Z-probe Z offset. This offset is used to determine the actual Z position of the nozzle when using a probe to home Z with G28. This value may also be used by G29 to apply correction to the Z position.\nThis value represents the distance from nozzle to the bed surface at the point where the probe is triggered. This value will be negative for typical switch probes, inductive probes, and setups where the nozzle makes a circuit with a raised metal contact. This setting will be greater than zero on machines where the nozzle itself is used as the probe, pressing down on the bed to press a switch. (This is a common setup on delta machines.)\nThis setting is saved in the EEPROM by M500 and restored by M501. The default (as reset by M502) is set by the Z_PROBE_OFFSET_FROM_EXTRUDER setting in Configuration.h.\nNote that in Marlin 1.1.0 and later M851 sets the value literally as given, while Marlin 1.0.2 negates the absolute value.\nThe examples below will set the Z-probe Z offset to -4mm (below the nozzle):",
+      "brief": "Sets the Z-probe Z offset. This offset is used to determine the actual Z position of the nozzle when using a probe to home Z with G28. This value may also be used by G29 to apply correction to the Z position.\nThis value represents the distance from nozzle to the bed surface at the point where the probe is triggered. This value will be negative for typical switch probes, inductive probes, and setups where the nozzle makes a circuit with a raised metal contact. This setting will be greater than zero on machines where the nozzle itself is used as the probe, pressing down on the bed to press a switch (this is a common setup on Delta machines).\nThis setting is saved in the EEPROM by M500 and restored by M501. The default (as reset by M502) is set by the Z_PROBE_OFFSET_FROM_EXTRUDER setting in Configuration.h.\nNote that in Marlin 1.1.0 and later M851 sets the value literally as given, while Marlin 1.0.2 negates the absolute value.\nThe examples below will set the Z-probe Z offset to -4\u00a0mm (below the nozzle):",
       "codes": [
         "M851"
       ],
@@ -24993,7 +26091,7 @@ window.AllGcodes = {
   ],
   "M92": [
     {
-      "brief": "Set the number of steps-per-mm or steps-per-inch.",
+      "brief": "Set the number of steps-per-mm, per-inch, or per-degree",
       "codes": [
         "M92"
       ],
@@ -25581,7 +26679,7 @@ window.AllGcodes = {
   ],
   "MANUAL_PROBE": [
     {
-      "brief": "",
+      "brief": "Run a helper script useful for  measuring the height of the nozzle at a given location. If SPEED is  specified, it sets the speed of TESTZ commands (the default is  5mm/s). During a manual probe, the following additional commands are  available",
       "codes": [
         "MANUAL_PROBE"
       ],
@@ -25597,13 +26695,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Run a helper script useful for  measuring the height of the nozzle at a given location",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "MANUAL_STEPPER": [
     {
-      "brief": "",
+      "brief": "This command  will alter the state of the stepper. Use the ENABLE parameter to  enable/disable the stepper. Use the SET_POSITION parameter to force  the stepper to think it is at the given position. Use the MOVE  parameter to request a movement to the given position. If SPEED  and/or ACCEL is specified then the given values will be used instead  of the defaults specified in the config file. If an ACCEL of zero is  specified then no acceleration will be performed. If  STOP_ON_ENDSTOP=1 is specified then the move will end early should  the endstop report as triggered (use STOP_ON_ENDSTOP=2 to complete  the move without error even if the endstop does not trigger, use -1  or -2 to stop when the endstop reports not triggered). Normally  future G-Code commands will be scheduled to run after the stepper  move completes, however if a manual stepper move uses SYNC=0 then  future G-Code movement commands may run in parallel with the stepper  movement.",
       "codes": [
         "MANUAL_STEPPER"
       ],
@@ -25668,13 +26766,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command  will alter the state of the stepper",
       "url": "https://www.klipper3d.org/G-Codes.html#manual-stepper-commands"
     }
   ],
   "MEASURE_AXES_NOISE": [
     {
-      "brief": "",
+      "brief": "Measures and outputs the noise for all axes of  all enabled accelerometer chips.",
       "codes": [
         "MEASURE_AXES_NOISE"
       ],
@@ -25682,13 +26780,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Measures and outputs the noise for all axes of  all enabled accelerometer chips",
       "url": "https://www.klipper3d.org/G-Codes.html#resonance-testing-commands"
     }
   ],
   "PALETTE_CLEAR": [
     {
-      "brief": "",
+      "brief": "This command instructs the Palette 2 to clear all of the  input and output paths of filament.",
       "codes": [
         "PALETTE_CLEAR"
       ],
@@ -25696,13 +26794,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command instructs the Palette 2 to clear all of the  input and output paths of filament",
       "url": "https://www.klipper3d.org/G-Codes.html#palette-2-commands"
     }
   ],
   "PALETTE_CONNECT": [
     {
-      "brief": "",
+      "brief": "This command initializes the connection with  the Palette 2.",
       "codes": [
         "PALETTE_CONNECT"
       ],
@@ -25710,13 +26808,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command initializes the connection with  the Palette 2",
       "url": "https://www.klipper3d.org/G-Codes.html#palette-2-commands"
     }
   ],
   "PALETTE_CUT": [
     {
-      "brief": "",
+      "brief": "This command instructs the Palette 2 to cut the filament  currently loaded in the splice core.",
       "codes": [
         "PALETTE_CUT"
       ],
@@ -25724,13 +26822,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command instructs the Palette 2 to cut the filament  currently loaded in the splice core",
       "url": "https://www.klipper3d.org/G-Codes.html#palette-2-commands"
     }
   ],
   "PALETTE_DISCONNECT": [
     {
-      "brief": "",
+      "brief": "This command disconnects from the Palette 2.",
       "codes": [
         "PALETTE_DISCONNECT"
       ],
@@ -25738,13 +26836,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command disconnects from the Palette 2",
       "url": "https://www.klipper3d.org/G-Codes.html#palette-2-commands"
     }
   ],
   "PALETTE_SMART_LOAD": [
     {
-      "brief": "",
+      "brief": "This command start the smart load sequence on the  Palette 2. Filament is loaded automatically by extruding it the distance  calibrated on the device for the printer, and instructs the Palette 2  once the loading has been completed. This command is the same as pressing",
       "codes": [
         "PALETTE_SMART_LOAD"
       ],
@@ -25752,13 +26850,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command start the smart load sequence on the  Palette 2",
       "url": "https://www.klipper3d.org/G-Codes.html#palette-2-commands"
     }
   ],
   "PAUSE": [
     {
-      "brief": "",
+      "brief": "Pauses the current print. The current position is captured  for restoration upon resume.",
       "codes": [
         "PAUSE"
       ],
@@ -25766,13 +26864,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Pauses the current print",
       "url": "https://www.klipper3d.org/G-Codes.html#pause-resume"
     }
   ],
   "PID_CALIBRATE": [
     {
-      "brief": "",
+      "brief": "Perform a PID calibration test. The specified  heater will be enabled until the specified target temperature is  reached, and then the heater will be turned off and on for several  cycles. If the WRITE_FILE parameter is enabled, then the file  /tmp/heattest.txt will be created with a log of all temperature  samples taken during the test.",
       "codes": [
         "PID_CALIBRATE"
       ],
@@ -25802,13 +26900,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Perform a PID calibration test",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "PROBE": [
     {
-      "brief": "",
+      "brief": "Move the nozzle downwards until  the probe triggers. If any of the optional parameters are provided  they override their equivalent setting in the",
       "codes": [
         "PROBE"
       ],
@@ -25866,13 +26964,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Move the nozzle downwards until  the probe triggers",
       "url": "https://www.klipper3d.org/G-Codes.html#probe"
     }
   ],
   "PROBE_ACCURACY": [
     {
-      "brief": "",
+      "brief": "Calculate the maximum, minimum,  average, median, and standard deviation of multiple probe  samples. By default, 10 SAMPLES are taken. Otherwise the optional  parameters default to their equivalent setting in the probe config  section.",
       "codes": [
         "PROBE_ACCURACY"
       ],
@@ -25902,13 +27000,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Calculate the maximum, minimum,  average, median, and standard deviation of multiple probe  samples",
       "url": "https://www.klipper3d.org/G-Codes.html#probe"
     }
   ],
   "PROBE_CALIBRATE": [
     {
-      "brief": "",
+      "brief": "Run a  helper script useful for calibrating the probe's z_offset. See the  PROBE command for details on the optional probe parameters. See  the MANUAL_PROBE command for details on the SPEED parameter and the  additional commands available while the tool is active. Please note,  the PROBE_CALIBRATE command uses the speed variable  to move in XY direction as well as Z.",
       "codes": [
         "PROBE_CALIBRATE"
       ],
@@ -25931,13 +27029,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Run a  helper script useful for calibrating the probe's z_offset",
       "url": "https://www.klipper3d.org/G-Codes.html#probe"
     }
   ],
   "QUERY_ADC": [
     {
-      "brief": "",
+      "brief": "Report the last  analog value received for a configured analog pin. If NAME is not  provided, the list of available adc names are reported. If PULLUP is  provided (as a value in Ohms), the raw analog value along with the  equivalent resistance given that pullup is reported.",
       "codes": [
         "QUERY_ADC"
       ],
@@ -25960,13 +27058,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Report the last  analog value received for a configured analog pin",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "QUERY_ENDSTOPS": [
     {
-      "brief": "",
+      "brief": "Probe the axis endstops and report if they are  \"triggered\" or in an \"open\" state. This command is typically used to  verify that an endstop is working correctly.",
       "codes": [
         "QUERY_ENDSTOPS"
       ],
@@ -25974,13 +27072,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Probe the axis endstops and report if they are  \"triggered\" or in an \"open\" state",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "QUERY_FILAMENT_SENSOR": [
     {
-      "brief": "",
+      "brief": "Queries the current  status of the filament sensor. The data displayed on the terminal  will depend on the sensor type defined in the confguration.",
       "codes": [
         "QUERY_FILAMENT_SENSOR"
       ],
@@ -25996,13 +27094,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Queries the current  status of the filament sensor",
       "url": "https://www.klipper3d.org/G-Codes.html#filament-sensor"
     }
   ],
   "QUERY_PROBE": [
     {
-      "brief": "",
+      "brief": "Report the current status of the probe (\"triggered\"  or \"open\").",
       "codes": [
         "QUERY_PROBE"
       ],
@@ -26010,13 +27108,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Report the current status of the probe (\"triggered\"  or \"open\")",
       "url": "https://www.klipper3d.org/G-Codes.html#probe"
     }
   ],
   "RESPOND": [
     {
-      "brief": "",
+      "brief": "echo the message  prepended with",
       "codes": [
         "RESPOND"
       ],
@@ -26039,13 +27137,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "echo the message  prepended with",
       "url": "https://www.klipper3d.org/G-Codes.html#send-message-respond-to-host"
     }
   ],
   "RESTART": [
     {
-      "brief": "",
+      "brief": "This will cause the host software to reload its config  and perform an internal reset. This command will not clear error  state from the micro-controller (see FIRMWARE_RESTART) nor will it  load new software (see",
       "codes": [
         "RESTART"
       ],
@@ -26053,13 +27151,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This will cause the host software to reload its config  and perform an internal reset",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "RESTORE_GCODE_STATE": [
     {
-      "brief": "",
+      "brief": "Restore a state previously saved via  SAVE_GCODE_STATE. If \"MOVE=1\" is specified then a toolhead move will  be issued to move back to the previous XYZ position. If \"MOVE_SPEED\"  is specified then the toolhead move will be performed with the given  speed (in mm/s); otherwise the toolhead move will use the restored  g-code speed.",
       "codes": [
         "RESTORE_GCODE_STATE"
       ],
@@ -26089,13 +27187,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Restore a state previously saved via  SAVE_GCODE_STATE",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "RESUME": [
     {
-      "brief": "",
+      "brief": "Resumes the print from a pause, first  restoring the previously captured position.  The VELOCITY parameter  determines the speed at which the tool should return to the original  captured position.",
       "codes": [
         "RESUME"
       ],
@@ -26111,13 +27209,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Resumes the print from a pause, first  restoring the previously captured position",
       "url": "https://www.klipper3d.org/G-Codes.html#pause-resume"
     }
   ],
   "SAVE_CONFIG": [
     {
-      "brief": "",
+      "brief": "This command will overwrite the main printer config  file and restart the host software. This command is used in  conjunction with other calibration commands to store the results of  calibration tests.",
       "codes": [
         "SAVE_CONFIG"
       ],
@@ -26125,13 +27223,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command will overwrite the main printer config  file and restart the host software",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "SAVE_GCODE_STATE": [
     {
-      "brief": "",
+      "brief": "Save the current  g-code coordinate parsing state. Saving and restoring the g-code  state is useful in scripts and macros. This command saves the  current g-code absolute coordinate mode (G90/G91), absolute extrude  mode (M82/M83), origin (G92), offset (SET_GCODE_OFFSET), speed  override (M220), extruder override (M221), move speed, current XYZ  position, and relative extruder \"E\" position. If NAME is provided it  allows one to name the saved state to the given string. If NAME is  not provided it defaults to \"default\".",
       "codes": [
         "SAVE_GCODE_STATE"
       ],
@@ -26147,13 +27245,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Save the current  g-code coordinate parsing state",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "SAVE_VARIABLE": [
     {
-      "brief": "",
+      "brief": "Saves the variable to  disk so that it can be used across restarts. All stored variables  are loaded into the",
       "codes": [
         "SAVE_VARIABLE"
       ],
@@ -26176,18 +27274,25 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Saves the variable to  disk so that it can be used across restarts",
       "url": "https://www.klipper3d.org/G-Codes.html#save-variables"
     }
   ],
   "SCREWS_TILT_CALCULATE": [
     {
-      "brief": "",
+      "brief": "This command will invoke the bed screws adjustment tool. It will command the  nozzle to different locations (as defined in the config file)  probing the z height and calculate the number of knob turns to  adjust the bed level. If DIRECTION is specified, the knob turns will all  be in the same direction, clockwise (CW) or counterclockwise (CCW).  See the PROBE command for details on the optional probe parameters.  IMPORTANT: You MUST always do a G28 before using this command.",
       "codes": [
         "SCREWS_TILT_CALCULATE"
       ],
       "id": "Klipper.SCREWS_TILT_CALCULATE[0]",
       "parameters": [
+        {
+          "description": "",
+          "label": "DIRECTION=CW|CCW",
+          "optional": true,
+          "tag": "DIRECTIONCW|CCW",
+          "values": []
+        },
         {
           "description": "",
           "label": "<probe_parameter>=<value>",
@@ -26198,8 +27303,58 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command will invoke the bed screws adjustment tool",
       "url": "https://www.klipper3d.org/G-Codes.html#bed-screws-tilt-adjust-helper"
+    }
+  ],
+  "SDCARD_LOOP_BEGIN": [
+    {
+      "brief": "Begin a looped section in the SD  print. A count of 0 indicates that the section should be looped  indefinately.",
+      "codes": [
+        "SDCARD_LOOP_BEGIN"
+      ],
+      "id": "Klipper.SDCARD_LOOP_BEGIN[0]",
+      "parameters": [
+        {
+          "description": "",
+          "label": "COUNT=<count>",
+          "optional": false,
+          "tag": "COUNT",
+          "values": []
+        }
+      ],
+      "related": [],
+      "source": "Klipper",
+      "title": "Begin a looped section in the SD  print",
+      "url": "https://www.klipper3d.org/G-Codes.html#sdcard-loop"
+    }
+  ],
+  "SDCARD_LOOP_DESIST": [
+    {
+      "brief": "Complete existing loops without further  iterations.",
+      "codes": [
+        "SDCARD_LOOP_DESIST"
+      ],
+      "id": "Klipper.SDCARD_LOOP_DESIST[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "Complete existing loops without further  iterations",
+      "url": "https://www.klipper3d.org/G-Codes.html#sdcard-loop"
+    }
+  ],
+  "SDCARD_LOOP_END": [
+    {
+      "brief": "End a looped section in the SD print.",
+      "codes": [
+        "SDCARD_LOOP_END"
+      ],
+      "id": "Klipper.SDCARD_LOOP_END[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "End a looped section in the SD print",
+      "url": "https://www.klipper3d.org/G-Codes.html#sdcard-loop"
     }
   ],
   "SDCARD_PRINT_FILE": [
@@ -26240,7 +27395,7 @@ window.AllGcodes = {
   ],
   "SET_DISPLAY_GROUP": [
     {
-      "brief": "",
+      "brief": "Set the  active display group of an lcd display. This allows to define  multiple display data groups in the config,  e.g.",
       "codes": [
         "SET_DISPLAY_GROUP"
       ],
@@ -26263,13 +27418,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Set the  active display group of an lcd display",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "SET_DUAL_CARRIAGE": [
     {
-      "brief": "",
+      "brief": "This command will set the active  carriage. It is typically invoked from the activate_gcode and  deactivate_gcode fields in a multiple extruder configuration.",
       "codes": [
         "SET_DUAL_CARRIAGE"
       ],
@@ -26285,13 +27440,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command will set the active  carriage",
       "url": "https://www.klipper3d.org/G-Codes.html#dual-carriages"
     }
   ],
   "SET_EXTRUDER_STEP_DISTANCE": [
     {
-      "brief": "",
+      "brief": "Set a new value for the provided extruder's  \"step distance\". The \"step distance\" is",
       "codes": [
         "SET_EXTRUDER_STEP_DISTANCE"
       ],
@@ -26314,13 +27469,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Set a new value for the provided extruder's  \"step distance\"",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "SET_FAN_SPEED": [
     {
-      "brief": "",
+      "brief": "This command sets  the speed of a fan.",
       "codes": [
         "SET_FAN_SPEED"
       ],
@@ -26343,13 +27498,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command sets  the speed of a fan",
       "url": "https://www.klipper3d.org/G-Codes.html#manually-controlled-fans-commands"
     }
   ],
   "SET_FILAMENT_SENSOR": [
     {
-      "brief": "",
+      "brief": "Sets the  filament sensor on/off. If ENABLE is set to 0, the filament sensor  will be disabled, if set to 1 it is enabled.",
       "codes": [
         "SET_FILAMENT_SENSOR"
       ],
@@ -26372,13 +27527,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Sets the  filament sensor on/off",
       "url": "https://www.klipper3d.org/G-Codes.html#filament-sensor"
     }
   ],
   "SET_GCODE_OFFSET": [
     {
-      "brief": "",
+      "brief": "Set a positional offset to apply to  future G-Code commands. This is commonly used to virtually change  the Z bed offset or to set nozzle XY offsets when switching  extruders. For example, if \"SET_GCODE_OFFSET Z=0.2\" is sent, then  future G-Code moves will have 0.2mm added to their Z height. If the  X_ADJUST style parameters are used, then the adjustment will be  added to any existing offset (eg, \"SET_GCODE_OFFSET Z=-0.2\" followed  by \"SET_GCODE_OFFSET Z_ADJUST=0.3\" would result in a total Z offset  of 0.1). If \"MOVE=1\" is specified then a toolhead move will be  issued to apply the given offset (otherwise the offset will take  effect on the next absolute G-Code move that specifies the given  axis). If \"MOVE_SPEED\" is specified then the toolhead move will be  performed with the given speed (in mm/s); otherwise the toolhead  move will use the last specified G-Code speed.",
       "codes": [
         "SET_GCODE_OFFSET"
       ],
@@ -26422,13 +27577,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Set a positional offset to apply to  future G-Code commands",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "SET_GCODE_VARIABLE": [
     {
-      "brief": "",
+      "brief": "This command allows one to change the value of a  gcode_macro variable at run-time. The provided VALUE is parsed as a  Python literal.",
       "codes": [
         "SET_GCODE_VARIABLE"
       ],
@@ -26458,13 +27613,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command allows one to change the value of a  gcode_macro variable at run-time",
       "url": "https://www.klipper3d.org/G-Codes.html#g-code-macro-commands"
     }
   ],
   "SET_HEATER_TEMPERATURE": [
     {
-      "brief": "",
+      "brief": "Sets the target temperature for a heater. If a target temperature is  not supplied, the target is 0.",
       "codes": [
         "SET_HEATER_TEMPERATURE"
       ],
@@ -26487,13 +27642,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Sets the target temperature for a heater",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "SET_IDLE_TIMEOUT": [
     {
-      "brief": "",
+      "brief": "Allows the user to set the  idle timeout (in seconds).",
       "codes": [
         "SET_IDLE_TIMEOUT"
       ],
@@ -26509,13 +27664,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Allows the user to set the  idle timeout (in seconds)",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "SET_INPUT_SHAPER": [
     {
-      "brief": "",
+      "brief": "Modify input shaper parameters. Note that SHAPER_TYPE parameter  resets input shaper for both X and Y axes even if different shaper  types have been configured in [input_shaper] section. SHAPER_TYPE  cannot be used together with either of SHAPER_TYPE_X and  SHAPER_TYPE_Y parameters. See",
       "codes": [
         "SET_INPUT_SHAPER"
       ],
@@ -26573,13 +27728,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Modify input shaper parameters",
       "url": "https://www.klipper3d.org/G-Codes.html#resonance-compensation"
     }
   ],
   "SET_KINEMATIC_POSITION": [
     {
-      "brief": "",
+      "brief": "Force  the low-level kinematic code to believe the toolhead is at the given  cartesian position. This is a diagnostic and debugging command; use  SET_GCODE_OFFSET and/or G92 for regular axis transformations. If an  axis is not specified then it will default to the position that the  head was last commanded to. Setting an incorrect or invalid position  may lead to internal software errors. This command may invalidate  future boundary checks; issue a G28 afterwards to reset the  kinematics.",
       "codes": [
         "SET_KINEMATIC_POSITION"
       ],
@@ -26609,13 +27764,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Force  the low-level kinematic code to believe the toolhead is at the given  cartesian position",
       "url": "https://www.klipper3d.org/G-Codes.html#force-movement"
     }
   ],
   "SET_LED": [
     {
-      "brief": "",
+      "brief": "This sets the LED  output. Each color",
       "codes": [
         "SET_LED"
       ],
@@ -26669,11 +27824,18 @@ window.AllGcodes = {
           "optional": true,
           "tag": "TRANSMIT0",
           "values": []
+        },
+        {
+          "description": "",
+          "label": "SYNC=1",
+          "optional": true,
+          "tag": "SYNC1",
+          "values": []
         }
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This sets the LED  output",
       "url": "https://www.klipper3d.org/G-Codes.html#neopixel-and-dotstar-commands"
     }
   ],
@@ -26715,7 +27877,7 @@ window.AllGcodes = {
   ],
   "SET_PRESSURE_ADVANCE": [
     {
-      "brief": "",
+      "brief": "Set pressure advance  parameters. If EXTRUDER is not specified, it defaults to the active  extruder.",
       "codes": [
         "SET_PRESSURE_ADVANCE"
       ],
@@ -26745,13 +27907,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Set pressure advance  parameters",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "SET_RETRACTION": [
     {
-      "brief": "",
+      "brief": "Adjust the  parameters used by firmware retraction. RETRACT_LENGTH determines  the length of filament to retract and unretract. The speed of  retraction is adjusted via RETRACT_SPEED, and is typically set  relatively high. The speed of unretraction is adjusted via  UNRETRACT_SPEED, and is not particularly critical, although often  lower than RETRACT_SPEED. In some cases it is useful to add a small  amount of additional length on unretraction, and this is set via  UNRETRACT_EXTRA_LENGTH. SET_RETRACTION is commonly set as part of  slicer per-filament configuration, as different filaments require  different parameter settings.",
       "codes": [
         "SET_RETRACTION"
       ],
@@ -26788,13 +27950,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Adjust the  parameters used by firmware retraction",
       "url": "https://www.klipper3d.org/G-Codes.html#firmware-retraction"
     }
   ],
   "SET_SERVO": [
     {
-      "brief": "",
+      "brief": "Set the servo position to the given angle (in degrees) or pulse  width (in seconds). Use",
       "codes": [
         "SET_SERVO"
       ],
@@ -26831,13 +27993,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Set the servo position to the given angle (in degrees) or pulse  width (in seconds)",
       "url": "https://www.klipper3d.org/G-Codes.html#servo-commands"
     }
   ],
   "SET_SKEW": [
     {
-      "brief": "",
+      "brief": "Configures the [skew_correction]  module with measurements (in mm) taken from a calibration print.  One may enter measurements for any combination of planes, planes not  entered will retain their current value. If",
       "codes": [
         "SET_SKEW"
       ],
@@ -26874,13 +28036,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Configures the [skew_correction]  module with measurements (in mm) taken from a calibration print",
       "url": "https://www.klipper3d.org/G-Codes.html#skew-correction"
     }
   ],
   "SET_STEPPER_ENABLE": [
     {
-      "brief": "",
+      "brief": "Enable or  disable only the given stepper. This is a diagnostic and debugging  tool and must be used with care. Disabling an axis motor does not  reset the homing information. Manually moving a disabled stepper may  cause the machine to operate the motor outside of safe limits. This  can lead to damage to axis components, hot ends, and print surface.",
       "codes": [
         "SET_STEPPER_ENABLE"
       ],
@@ -26903,13 +28065,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Enable or  disable only the given stepper",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "SET_TEMPERATURE_FAN_TARGET": [
     {
-      "brief": "",
+      "brief": "Sets the target temperature for a  temperature_fan. If a target is not supplied, it is set to the  specified temperature in the config file. If speeds are not supplied, no change is applied.",
       "codes": [
         "SET_TEMPERATURE_FAN_TARGET"
       ],
@@ -26946,13 +28108,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Sets the target temperature for a  temperature_fan",
       "url": "https://www.klipper3d.org/G-Codes.html#temperature-fan-commands"
     }
   ],
   "SET_TMC_CURRENT": [
     {
-      "brief": "",
+      "brief": "This will adjust the run and hold currents of the TMC driver.  (HOLDCURRENT is not applicable to tmc2660 drivers.)",
       "codes": [
         "SET_TMC_CURRENT"
       ],
@@ -26982,13 +28144,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This will adjust the run and hold currents of the TMC driver",
       "url": "https://www.klipper3d.org/G-Codes.html#tmc-stepper-drivers"
     }
   ],
   "SET_TMC_FIELD": [
     {
-      "brief": "",
+      "brief": "This  will alter the value of the specified register field of the TMC  driver. This command is intended for low-level diagnostics and  debugging only because changing the fields during run-time can lead  to undesired and potentially dangerous behavior of your printer.  Permanent changes should be made using the printer configuration  file instead. No sanity checks are performed for the given values.",
       "codes": [
         "SET_TMC_FIELD"
       ],
@@ -27018,13 +28180,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This  will alter the value of the specified register field of the TMC  driver",
       "url": "https://www.klipper3d.org/G-Codes.html#tmc-stepper-drivers"
     }
   ],
   "SET_VELOCITY_LIMIT": [
     {
-      "brief": "",
+      "brief": "Modify  the printer's velocity limits.",
       "codes": [
         "SET_VELOCITY_LIMIT"
       ],
@@ -27061,13 +28223,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Modify  the printer's velocity limits",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "SHAPER_CALIBRATE": [
     {
-      "brief": "",
+      "brief": "Similarly to",
       "codes": [
         "SHAPER_CALIBRATE"
       ],
@@ -27118,13 +28280,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Similarly to",
       "url": "https://www.klipper3d.org/G-Codes.html#resonance-testing-commands"
     }
   ],
   "SKEW_PROFILE": [
     {
-      "brief": "",
+      "brief": "Profile  management for skew_correction. LOAD will restore skew state from  the profile matching the supplied name. SAVE will save the current  skew state to a profile matching the supplied name. Remove will  delete the profile matching the supplied name from persistent  memory. Note that after SAVE or REMOVE operations have been run the  SAVE_CONFIG gcode must be run to make the changes to peristent  memory permanent.",
       "codes": [
         "SKEW_PROFILE"
       ],
@@ -27154,13 +28316,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Profile  management for skew_correction",
       "url": "https://www.klipper3d.org/G-Codes.html#skew-correction"
     }
   ],
   "STATUS": [
     {
-      "brief": "",
+      "brief": "Report the Klipper host software status.",
       "codes": [
         "STATUS"
       ],
@@ -27168,13 +28330,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Report the Klipper host software status",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "STEPPER_BUZZ": [
     {
-      "brief": "",
+      "brief": "Move the given stepper forward  one mm and then backward one mm, repeated 10 times. This is a  diagnostic tool to help verify stepper connectivity.",
       "codes": [
         "STEPPER_BUZZ"
       ],
@@ -27190,13 +28352,27 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Move the given stepper forward  one mm and then backward one mm, repeated 10 times",
+      "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
+    }
+  ],
+  "STEP_DELTA": [
+    {
+      "brief": "and",
+      "codes": [
+        "STEP_DELTA"
+      ],
+      "id": "Klipper.STEP_DELTA[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "and",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "SYNC_STEPPER_TO_EXTRUDER": [
     {
-      "brief": "",
+      "brief": "This command will cause the given  STEPPER to become synchronized to the given EXTRUDER, overriding  the extruder defined in the \"extruder_stepper\" config section.",
       "codes": [
         "SYNC_STEPPER_TO_EXTRUDER"
       ],
@@ -27233,7 +28409,7 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command will cause the given  STEPPER to become synchronized to the given EXTRUDER, overriding  the extruder defined in the \"extruder_stepper\" config section",
       "url": "https://www.klipper3d.org/G-Codes.html#extruder-stepper-commands"
     }
   ],
@@ -27379,7 +28555,7 @@ window.AllGcodes = {
   ],
   "TEMPERATURE_WAIT": [
     {
-      "brief": "",
+      "brief": "Wait until the given temperature sensor is at or above the supplied  MINIMUM and/or at or below the supplied MAXIMUM.",
       "codes": [
         "TEMPERATURE_WAIT"
       ],
@@ -27409,13 +28585,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Wait until the given temperature sensor is at or above the supplied  MINIMUM and/or at or below the supplied MAXIMUM",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "TESTZ": [
     {
-      "brief": "",
+      "brief": "This command moves the nozzle up or down by the  amount specified in \"value\". For example,",
       "codes": [
         "TESTZ"
       ],
@@ -27431,13 +28607,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command moves the nozzle up or down by the  amount specified in \"value\"",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "TEST_RESONANCES": [
     {
-      "brief": "",
+      "brief": "Runs the resonance  test in all configured probe points for the requested",
       "codes": [
         "TEST_RESONANCES"
       ],
@@ -27495,13 +28671,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Runs the resonance  test in all configured probe points for the requested",
       "url": "https://www.klipper3d.org/G-Codes.html#resonance-testing-commands"
     }
   ],
   "TUNING_TOWER": [
     {
-      "brief": "",
+      "brief": "A tool for tuning a parameter on each Z height during a print.  The tool will run the given",
       "codes": [
         "TUNING_TOWER"
       ],
@@ -27530,8 +28706,15 @@ window.AllGcodes = {
         },
         {
           "description": "",
+          "label": "SKIP=<value>",
+          "optional": true,
+          "tag": "SKIP",
+          "values": []
+        },
+        {
+          "description": "",
           "label": "FACTOR=<value>",
-          "optional": false,
+          "optional": true,
           "tag": "FACTOR",
           "values": []
         },
@@ -27541,17 +28724,38 @@ window.AllGcodes = {
           "optional": true,
           "tag": "BAND",
           "values": []
+        },
+        {
+          "description": "",
+          "label": "|",
+          "optional": false,
+          "tag": "|",
+          "values": []
+        },
+        {
+          "description": "",
+          "label": "STEP_DELTA=<value>",
+          "optional": true,
+          "tag": "STEP_DELTA",
+          "values": []
+        },
+        {
+          "description": "",
+          "label": "STEP_HEIGHT=<value>",
+          "optional": true,
+          "tag": "STEP_HEIGHT",
+          "values": []
         }
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "A tool for tuning a parameter on each Z height during a print",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "TURN_OFF_HEATERS": [
     {
-      "brief": "",
+      "brief": "Turn off all heaters.",
       "codes": [
         "TURN_OFF_HEATERS"
       ],
@@ -27559,13 +28763,13 @@ window.AllGcodes = {
       "parameters": [],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Turn off all heaters",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
     }
   ],
   "UPDATE_DELAYED_GCODE": [
     {
-      "brief": "",
+      "brief": "Updates the  delay duration for the identified [delayed_gcode] and starts the timer  for gcode execution.  A value of 0 will cancel a pending delayed gcode  from executing.",
       "codes": [
         "UPDATE_DELAYED_GCODE"
       ],
@@ -27588,13 +28792,13 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Updates the  delay duration for the identified [delayed_gcode] and starts the timer  for gcode execution",
       "url": "https://www.klipper3d.org/G-Codes.html#delayed-gcode"
     }
   ],
   "Z_ENDSTOP_CALIBRATE": [
     {
-      "brief": "",
+      "brief": "Run a helper script useful  for calibrating a Z position_endstop config setting. See the  MANUAL_PROBE command for details on the parameters and the  additional commands available while the tool is active.",
       "codes": [
         "Z_ENDSTOP_CALIBRATE"
       ],
@@ -27610,13 +28814,41 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "Run a helper script useful  for calibrating a Z position_endstop config setting",
       "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
+    }
+  ],
+  "Z_OFFSET_APPLY_ENDSTOP": [
+    {
+      "brief": "Take the current Z Gcode offset (aka,  babystepping), and subtract it from the stepper_z endstop_position.  This acts to take a frequently used babystepping value, and \"make  it permanent\".  Requires a",
+      "codes": [
+        "Z_OFFSET_APPLY_ENDSTOP"
+      ],
+      "id": "Klipper.Z_OFFSET_APPLY_ENDSTOP[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "Take the current Z Gcode offset (aka,  babystepping), and subtract it from the stepper_z endstop_position",
+      "url": "https://www.klipper3d.org/G-Codes.html#extended-g-code-commands"
+    }
+  ],
+  "Z_OFFSET_APPLY_PROBE": [
+    {
+      "brief": "Take the current Z Gcode offset (aka,  babystepping), and subtract if from the probe's z_offset.  This acts to take a frequently used babystepping value, and \"make  it permanent\".  Requires a",
+      "codes": [
+        "Z_OFFSET_APPLY_PROBE"
+      ],
+      "id": "Klipper.Z_OFFSET_APPLY_PROBE[0]",
+      "parameters": [],
+      "related": [],
+      "source": "Klipper",
+      "title": "Take the current Z Gcode offset (aka,  babystepping), and subtract if from the probe's z_offset",
+      "url": "https://www.klipper3d.org/G-Codes.html#probe"
     }
   ],
   "Z_TILT_ADJUST": [
     {
-      "brief": "",
+      "brief": "This command will probe  the points specified in the config and then make independent  adjustments to each Z stepper to compensate for tilt. See the PROBE  command for details on the optional probe parameters.",
       "codes": [
         "Z_TILT_ADJUST"
       ],
@@ -27632,7 +28864,7 @@ window.AllGcodes = {
       ],
       "related": [],
       "source": "Klipper",
-      "title": "",
+      "title": "This command will probe  the points specified in the config and then make independent  adjustments to each Z stepper to compensate for tilt",
       "url": "https://www.klipper3d.org/G-Codes.html#z-tilt"
     }
   ]
