@@ -104,10 +104,15 @@ class KlipperGcodeDocumentationParser(BaseDocumentationParser):
         }
 
     def find_previous_id(self, element):
-        id_element = next(filter(None, (
-            id_element.find_previous_sibling(None, {'id': True})
-            for id_element in reversed(element.find_parents())
-        )), None)
+        id_element = next((
+            id_element
+            for id_element in filter(None, (
+                sibling
+                for parent in reversed(element.find_parents())
+                for sibling in parent.find_previous_siblings(None, {'id': True})
+            ))
+            if id_element.name != "input"
+        ), None)
         if not id_element:
             return ''
 
