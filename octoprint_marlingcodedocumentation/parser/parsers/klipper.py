@@ -33,20 +33,22 @@ class KlipperGcodeDocumentationParser(BaseDocumentationParser):
         six.moves.urllib.request.urlretrieve(self.SOURCE_URL, html_filename)
 
     def get_all_codes(self, document):
-        code_fragments_and_list_items = (
-            (code.text.replace('\n', ' '), code.find_parent('li'))
+        code_fragments_list_items_and_siblings = (
+            (code.text.replace('\n', ' '), code.find_parent('li'),
+             code.next_siblings)
             for code in document.select('li code:nth-of-type(1)')
         )
 
         return dict(filter(None, map(
-            self.parse_code, code_fragments_and_list_items)))
+            self.parse_code, code_fragments_list_items_and_siblings)))
 
-    def parse_code(self, code_fragment_and_list_item):
-        code_fragment, list_item = code_fragment_and_list_item
+    def parse_code(self, code_fragments_list_items_and_siblings):
+        code_fragment, list_item, siblings = \
+            code_fragments_list_items_and_siblings
         if self.re_reprap.match(code_fragment):
             return self.parse_reprap_code(code_fragment, list_item)
         elif self.re_klipper.match(code_fragment):
-            return self.parse_klipper_code(code_fragment, list_item)
+            return self.parse_klipper_code(code_fragment, list_item, siblings)
         else:
             return None
 
@@ -118,13 +120,10 @@ class KlipperGcodeDocumentationParser(BaseDocumentationParser):
 
         return id_element.attrs['id']
 
-    def parse_klipper_code(self, code_fragment, list_item):
+    def parse_klipper_code(self, code_fragment, list_item, siblings):
         code, parameters_text = self.re_klipper.match(code_fragment).groups()
-        next_text = next(filter(None, (
-            sibling.replace('\n', '').strip().strip(':').strip()
-            for sibling in list_item.previous_siblings
-            if isinstance(sibling, str)
-        )), '')
+        next_text = next(filter(None, siblings), "")\
+            .replace('\n', '').strip().strip(':').strip()
         return (code, [{
             "title": next_text.split('.')[0],
             "brief": next_text,
