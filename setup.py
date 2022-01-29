@@ -14,7 +14,7 @@ plugin_package = "octoprint_marlingcodedocumentation"
 plugin_name = "Marlin GCode Documentation"
 
 # The plugin's version. Can be overwritten within OctoPrint's internal data via __plugin_version__ in the plugin module
-plugin_version = "0.14.0"
+plugin_version = "0.15.0"
 
 # The plugin's description. Can be overwritten within OctoPrint's internal data via __plugin_description__ in the plugin
 # module
