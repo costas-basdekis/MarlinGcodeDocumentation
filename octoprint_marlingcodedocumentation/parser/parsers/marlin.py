@@ -88,8 +88,9 @@ class MarlinGcodeDocumentationParser(BaseDocumentationParser):
             "parameters": [
                 self.parse_doc_parameter(parameter)
                 for parameter in sorted(
-                    doc.get("parameters") or [],
-                    key=self._order_by_required_first)
+                    filter(None, doc.get("parameters") or []),
+                    key=self._order_by_required_first,
+                )
             ],
             "source": self.SOURCE,
             "url": f"{self.URL_PREFIX}/{doc['filename']}",
