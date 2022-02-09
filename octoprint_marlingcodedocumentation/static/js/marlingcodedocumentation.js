@@ -602,6 +602,7 @@ $(function() {
             self.collapsedCommands([]);
         };
 
+        self.favouriteUndo = ko.observable(null);
         self.favourites = ko.computed(() => {
             const favouriteCommands = self.favouriteCommands();
             const visibleSources = [
@@ -628,16 +629,28 @@ $(function() {
         };
 
         self.onUseFavourite = ({command}) => {
-            if (self.commandLines().length) {
-                if (!confirm("Are you sure you want to replace the current command?")) {
-                    return;
-                }
+            const previousValue = $("#terminal-command").val();
+            if (previousValue) {
+                self.favouriteUndo(previousValue);
             }
-
             $("#terminal-command")
                 .val(`${command} `)
                 .trigger('input')
                 .focus();
+        };
+        self.onUndoUseFavourite = () => {
+            const previousValue = self.favouriteUndo();
+            self.favouriteUndo(null);
+            if (!previousValue) {
+                return;
+            }
+            $("#terminal-command")
+                .val(previousValue)
+                .trigger('input')
+                .focus();
+        };
+        self.onClearUndoUseFavourite = () => {
+            self.favouriteUndo(null);
         };
 
         self.getSearchResult = commandLine => {

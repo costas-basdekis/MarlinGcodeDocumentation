@@ -6,6 +6,12 @@
             <button type="button" class="close" data-dismiss="alert">×</button>
         </div>
     <!-- /ko -->
+    <!-- ko if: favouriteUndo() -->
+        <div id="terminal-marlin-gcode-documentation-undo" class="alert alert-info">
+            <button class="btn" data-bind="click: $root.onUndoUseFavourite">Undo replacing</button>
+            <button type="button" class="close" data-bind="click: $root.onClearUndoUseFavourite">×</button>
+        </div>
+    <!-- /ko -->
     <ul class="nav nav-tabs">
         <li data-bind="css: {active: activeCommandLineNumber() < 0}">
             <a href="#terminal-marlin-gcode-documentation-tab-favourites" data-toggle="tab" data-tab-index="-1">
