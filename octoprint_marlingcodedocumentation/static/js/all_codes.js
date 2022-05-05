@@ -13847,6 +13847,109 @@ window.AllGcodes = {
   ],
   "M306": [
     {
+      "brief": "Auto-tune the MPC system to find stable values",
+      "codes": [
+        "M306"
+      ],
+      "id": "Marlin.M306[0]",
+      "parameters": [
+        {
+          "description": "Autotune the active extruder (ignores E parameter)",
+          "label": "[T<flag>]",
+          "optional": true,
+          "since": "2.1.0.0",
+          "tag": "T",
+          "values": [
+            {
+              "type": "flag"
+            }
+          ]
+        },
+        {
+          "description": "Extruder index. Default 0.",
+          "label": "[E<index>]",
+          "optional": true,
+          "since": "2.1.0.0",
+          "tag": "E",
+          "values": [
+            {
+              "tag": "index",
+              "type": "int"
+            }
+          ]
+        },
+        {
+          "description": "Heater power (watts)",
+          "label": "[P<value>]",
+          "optional": true,
+          "since": "2.1.0.0",
+          "tag": "P",
+          "values": [
+            {
+              "tag": "value",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Block heat capacity.",
+          "label": "[C<value>]",
+          "optional": true,
+          "since": "2.1.0.0",
+          "tag": "C",
+          "values": [
+            {
+              "tag": "value",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Sensor responsiveness (trasfer coefficient / heat capacity)",
+          "label": "[R<value>]",
+          "optional": true,
+          "since": "2.1.0.0",
+          "tag": "R",
+          "values": [
+            {
+              "tag": "value",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Ambient heat transfer coefficient (no fan)",
+          "label": "[A<value>]",
+          "optional": true,
+          "since": "2.1.0.0",
+          "tag": "A",
+          "values": [
+            {
+              "tag": "value",
+              "type": "float"
+            }
+          ]
+        },
+        {
+          "description": "Ambient heat transfer coefficient (fan on full)",
+          "label": "[F<value>]",
+          "optional": true,
+          "since": "2.1.0.0",
+          "tag": "F",
+          "values": [
+            {
+              "tag": "value",
+              "type": "float"
+            }
+          ]
+        }
+      ],
+      "related": [],
+      "source": "Marlin",
+      "title": "MPC autotune",
+      "url": "hhttps://github.com/MarlinFirmware/Marlin/pull/23751"
+    },
+    {
       "brief": "",
       "codes": [
         "M306"
