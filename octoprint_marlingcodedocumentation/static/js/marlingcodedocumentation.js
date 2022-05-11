@@ -5,6 +5,8 @@
  * License: AGPLv3
  */
 
+window.AllGcodes = window.AllGcodes || {};
+
 // Adapted from https://github.com/cncjs/gcode-parser/blob/master/src/index.js
 class GcodeParser {
     static re = /(%.*)|({.*)|((?:\$\$)|(?:\$[a-zA-Z0-9#]*))|([a-zA-Z][0-9\+\-\.]+)|(\*[0-9]+)/igm;
@@ -357,14 +359,17 @@ class SettingsSync {
 
 class DocumentationService {
     constructor(allGcodes = window.AllGcodes) {
+        this.klipperGcodeParser = new KlipperExtendedGcodeParser();
+        this.update(allGcodes);
+    }
+
+    update(allGcodes = window.AllGcodes) {
         this.allGcodes = allGcodes;
         this.allGcodesById = Object.fromEntries(
             [].concat(...Object.entries(this.allGcodes).map(
                 ([command, values]) => values.map(
                     value => [command, value]))).map(
                         commandAndValue => [commandAndValue[1].id, commandAndValue]));
-
-        this.klipperGcodeParser = new KlipperExtendedGcodeParser();
     }
 
     findDocs(searchString) {
@@ -464,6 +469,7 @@ $(function() {
         const self = this;
 
         [self.settingsViewModel] = parameters;
+        self.settingsViewModel.marlinGcodeDocumentation = self;
 
         self.gcodeParser = new GcodeParser();
 
@@ -529,6 +535,7 @@ $(function() {
             favouriteCommands: 'favourite_commands',
             collapseAllByDefault: 'collapse_all_by_default',
             showSourcesCheckboxes: 'show_sources_checkboxes',
+            updateDocumentationLastUpdate: 'update_documentation_last_update',
         }, {
             includeSourceMarlin: true,
             includeSourceRepRap: true,
@@ -537,6 +544,7 @@ $(function() {
             favouriteCommands: [],
             collapseAllByDefault: false,
             showSourcesCheckboxes: true,
+            updateDocumentationLastUpdate: null,
         }, self);
         self.mySettings = null;
 
@@ -652,6 +660,41 @@ $(function() {
         self.onClearUndoUseFavourite = () => {
             self.favouriteUndo(null);
         };
+        self.onUpdateDocumentation = async () => {
+            const response = await fetch("/api/plugin/marlingcodedocumentation", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Api-Key": self.settingsViewModel.api_key(),
+                },
+                body: JSON.stringify({
+                    command: "update-documentation",
+                }),
+            });
+            if (!response.ok) {
+                return;
+            }
+            const newData = await response.json();
+            if (!newData) {
+                return;
+            }
+            self.documentationService.update(newData);
+        };
+        self.refreshDocumentation = async () => {
+            const response = await fetch("/api/plugin/marlingcodedocumentation");
+            if (!response.ok) {
+                return;
+            }
+            const newData = await response.json();
+            if (!newData) {
+                return;
+            }
+            self.documentationService.update(newData);
+        };
+        self.updateDocumentationLastUpdate.subscribe(() => {
+            self.refreshDocumentation();
+        });
+        self.refreshDocumentation();
 
         self.getSearchResult = commandLine => {
             const result = self.documentationService.getSearchResult(

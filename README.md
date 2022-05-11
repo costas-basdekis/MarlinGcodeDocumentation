@@ -13,6 +13,7 @@ Features:
 * Commands from [Marlin](https://marlinfw.org/meta/gcode/),
 [RepRap](https://reprap.org/wiki/G-code#G-commands), and
 [Klipper](https://www.klipper3d.org/G-Codes.html) official documentations
+  * Automatically updated monthly by [gcode-documentation-parser](https://github.com/costas-basdekis/gcode-documentation-parser)
 * Support for search by prepending `?`
 * Add and manage favourite commands
 * Support for [Multiline Terminal plugin](https://plugins.octoprint.org/plugins/multilineterminal/)

@@ -17,3 +17,4 @@ six~=1.15.0
 wikitextparser~=0.45.2
 
 beautifulsoup4~=4.9.3
+requests~=2.27.1
