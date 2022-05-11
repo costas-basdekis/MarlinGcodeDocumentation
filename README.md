@@ -35,3 +35,7 @@ or manually using this URL:
 ## Configuration
 
 There are several options that control the appearance and behaviour
+
+* Which sources to show
+* Position in terminal window
+* Update frequency and source
