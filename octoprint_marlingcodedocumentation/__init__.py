@@ -18,8 +18,6 @@ class MarlingcodedocumentationPlugin(
     octoprint.plugin.StartupPlugin,
     octoprint.plugin.SimpleApiPlugin,
 ):
-    ALL_CODES_PATH = Path("./all_codes.json")
-
     def __init__(self):
         super().__init__()
         self.repeated_timer = None
@@ -42,6 +40,10 @@ class MarlingcodedocumentationPlugin(
             return
         self.repeated_timer.cancel()
         self.repeated_timer = None
+
+    @property
+    def documentation_path(self):
+        return Path(self.get_plugin_data_folder(), "all_codes.json")
 
     def update_documentation_if_due(self):
         if not self.is_update_documentation_enabled():
@@ -69,9 +71,10 @@ class MarlingcodedocumentationPlugin(
         self._logger.info(
             "Checking if GCode documentation update is due...")
 
-        if not self.ALL_CODES_PATH.exists():
+        if not self.documentation_path.exists():
             self._logger.info(
-                " * Documentation file does not exist, so it's due")
+                " * Documentation file does not exist (%s), so it's due",
+                self.documentation_path.absolute())
             return True
 
         update_documentation_last_update = \
@@ -115,13 +118,17 @@ class MarlingcodedocumentationPlugin(
             return
 
         contents = response.text
-        self._logger.info(" * Saving update (%s bytes)", len(contents))
 
         new_all_codes_path = (
-            self.ALL_CODES_PATH.parent / f"new-{self.ALL_CODES_PATH.name}"
+            self.documentation_path.parent
+            / f"new-{self.documentation_path.name}"
         )
+        self._logger.info(
+            " * Saving update (%s bytes) temporarily to %s before renaming to "
+            "%s",
+            len(contents), new_all_codes_path, self.documentation_path)
         new_all_codes_path.write_text(contents)
-        new_all_codes_path.rename(self.ALL_CODES_PATH)
+        new_all_codes_path.rename(self.documentation_path)
 
         self._logger.info(" * Update complete")
         self.mark_documentation_as_updated()
@@ -140,11 +147,11 @@ class MarlingcodedocumentationPlugin(
             return self.on_api_get(None)
 
     def on_api_get(self, request):
-        if not self.ALL_CODES_PATH.exists():
+        if not self.documentation_path.exists():
             return flask.jsonify(None)
 
         return flask.current_app.response_class(
-            self.ALL_CODES_PATH.read_text(),
+            self.documentation_path.read_text(),
             mimetype="text/json",
         )
 
