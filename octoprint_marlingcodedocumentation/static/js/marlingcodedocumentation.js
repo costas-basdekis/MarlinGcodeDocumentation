@@ -473,13 +473,36 @@ $(function() {
 
         self.gcodeParser = new GcodeParser();
 
+        // Try multiple times to put it in the right place, since some times
+        // it's moved to the end of the page
+        // See https://github.com/costas-basdekis/MarlinGcodeDocumentation/issues/21
+        let moveTemplateToPositionAttemptCount = 0;
         self.moveTemplateToPosition = () => {
+            if (moveTemplateToPositionAttemptCount >= 5) {
+                console.error(
+                    `Could not find anchor for Marlin GCode documentation ` +
+                    `- aborting after ` +
+                    `${moveTemplateToPositionAttemptCount} attempts`);
+                return;
+            }
+            moveTemplateToPositionAttemptCount += 1;
+            const $element = $("#terminal-marlin-gcode-documentation");
+            let $anchor;
             if (self.mySettings.documentation_position() === "above_settings") {
-                $("#terminal-marlin-gcode-documentation")
-                    .insertAfter("#terminal-sendpanel");
+                $anchor = $("#terminal-sendpanel");
+                $element.insertAfter($anchor);
             } else {
-                $("#term")
-                    .append($("#terminal-marlin-gcode-documentation"));
+                $anchor = $("#term");
+                $anchor.append($element);
+            }
+            if (!$anchor.length) {
+                console.warn(
+                    `Anchor for Marlin GCode documentation was not ` +
+                    `present, will try again in 1s - tried ` +
+                    `${moveTemplateToPositionAttemptCount} times`);
+                setTimeout(() => {
+                    self.moveTemplateToPosition();
+                }, 1000);
             }
 		};
 
@@ -578,7 +601,12 @@ $(function() {
             self.loadSettings();
             self.onDocumentationPositionChange = ko.computed(() => {
                 self.mySettings.documentation_position();
-                self.moveTemplateToPosition();
+                // Add a delay, since some times it's moved to the end of the
+                // page
+                // See https://github.com/costas-basdekis/MarlinGcodeDocumentation/issues/21
+                setTimeout(() => {
+                    self.moveTemplateToPosition();
+                }, 0);
             });
             self.onExplainSentCommandsChanged = ko.computed(() => {
                 $("#terminal-output").toggleClass(
