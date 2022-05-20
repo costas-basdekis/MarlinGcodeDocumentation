@@ -535,6 +535,8 @@ $(function() {
             favouriteCommands: 'favourite_commands',
             collapseAllByDefault: 'collapse_all_by_default',
             showSourcesCheckboxes: 'show_sources_checkboxes',
+            updateDocumentationUrl: 'update_documentation_url',
+            updateDocumentationUrlDefault: 'update_documentation_url_default',
             updateDocumentationLastUpdate: 'update_documentation_last_update',
         }, {
             includeSourceMarlin: true,
@@ -544,6 +546,8 @@ $(function() {
             favouriteCommands: [],
             collapseAllByDefault: false,
             showSourcesCheckboxes: true,
+            updateDocumentationUrl: null,
+            updateDocumentationUrlDefault: null,
             updateDocumentationLastUpdate: null,
         }, self);
         self.mySettings = null;
@@ -679,6 +683,9 @@ $(function() {
                 return;
             }
             self.documentationService.update(newData);
+        };
+        self.onResetUrlToDefault = () => {
+            document.getElementById("settings-update_documentation_url").value = self.updateDocumentationUrlDefault();
         };
         self.refreshDocumentation = async () => {
             const response = await fetch("/api/plugin/marlingcodedocumentation");

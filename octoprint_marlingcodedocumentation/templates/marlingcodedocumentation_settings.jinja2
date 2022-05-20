@@ -88,10 +88,10 @@
         <div>
             <label>
                 Documentation URL
-                <input type="url" data-bind="value: settings.plugins.marlingcodedocumentation.update_documentation_url" style="width: 50em">
+                <input type="url" data-bind="value: settings.plugins.marlingcodedocumentation.update_documentation_url" id="settings-update_documentation_url" style="width: 50em">
             </label>
             <br/>
-            <button type="button" data-bind="click: marlinGcodeDocumentation.onUpdateDocumentation">Reset to default URL</button>
+            <button type="button" data-bind="click: marlinGcodeDocumentation.onResetUrlToDefault">Reset to default URL</button>
             <br/>
             Normally documentation is compiled monthly by
             <a href="https://github.com/costas-basdekis/gcode-documentation-parser" target="_blank">gcode-documentation-parser</a>

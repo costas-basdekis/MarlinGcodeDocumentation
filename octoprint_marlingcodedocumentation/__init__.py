@@ -172,6 +172,10 @@ class MarlingcodedocumentationPlugin(
                 "https://raw.githubusercontent.com/costas-basdekis/"
                 "gcode-documentation-parser/output/output/all_codes.json"
             ),
+            "update_documentation_url_default": (
+                "https://raw.githubusercontent.com/costas-basdekis/"
+                "gcode-documentation-parser/output/output/all_codes.json"
+            ),
             "update_documentation_last_update": None,
         }
 
