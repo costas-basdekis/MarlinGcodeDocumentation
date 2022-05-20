@@ -104,37 +104,54 @@ class MarlingcodedocumentationPlugin(
         return True
 
     def update_documentation(self):
-        self._logger.info("Updating GCode documentation...")
-        update_documentation_url = \
-            self._settings.get(["update_documentation_url"])
-        self._logger.info(
-            " * Fetching %s",
-            update_documentation_url)
-        response = requests.get(update_documentation_url)
-        if not response.ok:
-            self._logger.error(
-                " * Could not fetch %s, response code was %s",
-                update_documentation_url, response.status_code)
-            return
+        try:
+            self._logger.info("Updating GCode documentation...")
+            update_documentation_url = \
+                self._settings.get(["update_documentation_url"])
+            self._logger.info(
+                " * Fetching %s",
+                update_documentation_url)
+            response = requests.get(update_documentation_url)
+            if not response.ok:
+                self.mark_documentation_as_failed(
+                    f"Could not fetch {update_documentation_url}, response "
+                    f"code was {response.status_code}")
+                self._logger.error(
+                    " * Could not fetch %s, response code was %s",
+                    update_documentation_url, response.status_code)
+                return
 
-        contents = response.text
+            contents = response.text
+        except Exception as e:
+            self.mark_documentation_as_failed(
+                f"Error while getting remote documentation: {e}")
+            raise
 
-        new_all_codes_path = (
-            self.documentation_path.parent
-            / f"new-{self.documentation_path.name}"
-        )
-        self._logger.info(
-            " * Saving update (%s bytes) temporarily to %s before renaming to "
-            "%s",
-            len(contents), new_all_codes_path, self.documentation_path)
-        new_all_codes_path.write_text(contents)
-        new_all_codes_path.rename(self.documentation_path)
+        try:
+            new_all_codes_path = (
+                self.documentation_path.parent
+                / f"new-{self.documentation_path.name}"
+            )
+            self._logger.info(
+                " * Saving update (%s bytes) temporarily to %s before renaming "
+                "to %s",
+                len(contents), new_all_codes_path, self.documentation_path)
+            new_all_codes_path.write_text(contents)
+            new_all_codes_path.rename(self.documentation_path)
+        except Exception as e:
+            self.mark_documentation_as_failed(
+                f"Error while saving documentation locally: {e}")
+            raise
 
         self._logger.info(" * Update complete")
         self.mark_documentation_as_updated()
 
     def mark_documentation_as_updated(self):
         self._settings.set(["update_documentation_last_update"], datetime.now())
+        self._settings.set(["update_documentation_last_status"], "Success")
+
+    def mark_documentation_as_failed(self, reason):
+        self._settings.set(["update_documentation_last_status"], reason)
 
     def get_api_commands(self):
         return {
@@ -177,6 +194,7 @@ class MarlingcodedocumentationPlugin(
                 "gcode-documentation-parser/output/output/all_codes.json"
             ),
             "update_documentation_last_update": None,
+            "update_documentation_last_status": None,
         }
 
     def get_assets(self):

@@ -561,6 +561,7 @@ $(function() {
             updateDocumentationUrl: 'update_documentation_url',
             updateDocumentationUrlDefault: 'update_documentation_url_default',
             updateDocumentationLastUpdate: 'update_documentation_last_update',
+            updateDocumentationLastStatus: 'update_documentation_last_status',
         }, {
             includeSourceMarlin: true,
             includeSourceRepRap: true,
@@ -572,6 +573,7 @@ $(function() {
             updateDocumentationUrl: null,
             updateDocumentationUrlDefault: null,
             updateDocumentationLastUpdate: null,
+            updateDocumentationLastStatus: null,
         }, self);
         self.mySettings = null;
 
