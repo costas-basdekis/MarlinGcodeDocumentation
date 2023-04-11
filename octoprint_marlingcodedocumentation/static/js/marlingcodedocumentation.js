@@ -695,7 +695,7 @@ $(function() {
             self.favouriteUndo(null);
         };
         self.onUpdateDocumentation = async () => {
-            const response = await fetch("/api/plugin/marlingcodedocumentation", {
+            const response = await fetch("api/plugin/marlingcodedocumentation", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -718,7 +718,7 @@ $(function() {
             document.getElementById("settings-update_documentation_url").value = self.updateDocumentationUrlDefault();
         };
         self.refreshDocumentation = async () => {
-            const response = await fetch("/api/plugin/marlingcodedocumentation");
+            const response = await fetch("api/plugin/marlingcodedocumentation");
             if (!response.ok) {
                 return;
             }
