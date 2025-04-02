@@ -3,6 +3,9 @@
         <div id="terminal-marlin-gcode-documentation-help" class="alert alert-info">
             Enter a command to get documentation (eg 'G28'), or search by
             prepending with '?' (eg '?endstop')
+            <!-- ko if: allGcodesDate -->
+            - Updated on <span data-bind="text: allGcodesDate.toString()"></span>
+            <!-- /ko -->
             <button type="button" class="close" data-dismiss="alert">×</button>
         </div>
     <!-- /ko -->

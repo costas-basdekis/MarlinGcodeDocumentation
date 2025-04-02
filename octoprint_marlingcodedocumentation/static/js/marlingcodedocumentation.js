@@ -5,6 +5,7 @@
  * License: AGPLv3
  */
 
+window.AllGcodesDate = window.AllGcodesDate || {};
 window.AllGcodes = window.AllGcodes || {};
 
 // Adapted from https://github.com/cncjs/gcode-parser/blob/master/src/index.js
@@ -358,13 +359,19 @@ class SettingsSync {
 }
 
 class DocumentationService {
-    constructor(allGcodes = window.AllGcodes) {
+    constructor(allGcodes = window.AllGcodes, allGcodesDate = window.AllGcodesDate) {
         this.klipperGcodeParser = new KlipperExtendedGcodeParser();
-        this.update(allGcodes);
+        this.update(allGcodes, allGcodesDate);
     }
 
-    update(allGcodes = window.AllGcodes) {
+    update(allGcodes = window.AllGcodes, allGcodesDate = window.AllGcodesDate) {
         this.allGcodes = allGcodes;
+        this.allGcodesDate = allGcodesDate;
+        if (allGcodes["!"]) {
+            const meta = allGcodes["!"];
+            delete allGcodes["!"];
+            this.allGcodesDate = new Date(meta.date);
+        }
         this.allGcodesById = Object.fromEntries(
             [].concat(...Object.entries(this.allGcodes).map(
                 ([command, values]) => values.map(
@@ -505,6 +512,8 @@ $(function() {
                 }, 1000);
             }
 		};
+
+        self.allGcodesDate = ko.observable(window.AllGcodesDate);
 
         // Since the terminal VM is bound on `value`, we would only get an
         // update on blur, not after the user types. With this, we get it when
@@ -712,7 +721,8 @@ $(function() {
             if (!newData) {
                 return;
             }
-            self.documentationService.update(newData);
+            self.documentationService.update(newData, null);
+            self.allGcodesDate(self.documentationService.allGcodesDate);
         };
         self.onResetUrlToDefault = () => {
             document.getElementById("settings-update_documentation_url").value = self.updateDocumentationUrlDefault();
