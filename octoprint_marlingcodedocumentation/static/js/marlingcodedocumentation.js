@@ -703,40 +703,24 @@ $(function() {
         self.onClearUndoUseFavourite = () => {
             self.favouriteUndo(null);
         };
-        self.onUpdateDocumentation = async () => {
-            const response = await fetch("/api/plugin/marlingcodedocumentation", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-Api-Key": self.settingsViewModel.api_key(),
-                },
-                body: JSON.stringify({
-                    command: "update-documentation",
-                }),
-            });
-            if (!response.ok) {
-                return;
-            }
-            const newData = await response.json();
-            if (!newData) {
-                return;
-            }
-            self.documentationService.update(newData, null);
-            self.allGcodesDate(self.documentationService.allGcodesDate);
+        self.onUpdateDocumentation = () => {
+            OctoPrint.simpleApiCommand("marlingcodedocumentation", "update-documentation", {})
+              .done(async (response) => {
+                const data = await response.json();
+                self.documentationService.update(data, null);
+                self.allGcodesDate(self.documentationService.allGcodesDate);
+              });
         };
         self.onResetUrlToDefault = () => {
             document.getElementById("settings-update_documentation_url").value = self.updateDocumentationUrlDefault();
         };
-        self.refreshDocumentation = async () => {
-            const response = await fetch("/api/plugin/marlingcodedocumentation");
-            if (!response.ok) {
-                return;
-            }
-            const newData = await response.json();
-            if (!newData) {
-                return;
-            }
-            self.documentationService.update(newData);
+        self.refreshDocumentation = () => {
+            OctoPrint.simpleApiGet("marlingcodedocumentation")
+              .done(async (response) => {
+                const data = await response.json();
+                self.documentationService.update(data, null);
+                self.allGcodesDate(self.documentationService.allGcodesDate);
+              });
         };
         self.updateDocumentationLastUpdate.subscribe(() => {
             self.refreshDocumentation();
