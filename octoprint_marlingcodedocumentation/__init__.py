@@ -137,7 +137,7 @@ class MarlingcodedocumentationPlugin(
                 "to %s",
                 len(contents), new_all_codes_path, self.documentation_path)
             new_all_codes_path.write_text(contents)
-            new_all_codes_path.rename(self.documentation_path)
+            new_all_codes_path.replace(self.documentation_path)
         except Exception as e:
             self.mark_documentation_as_failed(
                 f"Error while saving documentation locally: {e}")
