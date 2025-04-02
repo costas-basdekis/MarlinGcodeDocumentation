@@ -662,16 +662,17 @@ $(function() {
                 ['Klipper', self.includeSourceKlipper()],
             ].filter(([, show]) => show).map(([source]) => source);
             return docItemsList = favouriteCommands
-                .map(id => self.documentationService.allGcodesById[id])
+                .map(id => self.documentationService.allGcodesById[id] ?? [id, null])
                 .map(([command, docItem]) => ({
                     command,
                     docItem,
                 }))
-                .filter(({docItem: {source}}) => visibleSources.includes(source));
+                .filter(({docItem}) => !docItem || visibleSources.includes(docItem.source));
         });
 
-        self.toggleFavourite = ({docItem: {id}}) => {
+        self.toggleFavourite = ({command, docItem}) => {
             const oldFavouriteCommands = self.favouriteCommands();
+            const id = docItem?.id ?? command;
             const newFavouriteCommands =
                 oldFavouriteCommands.includes(id)
                     ? oldFavouriteCommands.filter(_id => _id !== id)
