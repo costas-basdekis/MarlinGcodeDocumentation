@@ -5,7 +5,7 @@
  * License: AGPLv3
  */
 
-window.AllGcodesDate = window.AllGcodesDate || {};
+window.AllGcodesDate = window.AllGcodesDate || null;
 window.AllGcodes = window.AllGcodes || {};
 
 // Adapted from https://github.com/cncjs/gcode-parser/blob/master/src/index.js
