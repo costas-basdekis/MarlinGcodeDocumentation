@@ -706,8 +706,7 @@ $(function() {
         };
         self.onUpdateDocumentation = () => {
             OctoPrint.simpleApiCommand("marlingcodedocumentation", "update-documentation", {})
-              .done(async (response) => {
-                const data = await response.json();
+              .done(data => {
                 self.documentationService.update(data, null);
                 self.allGcodesDate(self.documentationService.allGcodesDate);
               });
@@ -717,8 +716,7 @@ $(function() {
         };
         self.refreshDocumentation = () => {
             OctoPrint.simpleApiGet("marlingcodedocumentation")
-              .done(async (response) => {
-                const data = await response.json();
+              .done(data => {
                 self.documentationService.update(data, null);
                 self.allGcodesDate(self.documentationService.allGcodesDate);
               });
